@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forgebase/pages/idscanner.dart';
 
 class ForgeBaseApp extends StatelessWidget {
   const ForgeBaseApp({super.key});
@@ -6,7 +7,8 @@ class ForgeBaseApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.purple)
+      theme: ThemeData(primarySwatch: Colors.purple),
+      home: const QRScannerScreen(),
     );
   }
 }
