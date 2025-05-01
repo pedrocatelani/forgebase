@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forgebase/pages/scannerresult.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QRScannerScreen extends StatefulWidget {
@@ -25,25 +26,30 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               onDetect: (capture) {
                 final List<Barcode> barcodes = capture.barcodes;
                 for (final barcode in barcodes) {
-                  if (barcode.rawValue == qrCode) return;
                   setState(() {
                     qrCode = barcode.rawValue;
                     if (qrCode != null && qrCode!.length >= 17) {
                       idDeck = qrCode!.substring(qrCode!.length - 17);
+                      idDeck = idDeck!.replaceAll('-', '');
                     } else {
                       idDeck = null;
                     }
                   });
+                } //Final do for
+                if (idDeck == null) {
+                } else {
                   // print(qrCode);
                   // print(idDeck);
                   cameraController.stop();
-                  
+                  Navigator.pushNamed(
+                    context,
+                    '/scannerResult',
+                    arguments: idDeck,
+                  );
                 }
               },
             ),
           ),
-         
-          
         ],
       ),
     );
