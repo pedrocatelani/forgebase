@@ -17,17 +17,7 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 25,
               children: [
-                Column(
-                  spacing: 3,
-                  children: [
-                    Image.asset(
-                      'assets/key_forge_logo.png',
-                      width: 150,
-                      height: 150,
-                    ),
-                    Text("ForgeBase", style: TextStyle(fontSize: 32)),
-                  ],
-                ),
+                Image.asset('assets/ForgeBase.png', width: 300, height: 250),
                 TextField(
                   decoration: InputDecoration(
                     hintText: "Email",
@@ -56,7 +46,8 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed:
+                      () => Navigator.pushReplacementNamed(context, "/home"),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 60),
                   ),

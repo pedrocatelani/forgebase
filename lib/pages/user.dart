@@ -1,5 +1,6 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/card.dart';
 import 'package:iconly/iconly.dart';
 
@@ -28,15 +29,7 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [const Color.fromARGB(110, 155, 39, 176), Colors.white],
-                begin: Alignment.topCenter,
-                end: Alignment.center,
-              ),
-            ),
-          ),
+          CustomBackground(),
           Padding(
             padding: EdgeInsets.all(16),
             child: Column(
