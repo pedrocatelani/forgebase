@@ -17,11 +17,7 @@ class RegisterPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 25,
               children: [
-                Image.asset(
-                  'assets/key_forge_logo.png',
-                  height: 150,
-                  width: 150,
-                ),
+                Image.asset('assets/ForgeBase.png', width: 300, height: 250),
                 TextField(
                   decoration: InputDecoration(
                     hintText: "Nome de usuário",
