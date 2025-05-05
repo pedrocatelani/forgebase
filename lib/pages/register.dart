@@ -20,7 +20,7 @@ class RegisterPage extends StatelessWidget {
                 Image.asset('assets/ForgeBase.png', width: 300, height: 250),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: "Nome de usuário",
+                    hintText: "Username",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22),
                     ),
@@ -36,7 +36,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 PasswordField(
                   decoration: InputDecoration(
-                    hintText: "Senha",
+                    hintText: "Password",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22),
                     ),
@@ -44,7 +44,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 PasswordField(
                   decoration: InputDecoration(
-                    hintText: "Confirmar senha",
+                    hintText: "Confirm password",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22),
                     ),
@@ -53,7 +53,7 @@ class RegisterPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed:
                       () => Navigator.pushReplacementNamed(context, "/login"),
-                  child: Text("Registrar"),
+                  child: Text("Register"),
                 ),
               ],
             ),

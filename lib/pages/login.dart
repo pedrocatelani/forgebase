@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
                   children: [
                     PasswordField(
                       decoration: InputDecoration(
-                        hintText: "Senha",
+                        hintText: "Password",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {},
-                        child: Text("Esqueci minha senha"),
+                        child: Text("Forget password?"),
                       ),
                     ),
                   ],
@@ -51,11 +51,11 @@ class LoginPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 60),
                   ),
-                  child: Text("Entrar", style: TextStyle(fontSize: 20)),
+                  child: Text("Sign In", style: TextStyle(fontSize: 20)),
                 ),
                 Column(
                   children: [
-                    Text("Ou entre com"),
+                    Text("sign up with"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -74,11 +74,11 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Você não tem uma conta?"),
+                    Text("Don't have an account?"),
                     TextButton(
                       onPressed:
                           () => Navigator.pushNamed(context, "/register"),
-                      child: Text("Registrar"),
+                      child: Text("Sign up"),
                     ),
                   ],
                 ),
