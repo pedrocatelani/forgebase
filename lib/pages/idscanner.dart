@@ -1,6 +1,11 @@
+import 'package:camera/camera.dart';
+import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/pages/scannerresult.dart';
+import 'package:iconly/iconly.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+
+enum _SelectedTab { user, home, camera }
 
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({super.key});
@@ -10,6 +15,16 @@ class QRScannerScreen extends StatefulWidget {
 }
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
+  _SelectedTab _selectedTab = _SelectedTab.camera;
+
+  void _onTapChange(int index) {
+    setState(() {
+      _selectedTab = _SelectedTab.values[index];
+    });
+
+    Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
+  }
+
   MobileScannerController cameraController = MobileScannerController();
   String? qrCode;
   String? idDeck;
@@ -17,7 +32,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("AppBar")),
       body: Column(
         children: [
           Expanded(
@@ -38,9 +52,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 } //Final do for
                 if (idDeck == null) {
                 } else {
-                  // print(qrCode);
-                  // print(idDeck);
-                  cameraController.stop();
+                  // cameraController.stop();
                   Navigator.pushNamed(
                     context,
                     '/scannerResult',
@@ -49,8 +61,42 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 }
               },
             ),
+            
           ),
+        
         ],
+      ),
+
+      extendBody: true,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: CrystalNavigationBar(
+          onTap: _onTapChange,
+          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+          indicatorColor: Colors.purple,
+          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+          enableFloatingNavBar: true,
+          items: [
+            CrystalNavigationBarItem(
+              icon: IconlyBold.user_2,
+              unselectedIcon: IconlyLight.user,
+              selectedColor: Colors.purple,
+              unselectedColor: Colors.purple,
+            ),
+            CrystalNavigationBarItem(
+              icon: IconlyBold.home,
+              unselectedIcon: IconlyLight.home,
+              selectedColor: Colors.purple,
+              unselectedColor: Colors.purple,
+            ),
+            CrystalNavigationBarItem(
+              icon: IconlyBold.category,
+              unselectedIcon: IconlyLight.category,
+              selectedColor: Colors.purple,
+              unselectedColor: Colors.purple,
+            ),
+          ],
+        ),
       ),
     );
   }
