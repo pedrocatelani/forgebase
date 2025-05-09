@@ -51,19 +51,42 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                         barrierDismissible: false,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Seu Deck foi encontrado!"),
-                            content: Text(
-                              "Deck de id: $idDeck!, é um belo deck! gostaria de adicionar ele aos seus baralhos?",
+                            title: Text("Deck has been found!"),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
+                            content: SizedBox(
+                              child: Text(
+                                "Deck id: $idDeck! \nit's a great deck! Would you like to add him to your decks?",
+                              ),
+                            ),
+
                             actions: [
                               TextButton(
-                                child: Text("Cancelar"),
+                                style: FilledButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 25,
+                                    vertical: 8,
+                                  ),
+                                  backgroundColor: const Color.fromARGB(
+                                    255,
+                                    138,
+                                    16,
+                                    159,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  foregroundColor: Colors.white,
+                                ),
+
+                                child: Text("Return"),
                                 onPressed: () {
                                   Navigator.of(context).pop();
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Deck Nâo foi adicionado!"),
+                                      content: Text("Deck Not Added!"),
                                       duration: Duration(seconds: 2),
                                     ),
                                   );
@@ -73,13 +96,27 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                               ),
 
                               TextButton(
-                                child: Text("Adicionar"),
+                                style: FilledButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 25,
+                                    vertical: 8,
+                                  ),
+                                  backgroundColor: const Color.fromARGB(
+                                    255,
+                                    138,
+                                    16,
+                                    159,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  foregroundColor: Colors.white,
+                                ),
+                                child: Text("Add"),
                                 onPressed: () {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                        "Deck adicionado com sucesso!",
-                                      ),
+                                      content: Text("Deck Added!"),
                                       duration: Duration(seconds: 2),
                                     ),
                                   );
@@ -90,7 +127,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                           );
                         },
                       );
-                    } 
+                    }
                   });
                 }
               },
@@ -100,37 +137,93 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             top: 40,
             right: 20,
             child: FilledButton.icon(
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                backgroundColor: const Color.fromARGB(255, 138, 16, 159),
+              ),
+
               onPressed: () {
+                cameraController.stop();
                 showDialog(
                   context: context,
                   barrierDismissible: false,
                   builder: (BuildContext context) {
+                    final screenWidth = MediaQuery.of(context).size.width;
+                    final screenHeight = MediaQuery.of(context).size.height;
+
                     return AlertDialog(
-                      title: Text("Digite a ID do deck!"),
-                      content: TextField(
-                        decoration: InputDecoration(hintText: "Id"),
+                      title: Text("Write the ID!"),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+
+                      content: SizedBox(
+                        width: screenWidth * 0.15,
+                        height: screenHeight * 0.07,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Write the Id",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       ),
                       actions: [
                         TextButton(
-                          child: Text("Cancelar"),
+                          child: Text("Return"),
+                          style: FilledButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            backgroundColor: const Color.fromARGB(
+                              255,
+                              138,
+                              16,
+                              159,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            foregroundColor: Colors.white,
+                          ),
                           onPressed: () {
                             Navigator.of(context).pop();
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("Deck Nâo foi adicionado!"),
+                                content: Text("Deck not added!"),
                                 duration: Duration(seconds: 2),
                               ),
                             );
+                            cameraController.start();
                           },
                         ),
 
                         TextButton(
-                          child: Text("Adicionar"),
+                          child: Text("Add"),
+                          style: FilledButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 25,
+                              vertical: 8,
+                            ),
+                            backgroundColor: const Color.fromARGB(
+                              255,
+                              138,
+                              16,
+                              159,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            foregroundColor: Colors.white,
+                          ),
                           onPressed: () {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("Deck adicionado com sucesso!"),
+                                content: Text("Success, \nDeck added"),
                                 duration: Duration(seconds: 2),
                               ),
                             );
@@ -143,12 +236,13 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 );
               },
               icon: Icon(Icons.edit),
-              label: Text("Inserir ID"),
+              label: Text("ID"),
             ),
           ),
         ],
       ),
 
+      //Crystal Navigations
       extendBody: true,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 10),
