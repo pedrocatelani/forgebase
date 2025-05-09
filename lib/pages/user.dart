@@ -23,7 +23,10 @@ class _UserPageState extends State<UserPage> {
         _selectedTab = _SelectedTab.values[index];
       });
 
-      Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
+      Navigator.pushReplacementNamed(
+        context,
+        '/${_SelectedTab.values[index].name}',
+      );
     }
 
     return Scaffold(
@@ -54,7 +57,11 @@ class _UserPageState extends State<UserPage> {
                 Center(child: Text('UserName', style: TextStyle(fontSize: 18))),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed:
+                        () => Navigator.pushReplacementNamed(
+                          context,
+                          '/edituser',
+                        ),
                     child: Text('Edit Profile'),
                   ),
                 ),

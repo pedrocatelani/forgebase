@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {},
-                        child: Text("Forget password?"),
+                        child: Text("Forgot password?"),
                       ),
                     ),
                   ],
@@ -51,11 +51,11 @@ class LoginPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 60),
                   ),
-                  child: Text("Sign In", style: TextStyle(fontSize: 20)),
+                  child: Text("Log In", style: TextStyle(fontSize: 20)),
                 ),
                 Column(
                   children: [
-                    Text("sign up with"),
+                    Text("Log in with"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

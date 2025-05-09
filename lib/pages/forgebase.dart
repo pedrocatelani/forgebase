@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:forgebase/pages/deck.dart';
+import 'package:forgebase/pages/edituser.dart';
 import 'package:forgebase/pages/home.dart';
 import 'package:forgebase/pages/user.dart';
 import 'package:forgebase/pages/login.dart';
@@ -13,9 +15,11 @@ class ForgeBaseApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.purple),
       routes: {
         "/home": (context) => HomePage(),
+        "/deck": (context) => DeckPage(),
         "/user": (context) => UserPage(),
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
+        "/edituser": (context) => EditUserPage(),
       },
       debugShowCheckedModeBanner: false,
       initialRoute: "/login",
