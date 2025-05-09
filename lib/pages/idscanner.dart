@@ -1,7 +1,5 @@
-import 'package:camera/camera.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-// import 'package:forgebase/pages/scannerresult.dart';
 import 'package:iconly/iconly.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -92,72 +90,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                           );
                         },
                       );
-                    } else {
-                      // showDialog(
-                      //   context: context,
-                      //   barrierDismissible: false,
-                      //   builder: (BuildContext context) {
-                      //     return AlertDialog(
-                      //       title: Text("Erro"),
-                      //       content: Text(
-                      //         "Não foi possivel encontrar o deck, gostaria de Digitar manualmente?",
-                      //       ),
-                      //       actions: [
-                      //         TextButton(
-                      //           child: Text("Sim"),
-                      //           onPressed: () {
-                      //             Navigator.of(context).pop();
-                      //             showDialog(
-                      //               context: context,
-                      //               barrierDismissible: false,
-                      //               builder: (BuildContext context) {
-                      //                 return AlertDialog(
-                      //                   title: Text("Digite a ID do deck!"),
-                      //                   content: TextField(
-                      //                     decoration: InputDecoration(
-                      //                       hintText: "Id do deck",
-                      //                     ),
-                      //                     onSubmitted: (idDeck) {
-                      //                       if (idDeck.length == 17) {
-                      //                         Navigator.of(context).pop();
-                      //                         ScaffoldMessenger.of(
-                      //                           context,
-                      //                         ).showSnackBar(
-                      //                           SnackBar(
-                      //                             content: Text(
-                      //                               "Deck adicionado com sucesso!",
-                      //                             ),
-                      //                             duration: Duration(
-                      //                               seconds: 2,
-                      //                             ),
-                      //                           ),
-                      //                         );
-                      //                       } else {
-                      //                         ScaffoldMessenger.of(
-                      //                           context,
-                      //                         ).showSnackBar(
-                      //                           SnackBar(
-                      //                             content: Text(
-                      //                               "Não foi possível adicionar o deck!",
-                      //                             ),
-                      //                             duration: Duration(
-                      //                               seconds: 2,
-                      //                             ),
-                      //                           ),
-                      //                         );
-                      //                       }
-                      //                     },
-                      //                   ),
-                      //                 );
-                      //               },
-                      //             ); //Show Dialog
-                      //           },
-                      //         ),
-                      //       ],
-                      //     );
-                      //   },
-                      // );
-                    }
+                    } 
                   });
                 }
               },
