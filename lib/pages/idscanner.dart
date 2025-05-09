@@ -139,7 +139,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             child: FilledButton.icon(
               style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(25),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 backgroundColor: const Color.fromARGB(255, 138, 16, 159),
@@ -157,7 +157,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                     return AlertDialog(
                       title: Text("Write the ID!"),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(16),
                       ),
 
                       content: SizedBox(
@@ -166,7 +166,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: "Write the Id",
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
                           ),
                         ),
                       ),
@@ -185,7 +187,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                               159,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(30),
                             ),
                             foregroundColor: Colors.white,
                           ),
@@ -216,7 +218,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                               159,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(30),
                             ),
                             foregroundColor: Colors.white,
                           ),
