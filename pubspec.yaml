@@ -41,6 +41,9 @@ dependencies:
   path: ^1.8.3
   mobile_scanner: ^3.5.0
   http: ^0.13.3
+  firebase_core:
+  firebase_auth:
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:
