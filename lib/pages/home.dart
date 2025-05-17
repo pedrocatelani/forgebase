@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:forgebase/components/card.dart';
@@ -26,10 +27,19 @@ class _HomePageState extends State<HomePage> {
       Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
     }
 
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    void _logout() async {
+      await _auth.signOut();
+      Navigator.pushReplacementNamed(context, "/login");
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Global Decks"),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
+        actions: [
+          IconButton(onPressed: () => _logout(), icon: Icon(Icons.logout)),
+        ],
       ),
       body: Container(
         margin: EdgeInsets.all(8),

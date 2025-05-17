@@ -1,9 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/password_field.dart';
+import 'package:forgebase/utils/_auth_services.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  var txtEmail = TextEditingController();
+  var txtPassword = TextEditingController();
+
+  final AuthService _authService = AuthService();
+
+  Future<void> _login(BuildContext context) async {
+    try {
+      final user = await _authService.login(
+        txtEmail.text.trim(),
+        txtPassword.text.trim(),
+      );
+      if (user != null) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacementNamed(context, "/home");
+      }
+    // ignore: unused_catch_clause
+    } on FirebaseAuthException catch (ex) {
+      final snackBar = SnackBar(content: Text("Email or password invalid"));
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +45,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 Image.asset('assets/ForgeBase.png', width: 300, height: 250),
                 TextField(
+                  controller: txtEmail,
                   decoration: InputDecoration(
                     hintText: "Email",
                     border: OutlineInputBorder(
@@ -29,6 +56,7 @@ class LoginPage extends StatelessWidget {
                 Column(
                   children: [
                     PasswordField(
+                      controller: txtPassword,
                       decoration: InputDecoration(
                         hintText: "Password",
                         border: OutlineInputBorder(
@@ -46,8 +74,7 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed:
-                      () => Navigator.pushReplacementNamed(context, "/home"),
+                  onPressed: () => _login(context),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 60),
                   ),
