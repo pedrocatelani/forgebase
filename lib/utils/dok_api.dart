@@ -5,14 +5,16 @@ import 'dart:convert';
 class DoKApi{
   Future<Map<dynamic, dynamic>> getStatistics() async { 
     var deckId = "698aa648-94e2-4a71-a6f7-96d8dbb38430";
-    var apiKey = "d799a9ad-1da4-492d-9656-0165be5d42d4";
+    var apiKey = "Key";
 
     var url = Uri.parse("https://decksofkeyforge.com/public-api/v3/decks/$deckId");
     
     var response = await http.get(url, headers: {"Api-Key": apiKey});
 
     if (response.statusCode == 200) {
-   
+
+      print(deckParse(json.decode(response.body)["deck"]));
+
       return {
         "status": response.statusCode,
         "deck": deckParse(json.decode(response.body)["deck"])
@@ -36,7 +38,7 @@ class DoKApi{
       };
 
       for (var card in house["cards"]){
-        houseDict["cards"].add([house["house"],card["cardTitle"], card["cardTitleUrl"]]);
+        houseDict["cards"].add([card["cardTitle"], card["cardTitleUrl"]]);
       }
         
       houses.add(houseDict);
