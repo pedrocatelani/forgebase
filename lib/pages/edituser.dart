@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -64,14 +63,14 @@ class _EditUserPageState extends State<EditUserPage> {
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: "${user?.displayName}",
+                      hintText: "${user.displayName}",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),
                   ),
                   FutureBuilder<String>(
-                    future: _database.getApiKey(user!.email.toString()),
+                    future: _database.getApiKey(user.email.toString()),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Container(height: 10);
