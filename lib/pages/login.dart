@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
         // ignore: use_build_context_synchronously
         Navigator.pushReplacementNamed(context, "/home");
       }
-    // ignore: unused_catch_clause
+      // ignore: unused_catch_clause
     } on FirebaseAuthException catch (ex) {
       final snackBar = SnackBar(content: Text("Email or password invalid"));
       // ignore: use_build_context_synchronously
@@ -33,86 +33,94 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          CustomBackground(),
-          Container(
-            margin: EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 25,
-              children: [
-                Image.asset('assets/ForgeBase.png', width: 300, height: 250),
-                TextField(
-                  controller: txtEmail,
-                  decoration: InputDecoration(
-                    hintText: "Email",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                  ),
-                ),
-                Column(
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            CustomBackground(),
+            Container(
+              margin: EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 25,
                   children: [
-                    PasswordField(
-                      controller: txtPassword,
+                    Image.asset(
+                      'assets/ForgeBase.png',
+                      width: 300,
+                      height: 250,
+                    ),
+                    TextField(
+                      controller: txtEmail,
                       decoration: InputDecoration(
-                        hintText: "Password",
+                        hintText: "Email",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text("Forgot password?"),
-                      ),
+                    Column(
+                      children: [
+                        PasswordField(
+                          controller: txtPassword,
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Text("Forgot password?"),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () => _login(context),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 60),
-                  ),
-                  child: Text("Log In", style: TextStyle(fontSize: 20)),
-                ),
-                Column(
-                  children: [
-                    Text("Log in with"),
+                    ElevatedButton(
+                      onPressed: () => _login(context),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 60),
+                      ),
+                      child: Text("Log In", style: TextStyle(fontSize: 20)),
+                    ),
+                    Column(
+                      children: [
+                        Text("Log in with"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: Image.asset(
+                                'assets/google_icon.png',
+                                width: 30,
+                                height: 30,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        InkWell(
-                          onTap: () {},
-                          child: Image.asset(
-                            'assets/google_icon.png',
-                            width: 30,
-                            height: 30,
-                          ),
+                        Text("Don't have an account?"),
+                        TextButton(
+                          onPressed:
+                              () => Navigator.pushNamed(context, "/register"),
+                          child: Text("Sign up"),
                         ),
                       ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Don't have an account?"),
-                    TextButton(
-                      onPressed:
-                          () => Navigator.pushNamed(context, "/register"),
-                      child: Text("Sign up"),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

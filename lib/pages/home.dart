@@ -29,18 +29,8 @@ class _HomePageState extends State<HomePage> {
 
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    void _logout() async {
-      await _auth.signOut();
-      Navigator.pushReplacementNamed(context, "/login");
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Global Decks"),
-        actions: [
-          IconButton(onPressed: () => _logout(), icon: Icon(Icons.logout)),
-        ],
-      ),
+      appBar: AppBar(title: Text("Global Decks")),
       body: Container(
         margin: EdgeInsets.all(8),
         child: Column(
