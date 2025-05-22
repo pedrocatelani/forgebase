@@ -27,10 +27,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Global Decks"),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-      ),
+      appBar: AppBar(title: Text("Global Decks")),
       body: Container(
         margin: EdgeInsets.all(8),
         child: Column(

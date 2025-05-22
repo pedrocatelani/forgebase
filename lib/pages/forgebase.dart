@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/pages/deck.dart';
 import 'package:forgebase/pages/edituser.dart';
@@ -8,7 +9,9 @@ import 'package:forgebase/pages/login.dart';
 import 'package:forgebase/pages/register.dart';
 
 class ForgeBaseApp extends StatelessWidget {
-  const ForgeBaseApp({super.key});
+  ForgeBaseApp({super.key});
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class ForgeBaseApp extends StatelessWidget {
         "/edituser": (context) => EditUserPage(),
       },
       debugShowCheckedModeBanner: false,
-      initialRoute: "/login",
+      initialRoute: _auth.currentUser == null ? "/login" : "/home",
     );
   }
 }

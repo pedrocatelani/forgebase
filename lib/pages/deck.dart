@@ -1,7 +1,6 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
-import 'package:forgebase/components/card.dart';
 import 'package:forgebase/components/cardgradient.dart';
 import 'package:iconly/iconly.dart';
 
