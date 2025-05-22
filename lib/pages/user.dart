@@ -32,6 +32,18 @@ class _UserPageState extends State<UserPage> {
 
     User? user = FirebaseAuth.instance.currentUser;
 
+    Map<dynamic, dynamic> data = {
+      'name': 'Deck de release',
+      'sas': '77',
+      'houses': ['untamed', 'mars', 'geistoid'],
+      'expectedAembar': 11,
+      'aembarControl': 17,
+      'effectivePower': 57,
+      'creatureControl': 30,
+      'creatureProtection': 41,
+      'disruption': 12,
+    };
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -109,7 +121,14 @@ class _UserPageState extends State<UserPage> {
                   ),
                   Expanded(
                     child: ListView(
-                      children: [CardWidget(), CardWidget(), CardWidget()],
+                      children: [
+                        CardWidget(data: data),
+                        CardWidget(data: data),
+                        CardWidget(data: data),
+                        CardWidget(data: data),
+                        CardWidget(data: data),
+                        CardWidget(data: data),
+                      ],
                     ),
                   ),
                 ],

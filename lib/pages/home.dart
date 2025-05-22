@@ -26,6 +26,20 @@ class _HomePageState extends State<HomePage> {
       Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
     }
 
+    Map<dynamic, dynamic> data = {
+      'name': 'Deck de testes',
+      'sas': '100',
+      'houses': [
+        'logos', 'dis', 'saurian'
+      ],
+      'expectedAembar': 23,
+      'aembarControl': 11,
+      'effectivePower': 63,
+      'creatureControl': 20,
+      'creatureProtection': 4,
+      'disruption': 7
+    };
+
     return Scaffold(
       appBar: AppBar(title: Text("Global Decks")),
       body: Container(
@@ -35,13 +49,14 @@ class _HomePageState extends State<HomePage> {
             Flexible(
               child: ListView(
                 children: [
-                  CardWidget(),
-                  CardWidget(),
-                  CardWidget(),
-                  CardWidget(),
-                  CardWidget(),
-                  CardWidget(),
-                  CardWidget(),
+                  CardWidget(data:data),
+                  CardWidget(data:data),
+                  CardWidget(data:data),
+                  CardWidget(data:data),
+                  CardWidget(data:data),
+                  CardWidget(data:data),
+                  CardWidget(data:data),
+                  CardWidget(data:data),
                 ],
               ),
             ),
