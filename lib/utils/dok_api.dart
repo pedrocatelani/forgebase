@@ -13,7 +13,6 @@ class DoKApi {
     var response = await http.get(url, headers: {"Api-Key": apiKey});
 
     if (response.statusCode == 200) {
-
       return {
         "status": response.statusCode,
         "deck": deckParse(json.decode(response.body)["deck"]),
@@ -25,8 +24,11 @@ class DoKApi {
 
   Map<dynamic, dynamic> deckParse(var deck) {
     List houses = [];
+    List houseNames = [];
 
     for (var house in deck["housesAndCards"]) {
+      houseNames.add(house["house"]);
+
       Map houseDict = {"name": house["house"], "cards": []};
 
       for (var card in house["cards"]) {
@@ -63,7 +65,7 @@ class DoKApi {
       "other": deck["other"],
       "bonusAmber": deck["rawAmber"],
       "houses": houses,
-      "synergies": deck["synergyDetails"],
+      "housesNames": houseNames,
     };
 
     return parsed;
