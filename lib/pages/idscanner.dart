@@ -1,8 +1,5 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:forgebase/utils/_firebase_collections.dart';
-import 'package:forgebase/utils/dok_api.dart';
 import 'package:iconly/iconly.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -26,29 +23,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
     Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
   }
-
-  Future<void> saveDeck(String dokiD) async {
-    final dokApi = DoKApi();
-    final firestore = FirebaseColletion();
-
-    final result = await dokApi.getStatistics(dokiD);
-    if (result['status'] == 200) {
-      await firestore.insertDeck(
-        user!.email!,
-        dokiD,
-        Map<String, dynamic>.from(result['deck']),
-      );
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Success!\nDeck saved!")));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error to find the Deck! ${result['status']}")),
-      );
-    }
-  }
-
-  User? user = FirebaseAuth.instance.currentUser;
 
   MobileScannerController cameraController = MobileScannerController();
   String? qrCode;
@@ -147,7 +121,11 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                                       duration: Duration(seconds: 2),
                                     ),
                                   );
-                                  Navigator.pushNamed(context, "/user");
+                                  Navigator.pushNamed(
+                                    context,
+                                    "/mastervault",
+                                    arguments: idDeck.toString(),
+                                  );
                                 },
                               ),
                             ],
@@ -250,11 +228,18 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                             ),
                             foregroundColor: Colors.white,
                           ),
-                          onPressed: () async {
-                            final dokId = idController.text;
-                            await saveDeck(dokId);
-                            Navigator.pop(context);
-                            cameraController.start();
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Deck Added!"),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                            Navigator.pushNamed(
+                              context,
+                              "/mastervault",
+                              arguments: idDeck.toString(),
+                            );
                           },
                         ),
                       ],

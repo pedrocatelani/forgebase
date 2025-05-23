@@ -4,6 +4,7 @@ import 'package:forgebase/pages/deck.dart';
 import 'package:forgebase/pages/edituser.dart';
 import 'package:forgebase/pages/home.dart';
 import 'package:forgebase/pages/idscanner.dart';
+import 'package:forgebase/pages/mastervault.dart';
 import 'package:forgebase/pages/user.dart';
 import 'package:forgebase/pages/login.dart';
 import 'package:forgebase/pages/register.dart';
@@ -25,6 +26,7 @@ class ForgeBaseApp extends StatelessWidget {
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
         "/edituser": (context) => EditUserPage(),
+        "/mastervault": (context) => MasterVault(),
       },
       debugShowCheckedModeBanner: false,
       initialRoute: _auth.currentUser == null ? "/login" : "/home",
