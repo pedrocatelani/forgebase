@@ -31,8 +31,7 @@ class _EditUserPageState extends State<EditUserPage> {
     // ignore: no_leading_underscores_for_local_identifiers
     final AuthService _authService = AuthService();
     User? user = FirebaseAuth.instance.currentUser;
-    final _database =
-        FirebaseColletion(); //função para intanciar a função getAPI Key
+    final _database = FirebaseColletion();
 
     return Scaffold(
       body: SingleChildScrollView(
