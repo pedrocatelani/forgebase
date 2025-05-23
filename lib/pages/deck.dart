@@ -45,7 +45,7 @@ class _DeckPageState extends State<DeckPage> {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color.fromARGB(21, 0, 0, 0),
+                        color: const Color.fromARGB(0, 0, 0, 0),
                         spreadRadius: 2,
                         blurRadius: 1,
                         offset: Offset(0, 3),

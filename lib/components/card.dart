@@ -7,7 +7,9 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushReplacementNamed(context, '/deck'),
+      onTap: () => Navigator.pushReplacementNamed(context, '/deck', arguments: {
+        "id": data["id"]
+      }),
       child: Container(
         height: 166,
         decoration: BoxDecoration(
@@ -49,7 +51,7 @@ class CardWidget extends StatelessWidget {
                       onBackgroundImageError:
                           (_, __) => debugPrint('Erro ao carregar a imagem'),
                       backgroundImage: AssetImage(
-                        'assets/houses/${data['houses'][0]}',
+                        "assets/houses/${data['houses'][0]}.png",
                       ),
                     ),
                     CircleAvatar(
@@ -57,15 +59,15 @@ class CardWidget extends StatelessWidget {
                       onBackgroundImageError:
                           (_, __) => debugPrint('Erro ao carregar a imagem'),
                       backgroundImage: AssetImage(
-                        'assets/houses/${data['houses'][1]}',
+                        'assets/houses/${data['houses'][1]}.png',
                       ),
                     ),
                     CircleAvatar(
                       radius: 14,
                       onBackgroundImageError:
-                          (_, __) => debugPrint('Erro ao carregar a imagem'),
+                          (e, x) => debugPrint(e.toString() + x.toString()),
                       backgroundImage: AssetImage(
-                        'assets/houses/${data['houses'][2]}',
+                        'assets/houses/${data['houses'][2]}.png',
                       ),
                     ),
                   ],
