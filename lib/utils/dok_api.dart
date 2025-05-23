@@ -1,46 +1,42 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+class DoKApi {
+  Future<Map<dynamic, dynamic>> getStatistics(String deckId) async {
+    // var deckId = "698aa648-94e2-4a71-a6f7-96d8dbb38430";
+    var apiKey = "00868570-ba82-44e0-a6c5-40d37c438d19";
 
-class DoKApi{
-  Future<Map<dynamic, dynamic>> getStatistics() async { 
-    var deckId = "698aa648-94e2-4a71-a6f7-96d8dbb38430";
-    var apiKey = "Key";
+    var url = Uri.parse(
+      "https://decksofkeyforge.com/public-api/v3/decks/$deckId",
+    );
 
-    var url = Uri.parse("https://decksofkeyforge.com/public-api/v3/decks/$deckId");
-    
     var response = await http.get(url, headers: {"Api-Key": apiKey});
 
     if (response.statusCode == 200) {
-
-      print(deckParse(json.decode(response.body)["deck"]));
+      // print(deckParse(json.decode(response.body)["deck"]));
 
       return {
         "status": response.statusCode,
-        "deck": deckParse(json.decode(response.body)["deck"])
+        "deck": deckParse(json.decode(response.body)["deck"]),
       };
-    }
-
-    else{
+    } else {
       return {"status": response.statusCode};
     }
   }
 
-
   Map<dynamic, dynamic> deckParse(var deck) {
-
     List houses = [];
 
-    for (var house in deck["housesAndCards"]){
-      Map houseDict = {
-        "name": house["house"],
-        "cards": []
-      };
+    for (var house in deck["housesAndCards"]) {
+      Map houseDict = {"name": house["house"], "cards": []};
 
-      for (var card in house["cards"]){
-        houseDict["cards"].add([card["cardTitle"], card["cardTitleUrl"]]);
+      for (var card in house["cards"]) {
+        houseDict["cards"].add({
+          "title": card["cardTitle"],
+          "url": card["cardTitleUrl"],
+        });
       }
-        
+
       houses.add(houseDict);
     }
 
@@ -68,7 +64,7 @@ class DoKApi{
       "other": deck["other"],
       "bonusAmber": deck["rawAmber"],
       "houses": houses,
-      "synergies": deck["synergyDetails"]
+      "synergies": deck["synergyDetails"],
     };
 
     return parsed;
