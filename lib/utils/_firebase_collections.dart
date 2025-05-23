@@ -11,4 +11,10 @@ class FirebaseColletion {
     DocumentSnapshot doc = await _db.collection('users').doc(userEmail).get();
     return doc['api_key'];
   }
+
+    Future<void> insertDeck(String userEmail, String deckId, Map<String, dynamic> deckData) async {
+    deckData['user_email'] = userEmail;
+
+    await _db.collection('decks').doc(deckId).set(deckData);
+  }
 }

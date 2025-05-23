@@ -1,4 +1,4 @@
-# ForgeBase App
+    # ForgeBase App
 
 A Flutter project aiming to make KeyForge player's life better.
 
