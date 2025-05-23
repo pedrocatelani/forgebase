@@ -13,7 +13,6 @@ class DoKApi {
     var response = await http.get(url, headers: {"Api-Key": apiKey});
 
     if (response.statusCode == 200) {
-      // print(deckParse(json.decode(response.body)["deck"]));
 
       return {
         "status": response.statusCode,

@@ -43,7 +43,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       ).showSnackBar(SnackBar(content: Text("Success!\nDeck saved!")));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error to find de Deck! ${result['status']}")),
+        SnackBar(content: Text("Error to find the Deck! ${result['status']}")),
       );
     }
   }
