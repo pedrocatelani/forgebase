@@ -2,6 +2,7 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/cardgradient.dart';
+import 'package:forgebase/utils/_get_info.dart';
 import 'package:iconly/iconly.dart';
 
 enum _SelectedTab { user, home, camera }
@@ -14,8 +15,29 @@ class DeckPage extends StatefulWidget {
 }
 
 class _DeckPageState extends State<DeckPage> {
+
+  Future<void> showStatistics(String deckId) async {
+    final getinfo = GetInfo();
+
+    try {
+      final result = await getinfo.getDeckStatistics(deckId);
+    } catch (e) {
+      print("Error $e");
+    }
+  }
+
+  void initState() {
+    super.initState();
+      Future.delayed(Duration.zero, () {
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final String deckId = args['id'];
+      showStatistics(deckId);
+  });
+  }
+
   @override
   Widget build(BuildContext context) {
+
     _SelectedTab _selectedTab = _SelectedTab.user;
 
     void _onTapChange(int index) {
