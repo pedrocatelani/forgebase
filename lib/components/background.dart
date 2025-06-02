@@ -8,7 +8,7 @@ class CustomBackground extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [const Color.fromARGB(110, 155, 39, 176), Colors.white],
+          colors: [Color.fromARGB(255, 115, 35, 255), Color(0xFF1C1B22)],
           begin: Alignment.topCenter,
           end: Alignment.center,
         ),

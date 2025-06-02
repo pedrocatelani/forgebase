@@ -41,7 +41,7 @@ class _DeckPageState extends State<DeckPage> {
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(137, 255, 255, 255),
+                    color: const Color.fromARGB(202, 73, 72, 72),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
@@ -146,7 +146,7 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 Container(height: 32),
                 CardGradient(
-                  color: const Color.fromARGB(255, 255, 251, 25),
+                  color: const Color.fromARGB(255, 207, 204, 22),
                   title: Text(
                     'Aembar',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -162,7 +162,7 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 Container(height: 16),
                 CardGradient(
-                  color: const Color.fromARGB(255, 25, 190, 255),
+                  color: const Color.fromARGB(255, 22, 155, 207),
                   title: Text(
                     'Speed',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -170,7 +170,7 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 Container(height: 16),
                 CardGradient(
-                  color: const Color.fromARGB(255, 90, 255, 25),
+                  color: const Color.fromARGB(255, 68, 192, 19),
                   title: Text(
                     'Extras',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -195,27 +195,27 @@ class _DeckPageState extends State<DeckPage> {
         child: CrystalNavigationBar(
           onTap: _onTapChange,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          indicatorColor: Colors.purple,
-          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+          indicatorColor: Color.fromARGB(255, 138, 80, 238),
+          backgroundColor: const Color.fromARGB(255, 73, 72, 72),
           enableFloatingNavBar: true,
           items: [
             CrystalNavigationBarItem(
               icon: IconlyBold.user_2,
               unselectedIcon: IconlyLight.user,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
+              selectedColor: Color.fromARGB(255, 138, 80, 238),
+              unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
             CrystalNavigationBarItem(
               icon: IconlyBold.home,
               unselectedIcon: IconlyLight.home,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
+              selectedColor: Color.fromARGB(255, 138, 80, 238),
+              unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
             CrystalNavigationBarItem(
               icon: IconlyBold.category,
               unselectedIcon: IconlyLight.category,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
+              selectedColor: Color.fromARGB(255, 138, 80, 238),
+              unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
           ],
         ),
