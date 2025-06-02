@@ -1,12 +1,8 @@
-import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/utils/_auth_services.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
-import 'package:iconly/iconly.dart';
-
-enum _SelectedTab { user, home, camera }
 
 class EditUserPage extends StatefulWidget {
   const EditUserPage({super.key});
@@ -16,22 +12,30 @@ class EditUserPage extends StatefulWidget {
 }
 
 class _EditUserPageState extends State<EditUserPage> {
+  User? user = FirebaseAuth.instance.currentUser;
+  final AuthService authService = AuthService();
+  final database = FirebaseColletion();
+
+  var txtApiKey = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (user != null) {
+      database.getApiKey(user!.email!).then((value) {
+        setState(() {
+          txtApiKey.text = value;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    _SelectedTab _selectedTab = _SelectedTab.user;
-
-    void _onTapChange(int index) {
-      setState(() {
-        _selectedTab = _SelectedTab.values[index];
-      });
-
-      Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
-    }
-
-    // ignore: no_leading_underscores_for_local_identifiers
-    final AuthService _authService = AuthService();
-    User? user = FirebaseAuth.instance.currentUser;
-    final _database = FirebaseColletion();
+    var txtUserEmail = TextEditingController(text: user?.email);
+    var txtUserName = TextEditingController(text: user?.displayName ?? '');
+    var txtUserPassword = TextEditingController();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -46,7 +50,7 @@ class _EditUserPageState extends State<EditUserPage> {
                   Container(height: 200),
                   Text('${user?.displayName}', style: TextStyle(fontSize: 20)),
                   FutureBuilder<String>(
-                    future: _database.getApiKey(user!.email.toString()),
+                    future: database.getApiKey(user!.email.toString()),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Container(height: 10);
@@ -61,35 +65,59 @@ class _EditUserPageState extends State<EditUserPage> {
                     },
                   ),
                   TextField(
+                    controller: txtUserName,
                     decoration: InputDecoration(
-                      hintText: "${user.displayName}",
+                      label: Text('Username'),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),
                   ),
-                  FutureBuilder<String>(
-                    future: _database.getApiKey(user.email.toString()),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(height: 10);
-                      }
-                      if (snapshot.hasError) {
-                        return Text("Erro ao carregar API Key");
-                      }
-                      return TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(22),
-                          ),
-                          hintText:
-                              snapshot.data ?? "Nenhuma API Key encontrada",
-                        ),
-                      );
-                    },
+                  TextField(
+                    controller: txtApiKey,
+                    decoration: InputDecoration(
+                      label: Text('API Key'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed:
+                        () => showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                title: Text('Enter your user email'),
+                                actions: [
+                                  TextField(
+                                    controller: txtUserEmail,
+                                    decoration: InputDecoration(
+                                      label: Text('User email'),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      TextButton(
+                                        onPressed:
+                                            () => authService
+                                                .changePasswordByEmail(
+                                                  txtUserEmail.text,
+                                                ),
+                                        child: Text('Send'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text('Close'),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                        ),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
                     ),
@@ -99,14 +127,14 @@ class _EditUserPageState extends State<EditUserPage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => database.uploadUserImage(user!.email!),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
                     ),
                     child: Text('Change Image', style: TextStyle(fontSize: 18)),
                   ),
                   ElevatedButton(
-                    onPressed: () => _authService.logout(context),
+                    onPressed: () => authService.logout(context),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
                       backgroundColor: Color.fromARGB(0, 255, 255, 255),
@@ -122,7 +150,46 @@ class _EditUserPageState extends State<EditUserPage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed:
+                        () => showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                title: Text(
+                                  'Are you sure you want to delete your account?',
+                                ),
+                                actions: [
+                                  TextField(
+                                    controller: txtUserPassword,
+                                    decoration: InputDecoration(
+                                      label: Text('Password'),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      TextButton(
+                                        onPressed:
+                                            () => {
+                                              authService.deleteUser(
+                                                user!.email!,
+                                                txtUserPassword.text,
+                                                context,
+                                              ),
+                                            },
+                                        child: Text('Delete'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text('Close'),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                        ),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
                       backgroundColor: Color.fromARGB(0, 255, 255, 255),
@@ -141,7 +208,7 @@ class _EditUserPageState extends State<EditUserPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ElevatedButton(onPressed: () {}, child: Text('Save')),
+                      ElevatedButton(onPressed: () => authService.updateUser(txtUserName.text, user?.email, txtApiKey.text, context), child: Text('Save')),
                       ElevatedButton(
                         onPressed:
                             () => Navigator.pushReplacementNamed(
@@ -152,40 +219,8 @@ class _EditUserPageState extends State<EditUserPage> {
                       ),
                     ],
                   ),
-                  Container(height: 100),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-      extendBody: true,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: CrystalNavigationBar(
-          onTap: _onTapChange,
-          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          indicatorColor: Colors.purple,
-          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-          enableFloatingNavBar: true,
-          items: [
-            CrystalNavigationBarItem(
-              icon: IconlyBold.user_2,
-              unselectedIcon: IconlyLight.user,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
-            ),
-            CrystalNavigationBarItem(
-              icon: IconlyBold.home,
-              unselectedIcon: IconlyLight.home,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
-            ),
-            CrystalNavigationBarItem(
-              icon: IconlyBold.category,
-              unselectedIcon: IconlyLight.category,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
             ),
           ],
         ),

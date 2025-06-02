@@ -18,8 +18,9 @@ class _MasterVaultState extends State<MasterVault> {
   Future<void> saveDeck(String dokiD) async {
     final dokApi = DoKApi();
     final firestore = FirebaseColletion();
+    final apiKey = await firestore.getApiKey(user!.email!);
 
-    final result = await dokApi.getStatistics(dokiD);
+    final result = await dokApi.getStatistics(dokiD, apiKey);
     if (result['status'] == 200) {
       await firestore.insertDeck(
         user!.email!,
