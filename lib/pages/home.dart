@@ -30,15 +30,13 @@ class _HomePageState extends State<HomePage> {
       'id': "698aa648-94e2-4a71-a6f7-96d8dbb38430",
       'name': 'Deck de testes',
       'sas': '100',
-      'houses': [
-        'logos', 'dis', 'saurian'
-      ],
+      'houses': ['logos', 'dis', 'saurian'],
       'expectedAembar': 23,
       'aembarControl': 11,
       'effectivePower': 63,
       'creatureControl': 20,
       'creatureProtection': 4,
-      'disruption': 7
+      'disruption': 7,
     };
 
     return Scaffold(
@@ -50,14 +48,14 @@ class _HomePageState extends State<HomePage> {
             Flexible(
               child: ListView(
                 children: [
-                  CardWidget(data:data),
-                  CardWidget(data:data),
-                  CardWidget(data:data),
-                  CardWidget(data:data),
-                  CardWidget(data:data),
-                  CardWidget(data:data),
-                  CardWidget(data:data),
-                  CardWidget(data:data),
+                  CardWidget(data: data),
+                  CardWidget(data: data),
+                  CardWidget(data: data),
+                  CardWidget(data: data),
+                  CardWidget(data: data),
+                  CardWidget(data: data),
+                  CardWidget(data: data),
+                  CardWidget(data: data),
                 ],
               ),
             ),
@@ -71,27 +69,27 @@ class _HomePageState extends State<HomePage> {
         child: CrystalNavigationBar(
           onTap: _onTapChange,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          indicatorColor: Colors.purple,
-          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+          indicatorColor: Color.fromARGB(255, 138, 80, 238),
+          backgroundColor: const Color.fromARGB(255, 73, 72, 72),
           enableFloatingNavBar: true,
           items: [
             CrystalNavigationBarItem(
               icon: IconlyBold.user_2,
               unselectedIcon: IconlyLight.user,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
+              selectedColor: Color.fromARGB(255, 138, 80, 238),
+              unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
             CrystalNavigationBarItem(
               icon: IconlyBold.home,
               unselectedIcon: IconlyLight.home,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
+              selectedColor: Color.fromARGB(255, 138, 80, 238),
+              unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
             CrystalNavigationBarItem(
               icon: IconlyBold.category,
               unselectedIcon: IconlyLight.category,
-              selectedColor: Colors.purple,
-              unselectedColor: Colors.purple,
+              selectedColor: Color.fromARGB(255, 138, 80, 238),
+              unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
           ],
         ),
