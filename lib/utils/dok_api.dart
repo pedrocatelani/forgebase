@@ -2,9 +2,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class DoKApi {
-  Future<Map<dynamic, dynamic>> getStatistics(String deckId) async {
+  Future<Map<dynamic, dynamic>> getStatistics(String deckId, String apiKey) async {
     // var deckId = "698aa648-94e2-4a71-a6f7-96d8dbb38430";
-    var apiKey = "00868570-ba82-44e0-a6c5-40d37c438d19";
+    // var apiKey = "00868570-ba82-44e0-a6c5-40d37c438d19";
 
     var url = Uri.parse(
       "https://decksofkeyforge.com/public-api/v3/decks/$deckId",

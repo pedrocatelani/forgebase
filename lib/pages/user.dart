@@ -1,8 +1,10 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/card.dart';
+import 'package:forgebase/utils/_firebase_collections.dart';
 import 'package:iconly/iconly.dart';
 
 enum _SelectedTab { user, home, camera }
@@ -15,6 +17,23 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  final FirebaseColletion database = FirebaseColletion();
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  void initState() {
+    super.initState();
+    buildImage();
+  }
+
+  Uint8List? _imageBytes;
+
+  void buildImage() async {
+    final image = await database.getUserImage(user!.email!);
+    setState(() {
+      _imageBytes = image;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     _SelectedTab _selectedTab = _SelectedTab.user;
@@ -29,8 +48,6 @@ class _UserPageState extends State<UserPage> {
         '/${_SelectedTab.values[index].name}',
       );
     }
-
-    User? user = FirebaseAuth.instance.currentUser;
 
     Map<dynamic, dynamic> data = {
       'name': 'Deck de release',
@@ -64,8 +81,23 @@ class _UserPageState extends State<UserPage> {
                           height: 100,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.purple,
+                            color: Colors.grey[300],
+                            image:
+                                _imageBytes != null
+                                    ? DecorationImage(
+                                      image: MemoryImage(_imageBytes!),
+                                      fit: BoxFit.cover,
+                                    )
+                                    : null,
                           ),
+                          child:
+                              _imageBytes == null
+                                  ? Icon(
+                                    Icons.person,
+                                    size: 50,
+                                    color: Colors.white,
+                                  )
+                                  : null,
                         ),
                       ],
                     ),
