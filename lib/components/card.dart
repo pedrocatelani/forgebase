@@ -33,15 +33,18 @@ class CardWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  data['name'],
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    data['name'],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                Spacer(),
                 Row(
                   spacing: 16,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -51,7 +54,7 @@ class CardWidget extends StatelessWidget {
                       onBackgroundImageError:
                           (_, __) => debugPrint('Erro ao carregar a imagem'),
                       backgroundImage: AssetImage(
-                        "assets/houses/${data['houses'][0]}.png",
+                        "assets/houses/${data['housesNames'][0].toLowerCase()}.png",
                       ),
                     ),
                     CircleAvatar(
@@ -59,7 +62,7 @@ class CardWidget extends StatelessWidget {
                       onBackgroundImageError:
                           (_, __) => debugPrint('Erro ao carregar a imagem'),
                       backgroundImage: AssetImage(
-                        'assets/houses/${data['houses'][1]}.png',
+                        'assets/houses/${data['housesNames'][1].toLowerCase()}.png',
                       ),
                     ),
                     CircleAvatar(
@@ -67,7 +70,7 @@ class CardWidget extends StatelessWidget {
                       onBackgroundImageError:
                           (e, x) => debugPrint(e.toString() + x.toString()),
                       backgroundImage: AssetImage(
-                        'assets/houses/${data['houses'][2]}.png',
+                        'assets/houses/${data['housesNames'][2].toLowerCase()}.png',
                       ),
                     ),
                   ],
@@ -83,7 +86,7 @@ class CardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      data['sas'],
+                      '${data['sas']}',
                       style: TextStyle(
                         fontSize: 60,
                         fontWeight: FontWeight.bold,
@@ -103,13 +106,13 @@ class CardWidget extends StatelessWidget {
                           Icons.diamond_rounded,
                           color: Color.fromARGB(255, 245, 220, 2),
                         ),
-                        Text('${data['expectedAembar']}'),
+                        Text('${data['expectedAember'].toStringAsFixed(0).padLeft(2, "0")}'),
                         SizedBox(width: 16),
                         Icon(
                           Icons.diamond_outlined,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
-                        Text('${data['aembarControl']}'),
+                        Text('${data['aemberControl'].toStringAsFixed(0).padLeft(2, "0")}'),
                       ],
                     ),
                     Row(
@@ -119,13 +122,13 @@ class CardWidget extends StatelessWidget {
                           Icons.people_alt,
                           color: const Color.fromARGB(255, 36, 112, 255),
                         ),
-                        Text('${data['effectivePower']}'),
+                        Text('${data['effectivePower'].toStringAsFixed(0).padLeft(2, "0")}'),
                         SizedBox(width: 16),
                         Icon(
                           Icons.no_accounts,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
-                        Text('${data['creatureControl']}'),
+                        Text('${data['creatureControl'].toStringAsFixed(0).padLeft(2, "0")}'),
                       ],
                     ),
                     Row(
@@ -135,13 +138,13 @@ class CardWidget extends StatelessWidget {
                           Icons.shield_sharp,
                           color: Color.fromARGB(255, 36, 112, 255),
                         ),
-                        Text('${data['creatureProtection']}'),
+                        Text('${data['creatureProtection'].toStringAsFixed(0).padLeft(2, "0")}'),
                         SizedBox(width: 16),
                         Icon(
                           Icons.polymer_sharp,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
-                        Text('${data['disruption']}'),
+                        Text('${data['disruption'].toStringAsFixed(0).padLeft(2, "0")}'),
                       ],
                     ),
                   ],

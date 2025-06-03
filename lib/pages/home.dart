@@ -30,11 +30,11 @@ class _HomePageState extends State<HomePage> {
       'id': "698aa648-94e2-4a71-a6f7-96d8dbb38430",
       'name': 'Deck de testes',
       'sas': '100',
-      'houses': [
+      'housesNames': [
         'logos', 'dis', 'saurian'
       ],
-      'expectedAembar': 23,
-      'aembarControl': 11,
+      'expectedAember': 23,
+      'aemberControl': 11,
       'effectivePower': 63,
       'creatureControl': 20,
       'creatureProtection': 4,

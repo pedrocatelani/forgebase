@@ -15,7 +15,7 @@ class DoKApi {
     if (response.statusCode == 200) {
       return {
         "status": response.statusCode,
-        "deck": deckParse(json.decode(response.body)["deck"]),
+        "deck": deckParse(json.decode(utf8.decode(response.bodyBytes))["deck"]),
       };
     } else {
       return {"status": response.statusCode};
@@ -42,32 +42,32 @@ class DoKApi {
     }
 
     var parsed = {
-      "vaulId": deck["keyforgeId"],
+      "vaulId": deck["keyforgeId"] ?? 0,
       "name": deck["name"],
       "expansion": deck["expansion"],
-      "sas": deck["sasRating"],
-      "aerc": deck["aercScore"],
-      "synergy": deck["synergyRating"],
-      "antiSynergy": deck["antisynergyRating"],
-      "sasPercentile": deck["sasPercentile"],
-      "creatureCount": deck["creatureCount"],
-      "actionCount": deck["actionCount"],
-      "artifactCount": deck["artifactCount"],
-      "upgradeCount": deck["upgradeCount"],
-      "expectedAmber": deck["expectedAmber"],
-      "amberControl": deck["amberControl"],
-      "creatureControl": deck["creatureControl"],
-      "efficiency": deck["efficiency"],
-      "recursion": deck["recursion"],
-      "effectivePower": deck["effectivePower"],
-      "creatureProtection": deck["creatureProtection"],
-      "disruption": deck["disruption"],
-      "other": deck["other"],
-      "bonusAmber": deck["rawAmber"],
+      "sas": deck["sasRating"] ?? 0,
+      "aerc": deck["aercScore"] ?? 0,
+      "synergy": deck["synergyRating"] ?? 0,
+      "antiSynergy": deck["antisynergyRating"] ?? 0,
+      "sasPercentile": deck["sasPercentile"] ?? 0,
+      "creatureCount": deck["creatureCount"] ?? 0,
+      "actionCount": deck["actionCount"] ?? 0,
+      "artifactCount": deck["artifactCount"] ?? 0,
+      "upgradeCount": deck["upgradeCount"] ?? 0,
+      "expectedAember": deck["expectedAmber"] ?? 0,
+      "aemberControl": deck["amberControl"] ?? 0,
+      "creatureControl": deck["creatureControl"] ?? 0,
+      "efficiency": deck["efficiency"] ?? 0,
+      "recursion": deck["recursion"] ?? 0,
+      "effectivePower": deck["effectivePower"] ?? 0,
+      "creatureProtection": deck["creatureProtection"] ?? 0,
+      "disruption": deck["disruption"] ?? 0,
+      "other": deck["other"] ?? 0,
+      "bonusAember": deck["rawAmber"] ?? 0,
       "houses": houses,
       "housesNames": houseNames,
     };
-
+    
     return parsed;
   }
 }

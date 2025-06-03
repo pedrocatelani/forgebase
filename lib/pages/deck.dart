@@ -148,7 +148,7 @@ class _DeckPageState extends State<DeckPage> {
                 CardGradient(
                   color: const Color.fromARGB(255, 255, 251, 25),
                   title: Text(
-                    'Aembar',
+                    'Aember',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
