@@ -7,13 +7,16 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushReplacementNamed(context, '/deck', arguments: {
-        "id": data["id"]
-      }),
+      onTap:
+          () => Navigator.pushReplacementNamed(
+            context,
+            '/deck',
+            arguments: {"id": data["id"]},
+          ),
       child: Container(
         height: 166,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(225, 255, 255, 255),
+          color: const Color.fromARGB(202, 73, 72, 72),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(

@@ -14,10 +14,28 @@ class ForgeBaseApp extends StatelessWidget {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  final ThemeData geistoidTheme = ThemeData(
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: Color(0xFF1C1B22),
+    primaryColor: Color(0xFFB692F6),
+    colorScheme: ColorScheme.dark(
+      primary: Color(0xFFB692F6),
+      secondary: Color(0xFFFFB800),
+      surface: Color(0xFF2A2930),
+      onSurface: Colors.white,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xFF39364B), 
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.purple),
+      theme: geistoidTheme,
       routes: {
         "/home": (context) => HomePage(),
         "/deck": (context) => DeckPage(),
