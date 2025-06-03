@@ -6,6 +6,7 @@ import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/card.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
 import 'package:iconly/iconly.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum _SelectedTab { user, home, camera }
 
@@ -48,18 +49,6 @@ class _UserPageState extends State<UserPage> {
         '/${_SelectedTab.values[index].name}',
       );
     }
-
-    Map<dynamic, dynamic> data = {
-      'name': 'Deck de release',
-      'sas': '77',
-      'houses': ['untamed', 'mars', 'geistoid'],
-      'expectedAembar': 11,
-      'aembarControl': 17,
-      'effectivePower': 57,
-      'creatureControl': 30,
-      'creatureProtection': 41,
-      'disruption': 12,
-    };
 
     return SafeArea(
       child: Scaffold(
@@ -142,7 +131,7 @@ class _UserPageState extends State<UserPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text('Aembar'),
+                          Text('Aember'),
                         ],
                       ),
                     ],
@@ -152,16 +141,31 @@ class _UserPageState extends State<UserPage> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
-                    child: ListView(
-                      children: [
-                        CardWidget(data: data),
-                        CardWidget(data: data),
-                        CardWidget(data: data),
-                        CardWidget(data: data),
-                        CardWidget(data: data),
-                        CardWidget(data: data),
-                      ],
-                    ),
+                    child: 
+                      StreamBuilder(
+                        stream: FirebaseFirestore.instance.collection('decks').where('user_email', isEqualTo: user!.email).snapshots(), 
+                        builder: (context, snapshot) {
+
+                          if (!snapshot.hasData) {
+                            return Text(
+                              "Loading Decks ......",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                              )
+                            );
+                          }
+
+                          List<Widget> decks = [];
+
+                          for (var deck in snapshot.data!.docs){
+                            decks.add(CardWidget(data: deck.data()));
+                          }
+
+                          return ListView(children: decks);
+                        }
+                      )
                   ),
                 ],
               ),
