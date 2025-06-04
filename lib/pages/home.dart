@@ -88,7 +88,6 @@ class _HomePageState extends State<HomePage> {
                     DropdownMenuItem(value: 'sas', child: Text('SAS')),
                     DropdownMenuItem(value: 'name', child: Text('Name')),
                     DropdownMenuItem(value: 'aerc', child: Text('AERC')),
-                    DropdownMenuItem(value: 'sasPercentile', child: Text('SAS Percentile')),
                     DropdownMenuItem(value: 'synergy', child: Text('Synergy'))
                   ],
                   onChanged: (newOrder) {
