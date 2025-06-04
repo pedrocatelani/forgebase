@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 DropdownButton(
-                  value: true,
+                  value: desc,
                   items: [
                     DropdownMenuItem(value: true, child: Icon(Icons.arrow_downward_rounded)),
                     DropdownMenuItem(value: false, child: Icon(Icons.arrow_upward_rounded)),
