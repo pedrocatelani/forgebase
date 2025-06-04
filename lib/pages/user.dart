@@ -21,6 +21,11 @@ class _UserPageState extends State<UserPage> {
   final FirebaseColletion database = FirebaseColletion();
   final User? user = FirebaseAuth.instance.currentUser;
 
+  String? orderBy = 'sas';
+  bool desc = true;
+  Stream? stream;
+
+
   void initState() {
     super.initState();
     buildImage();
@@ -38,6 +43,8 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     _SelectedTab _selectedTab = _SelectedTab.user;
+
+    stream = FirebaseFirestore.instance.collection('decks').where('user_email', isEqualTo: user!.email).snapshots();
 
     void _onTapChange(int index) {
       setState(() {
@@ -113,7 +120,7 @@ class _UserPageState extends State<UserPage> {
                       Column(
                         children: [
                           Text(
-                            '0',
+                           '0',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -140,10 +147,52 @@ class _UserPageState extends State<UserPage> {
                     'My Decks:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Select a sorting method: ",
+                        style: TextStyle(fontSize: 16)
+                      ),
+                      DropdownButton(
+                        value: orderBy,
+                        items: [
+                          DropdownMenuItem(value: 'sas', child: Text('SAS')),
+                          DropdownMenuItem(value: 'name', child: Text('Name')),
+                          DropdownMenuItem(value: 'aerc', child: Text('AERC')),
+                          DropdownMenuItem(value: 'synergy', child: Text('Synergy'))
+                        ],
+                        onChanged: (newOrder) {
+                          setState(() {
+                            orderBy = newOrder!;
+                            stream = stream;
+                          });
+                        }
+                      ),
+
+                      DropdownButton(
+                        value: desc,
+                        items: [
+                          DropdownMenuItem(value: true, child: Icon(Icons.arrow_downward_rounded)),
+                          DropdownMenuItem(value: false, child: Icon(Icons.arrow_upward_rounded)),
+                        ],
+                        onChanged: (newDesc) {
+                          setState(() {
+                            desc = newDesc as bool;
+                            stream = stream;
+                          });
+                        }
+                      ),
+                    ],
+                  ),
+
+
                   Expanded(
                     child: 
                       StreamBuilder(
-                        stream: FirebaseFirestore.instance.collection('decks').where('user_email', isEqualTo: user!.email).snapshots(), 
+                        stream: stream,
                         builder: (context, snapshot) {
 
                           if (!snapshot.hasData) {
@@ -160,19 +209,23 @@ class _UserPageState extends State<UserPage> {
                           List decks = snapshot.data!.docs;
 
                           decks.sort((a, b) {
-                            int sasA = a["sas"];
-                            int sasB = b["sas"];
+                            var itemA = a[orderBy];
+                            var itemB = b[orderBy];
+                            
+                            if (desc) {
+                              return itemB.compareTo(itemA);
+                            }
 
-                            return sasB.compareTo(sasA);
+                            return itemA.compareTo(itemB);
                           });
 
-                          List<Widget> userDecks = [];
+                          List<Widget> widgets = [];
 
                           for (var deck in decks){
-                            userDecks.add(CardWidget(data: deck.data()));
+                            widgets.add(CardWidget(data: deck.data()));
                           }
 
-                          return ListView(children: userDecks);
+                          return ListView(children: widgets);
                         }
                       )
                   ),
