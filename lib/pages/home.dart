@@ -18,6 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScrollController scroll = ScrollController();
+  String orderBy = 'sas';
+  bool desc = true;
 
   @override
   void dispose() {
@@ -50,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     void _nextPage(var last) {
       setState(() {
           scroll.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-          stream = FirebaseFirestore.instance.collection('decks').orderBy('sas', descending: true).startAfterDocument(last).limit(10).snapshots();
+          stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).startAfterDocument(last).limit(10).snapshots();
           pagesCounter ++;
         }
       );
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> {
     void _prevPage(var last) {
       setState(() {
           scroll.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-          stream = FirebaseFirestore.instance.collection('decks').orderBy('sas', descending: true).endBeforeDocument(last).limit(10).snapshots();
+          stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).endBeforeDocument(last).limit(10).snapshots();
           pagesCounter --;
         }
       );
@@ -73,9 +75,49 @@ class _HomePageState extends State<HomePage> {
         margin: EdgeInsets.all(8),
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Select a sorting method: ",
+                  style: TextStyle(fontSize: 16)
+                ),
+                DropdownButton(
+                  value: orderBy,
+                  items: [
+                    DropdownMenuItem(value: 'sas', child: Text('SAS')),
+                    DropdownMenuItem(value: 'name', child: Text('Name')),
+                    DropdownMenuItem(value: 'aerc', child: Text('AERC')),
+                    DropdownMenuItem(value: 'sasPercentile', child: Text('SAS Percentile')),
+                    DropdownMenuItem(value: 'synergy', child: Text('Synergy'))
+                  ],
+                  onChanged: (newOrder) {
+                    setState(() {
+                      orderBy = newOrder!;
+                      stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).limit(10).snapshots();
+                      pagesCounter = 1;
+                    });
+                  }
+                ),
+
+                DropdownButton(
+                  value: true,
+                  items: [
+                    DropdownMenuItem(value: true, child: Icon(Icons.arrow_downward_rounded)),
+                    DropdownMenuItem(value: false, child: Icon(Icons.arrow_upward_rounded)),
+                  ],
+                  onChanged: (newDesc) {
+                    setState(() {
+                      desc = newDesc as bool;
+                      stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).limit(10).snapshots();
+                      pagesCounter = 1;
+                    });
+                  }
+                ),
+              ],
+            ),
             Flexible(
-              child: 
-              
+              child:
               StreamBuilder(
                 stream: stream,
                 builder: (context, snapshot) {
