@@ -157,13 +157,22 @@ class _UserPageState extends State<UserPage> {
                             );
                           }
 
-                          List<Widget> decks = [];
+                          List decks = snapshot.data!.docs;
 
-                          for (var deck in snapshot.data!.docs){
-                            decks.add(CardWidget(data: deck.data()));
+                          decks.sort((a, b) {
+                            int sasA = a["sas"];
+                            int sasB = b["sas"];
+
+                            return sasB.compareTo(sasA);
+                          });
+
+                          List<Widget> userDecks = [];
+
+                          for (var deck in decks){
+                            userDecks.add(CardWidget(data: deck.data()));
                           }
 
-                          return ListView(children: decks);
+                          return ListView(children: userDecks);
                         }
                       )
                   ),
