@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/utils/_auth_services.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
+import 'package:forgebase/components/password_field.dart';
 
 class EditUserPage extends StatefulWidget {
   const EditUserPage({super.key});
@@ -49,21 +50,6 @@ class _EditUserPageState extends State<EditUserPage> {
                 children: [
                   Container(height: 200),
                   Text('${user?.displayName}', style: TextStyle(fontSize: 20)),
-                  FutureBuilder<String>(
-                    future: database.getApiKey(user!.email.toString()),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(height: 10);
-                      }
-                      if (snapshot.hasError) {
-                        return Text("Erro ao carregar API Key");
-                      }
-                      return Text(
-                        snapshot.data ?? "Nenhuma API Key encontrada",
-                        style: TextStyle(fontSize: 16),
-                      );
-                    },
-                  ),
                   TextField(
                     controller: txtUserName,
                     decoration: InputDecoration(
@@ -73,7 +59,7 @@ class _EditUserPageState extends State<EditUserPage> {
                       ),
                     ),
                   ),
-                  TextField(
+                  PasswordField(
                     controller: txtApiKey,
                     decoration: InputDecoration(
                       label: Text('API Key'),
@@ -127,7 +113,7 @@ class _EditUserPageState extends State<EditUserPage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () => database.uploadUserImage(user!.email!),
+                    onPressed: () => database.uploadUserImage(user!.email!, context),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
                     ),
@@ -208,7 +194,16 @@ class _EditUserPageState extends State<EditUserPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ElevatedButton(onPressed: () => authService.updateUser(txtUserName.text, user?.email, txtApiKey.text, context), child: Text('Save')),
+                      ElevatedButton(
+                        onPressed:
+                            () => authService.updateUser(
+                              txtUserName.text,
+                              user?.email,
+                              txtApiKey.text,
+                              context,
+                            ),
+                        child: Text('Save'),
+                      ),
                       ElevatedButton(
                         onPressed:
                             () => Navigator.pushReplacementNamed(
