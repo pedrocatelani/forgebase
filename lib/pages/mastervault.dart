@@ -65,11 +65,25 @@ class _MasterVaultState extends State<MasterVault> {
     'assets/instructions/instruction1.jpg',
     'assets/instructions/instruction2.jpg',
     'assets/instructions/instruction3.jpg',
+    'assets/instructions/instruction4.jpg',
+    'assets/instructions/instruction5.jpg',
+    'assets/instructions/instruction6.jpg',
+    'assets/instructions/instruction7.jpg',
+    'assets/instructions/instruction8.jpg',
+    'assets/instructions/instruction9.jpg',
+    'assets/instructions/instruction10.jpg',
   ];
   final List<String> instructionTexts = [
-    'Step 1: Navigate to the deck in Master Vault',
-    'Step 2: Make sure the URL contains the deck ID',
-    'Step 3: Click the floating button to save',
+    'Step 1: Read all instructions, then click "Ok, copy and continue".',
+    'Step 2: Click the menu (three bars) as shown.',
+    'Step 3: Log in to Master Vault.',
+    'Step 4: After login, click the highlighted area.',
+    'Step 5: Scroll down and paste your ID.',
+    'Step 6: Confirm the ID, then click "Add Deck".',
+    'Step 7: Click "Go to Deck" to add it to Master Vault.',
+    'Step 8: On the deck page, click the icon to save.',
+    'Step 9: Wait a few moments for it to complete.',
+    'Step 10: You’ll be redirected to the user page with your deck.',
   ];
 
   @override
