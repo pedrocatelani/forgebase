@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
@@ -15,6 +16,13 @@ class QRScannerScreen extends StatefulWidget {
 class _QRScannerScreenState extends State<QRScannerScreen> {
   _SelectedTab _selectedTab = _SelectedTab.camera;
   final TextEditingController idController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    cameraController.stop();
+    cameraController.start();
+  }
 
   void _onTapChange(int index) {
     setState(() {
@@ -115,12 +123,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                                 ),
                                 child: Text("Add"),
                                 onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Deck Added!"),
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  );
                                   Navigator.pushNamed(
                                     context,
                                     "/mastervault",
@@ -229,16 +231,10 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                             foregroundColor: Colors.white,
                           ),
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Deck Added!"),
-                                duration: Duration(seconds: 2),
-                              ),
-                            );
                             Navigator.pushNamed(
                               context,
                               "/mastervault",
-                              arguments: idDeck.toString(),
+                              arguments: idController.text.trim(),
                             );
                           },
                         ),

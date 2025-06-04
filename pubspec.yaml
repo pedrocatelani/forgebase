@@ -46,6 +46,7 @@ dependencies:
   cloud_firestore:
   webview_flutter:
   image_picker:
+  carousel_slider:
 
 dev_dependencies:
   flutter_test:
@@ -100,4 +101,5 @@ flutter:
   # see https://flutter.dev/to/font-from-package
   assets:
     - assets/
+    - assets/instructions/
     - assets/houses/
