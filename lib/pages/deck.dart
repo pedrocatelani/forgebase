@@ -15,29 +15,24 @@ class DeckPage extends StatefulWidget {
 }
 
 class _DeckPageState extends State<DeckPage> {
-
   Future<void> showStatistics(String deckId) async {
     final getinfo = GetInfo();
 
-    try {
-      final result = await getinfo.getDeckStatistics(deckId);
-    } catch (e) {
-      print("Error $e");
-    }
+    final result = await getinfo.getDeckStatistics(deckId);
   }
 
   void initState() {
     super.initState();
-      Future.delayed(Duration.zero, () {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    Future.delayed(Duration.zero, () {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       final String deckId = args['id'];
       showStatistics(deckId);
-  });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
     _SelectedTab _selectedTab = _SelectedTab.user;
 
     void _onTapChange(int index) {
