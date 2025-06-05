@@ -113,7 +113,8 @@ class _EditUserPageState extends State<EditUserPage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () => database.uploadUserImage(user!.email!, context),
+                    onPressed:
+                        () => database.uploadUserImage(user!.email!, context),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
                     ),
@@ -145,7 +146,7 @@ class _EditUserPageState extends State<EditUserPage> {
                                   'Are you sure you want to delete your account?',
                                 ),
                                 actions: [
-                                  TextField(
+                                  PasswordField(
                                     controller: txtUserPassword,
                                     decoration: InputDecoration(
                                       label: Text('Password'),

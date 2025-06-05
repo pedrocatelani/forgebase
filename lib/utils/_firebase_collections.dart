@@ -91,4 +91,50 @@ class FirebaseColletion {
     }
     return false;
   }
+
+  Future<void> saveDeck(
+    String dokiD,
+    String userEmail,
+    BuildContext context,
+  ) async {
+    final apiKey = await getApiKey(userEmail);
+
+    final checkDeckRegistered =
+        await _db.collection('decks').where('vaulId', isEqualTo: dokiD).get();
+    // ignore: unnecessary_null_comparison
+    if (checkDeckRegistered.docs.isEmpty) {
+      final result = await dokApi.getStatistics(dokiD, apiKey);
+      if (result['status'] == 200) {
+        await insertDeck(
+          userEmail,
+          dokiD,
+          Map<String, dynamic>.from(result['deck']),
+        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("Success!\nDeck saved!")));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error to find the Deck! ${result['status']}"),
+          ),
+        );
+      }
+    } else {
+      for (var doc in checkDeckRegistered.docs) {
+        if (doc['user_email'] == '') {
+          await _db.collection('decks').doc(dokiD).update({
+            'user_email': userEmail,
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("You have discovered an abandoned deck")),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("This deck is already registered")),
+          );
+        }
+      }
+    }
+  }
 }

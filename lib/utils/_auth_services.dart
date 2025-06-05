@@ -115,7 +115,7 @@ class AuthService {
     BuildContext context,
   ) async {
     if (userName != _auth.currentUser?.displayName) {
-      _auth.currentUser?.updateDisplayName(userName);
+      await _auth.currentUser?.updateDisplayName(userName);
       final snackBar = SnackBar(content: Text("Updated name"));
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
