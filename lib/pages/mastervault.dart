@@ -231,19 +231,32 @@ class _MasterVaultState extends State<MasterVault> {
         onPressed: () async {
           String? url = await _controller.currentUrl();
 
-          var dokId = url!.substring(url.length - 36);
+          if (url == null || url.length < 36) {
+            Future.delayed(Duration.zero, () {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text("Invalid Url")));
+            });
+            return;
+          }
+
+          var dokId = url.substring(url.length - 36);
 
           final validIdRegex = RegExp(r'^[a-zA-Z0-9-]{36}$');
+
           if (!validIdRegex.hasMatch(dokId)) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(const SnackBar(content: Text("Invalid ID")));
+            Future.delayed(Duration.zero, () {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text("Invalid Id")));
+            });
             return;
           }
 
           await _saveDeck(dokId);
-          Navigator.pushReplacementNamed(context, "/home");
+          Navigator.pushReplacementNamed(context, "/user");
         },
+
         child: const Icon(Icons.save),
       ),
     );
