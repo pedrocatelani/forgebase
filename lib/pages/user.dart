@@ -141,31 +141,33 @@ class _UserPageState extends State<UserPage> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
-                    child: 
-                      StreamBuilder(
-                        stream: FirebaseFirestore.instance.collection('decks').where('user_email', isEqualTo: user!.email).snapshots(), 
-                        builder: (context, snapshot) {
-
-                          if (!snapshot.hasData) {
-                            return Text(
-                              "Loading Decks ......",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                              )
-                            );
-                          }
-
-                          List<Widget> decks = [];
-
-                          for (var deck in snapshot.data!.docs){
-                            decks.add(CardWidget(data: deck.data()));
-                          }
-
-                          return ListView(children: decks);
+                    child: StreamBuilder(
+                      stream:
+                          FirebaseFirestore.instance
+                              .collection('decks')
+                              .where('user_email', isEqualTo: user!.email)
+                              .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text(
+                            "Loading Decks ......",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
                         }
-                      )
+
+                        List<Widget> decks = [];
+
+                        for (var deck in snapshot.data!.docs) {
+                          decks.add(CardWidget(data: deck.data()));
+                        }
+
+                        return ListView(children: decks);
+                      },
+                    ),
                   ),
                 ],
               ),
