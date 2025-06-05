@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/password_field.dart';
@@ -10,26 +10,9 @@ class LoginPage extends StatelessWidget {
 
   var txtEmail = TextEditingController();
   var txtPassword = TextEditingController();
+  var txtForgotPassword = TextEditingController();
 
-  final AuthService _authService = AuthService();
-
-  Future<void> _login(BuildContext context) async {
-    try {
-      final user = await _authService.login(
-        txtEmail.text.trim(),
-        txtPassword.text.trim(),
-      );
-      if (user != null) {
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacementNamed(context, "/home");
-      }
-      // ignore: unused_catch_clause
-    } on FirebaseAuthException catch (ex) {
-      final snackBar = SnackBar(content: Text("Email or password invalid"));
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -73,14 +56,57 @@ class LoginPage extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed:
+                                () => showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => AlertDialog(
+                                        title: Text('Enter your user email'),
+                                        actions: [
+                                          TextField(
+                                            controller: txtForgotPassword,
+                                            decoration: InputDecoration(
+                                              label: Text('User email'),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(22),
+                                              ),
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              TextButton(
+                                                onPressed:
+                                                    () => authService
+                                                        .changePasswordByEmail(
+                                                          txtForgotPassword.text
+                                                              .trim(),
+                                                        ),
+                                                child: Text('Send'),
+                                              ),
+                                              TextButton(
+                                                onPressed:
+                                                    () =>
+                                                        Navigator.pop(context),
+                                                child: Text('Close'),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                ),
                             child: Text("Forgot password?"),
                           ),
                         ),
                       ],
                     ),
                     ElevatedButton(
-                      onPressed: () => _login(context),
+                      onPressed:
+                          () => authService.login(
+                            txtEmail.text.trim(),
+                            txtPassword.text.trim(),
+                            context,
+                          ),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 60),
                       ),

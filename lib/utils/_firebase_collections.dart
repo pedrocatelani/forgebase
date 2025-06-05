@@ -28,19 +28,29 @@ class FirebaseColletion {
     await _db.collection('decks').doc(deckId).set(deckData);
   }
 
-  Future<void> uploadUserImage(String userEmail) async {
+  Future<void> uploadUserImage(String userEmail, BuildContext context) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       final bytes = await pickedFile.readAsBytes();
-      final base64Image = base64Encode(bytes);
+      const maxSizeInBytes = 1048576;
 
-      // ignore: unnecessary_null_comparison
-      if (userEmail != null) {
-        await _db.collection('users').doc(userEmail).update({
-          'user_image': base64Image,
-        });
+      if (bytes.length < maxSizeInBytes) {
+        final base64Image = base64Encode(bytes);
+
+        // ignore: unnecessary_null_comparison
+        if (userEmail != null) {
+          await _db.collection('users').doc(userEmail).update({
+            'user_image': base64Image,
+          });
+        }
+      } else {
+        final snackBar = SnackBar(
+          content: Text("Image too large (larger than 1MB)"),
+        );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
   }
@@ -70,11 +80,7 @@ class FirebaseColletion {
     _db.collection('users').doc(userEmail).delete();
   }
 
-  Future<bool> updateApiKey(
-    String userEmail,
-    String apiKey,
-    BuildContext context,
-  ) async {
+  Future<bool> updateApiKey(String userEmail, String apiKey) async {
     String dokiD = 'c340a4e0-eec2-4b80-b333-178b65b6f596';
     final result = await dokApi.getStatistics(dokiD, apiKey);
     if (result['status'] == 200) {

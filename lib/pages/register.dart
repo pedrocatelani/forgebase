@@ -13,7 +13,7 @@ class RegisterPage extends StatelessWidget {
   var txtConfirmPassword = TextEditingController();
   var txtAPIKey = TextEditingController();
 
-  final AuthService _authService = AuthService();
+  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class RegisterPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    PasswordField(
+                    TextField(
                       controller: txtAPIKey,
                       decoration: InputDecoration(
                         hintText: "API Key",
@@ -81,12 +81,12 @@ class RegisterPage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed:
-                          () => _authService.register(
+                          () => authService.register(
                             txtName.text,
-                            txtEmail.text,
-                            txtPassword.text,
-                            txtConfirmPassword.text,
-                            txtAPIKey.text,
+                            txtEmail.text.trim(),
+                            txtPassword.text.trim(),
+                            txtConfirmPassword.text.trim(),
+                            txtAPIKey.text.trim(),
                             context,
                           ),
                       child: Text("Register"),
