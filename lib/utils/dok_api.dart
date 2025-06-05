@@ -64,6 +64,11 @@ class DoKApi {
       "disruption": deck["disruption"] ?? 0,
       "other": deck["other"] ?? 0,
       "bonusAember": deck["rawAmber"] ?? 0,
+      "totalPower": deck["totalPower"] ?? 0,
+      "totalArmor": deck["totalArmor"] ?? 0,
+      "archivesTargetted": deck["cardArchiveCount"] ?? 0,
+      "archivesRandom": deck["cardDrawCount"] ?? 0,
+      "keyCheatCount": deck["keyCheatCount"] ?? 0,
       "houses": houses,
       "housesNames": houseNames,
     };
