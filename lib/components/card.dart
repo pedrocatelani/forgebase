@@ -11,7 +11,7 @@ class CardWidget extends StatelessWidget {
           () => Navigator.pushReplacementNamed(
             context,
             '/deck',
-            arguments: {"id": data["id"]},
+            arguments: {"id": data["vaulId"]},
           ),
       child: Container(
         height: 166,
@@ -112,7 +112,7 @@ class CardWidget extends StatelessWidget {
                         Text('${data['expectedAember'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
                         SizedBox(width: 16),
                         Icon(
-                          Icons.diamond_outlined,
+                          Icons.diamond_rounded,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
                         Text('${data['aemberControl'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
@@ -128,7 +128,7 @@ class CardWidget extends StatelessWidget {
                         Text('${data['effectivePower'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
                         SizedBox(width: 16),
                         Icon(
-                          Icons.no_accounts,
+                          Icons.south_west_rounded,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
                         Text('${data['creatureControl'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
@@ -144,7 +144,7 @@ class CardWidget extends StatelessWidget {
                         Text('${data['creatureProtection'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
                         SizedBox(width: 16),
                         Icon(
-                          Icons.polymer_sharp,
+                          Icons.undo,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
                         Text('${data['disruption'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
