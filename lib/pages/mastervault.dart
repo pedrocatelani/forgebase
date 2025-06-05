@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
-import 'package:forgebase/utils/dok_api.dart';
+// import 'package:forgebase/utils/dok_api.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MasterVault extends StatefulWidget {
@@ -15,10 +16,12 @@ class MasterVault extends StatefulWidget {
 
 class _MasterVaultState extends State<MasterVault> {
   User? user = FirebaseAuth.instance.currentUser;
+  final FirebaseColletion database = FirebaseColletion();
 
   void _close(String deckId) {
     Clipboard.setData(ClipboardData(text: deckId)).then((_) {
       ScaffoldMessenger.of(
+        // ignore: use_build_context_synchronously
         context,
       ).showSnackBar(const SnackBar(content: Text("ID was copied!")));
     });
@@ -27,27 +30,50 @@ class _MasterVaultState extends State<MasterVault> {
     });
   }
 
-  Future<void> _saveDeck(String dokiD) async {
-    final dokApi = DoKApi();
-    final firestore = FirebaseColletion();
-    final apiKey = await firestore.getApiKey(user!.email!);
+  // Future<void> _saveDeck(String dokiD) async {
+  //   final dokApi = DoKApi();
+  //   final firestore = FirebaseColletion();
+  //   final apiKey = await firestore.getApiKey(user!.email!);
+  //   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-    final result = await dokApi.getStatistics(dokiD, apiKey);
-    if (result['status'] == 200) {
-      await firestore.insertDeck(
-        user!.email!,
-        dokiD,
-        Map<String, dynamic>.from(result['deck']),
-      );
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Success!\nDeck saved!")));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error to find the Deck! ${result['status']}")),
-      );
-    }
-  }
+  //   final checkDeckRegistered =
+  //       await db.collection('decks').where('vaulId', isEqualTo: dokiD).get();
+  //   // ignore: unnecessary_null_comparison
+  //   if (checkDeckRegistered.docs.isEmpty) {
+  //     final result = await dokApi.getStatistics(dokiD, apiKey);
+  //     if (result['status'] == 200) {
+  //       await firestore.insertDeck(
+  //         user!.email!,
+  //         dokiD,
+  //         Map<String, dynamic>.from(result['deck']),
+  //       );
+  //       ScaffoldMessenger.of(
+  //         context,
+  //       ).showSnackBar(SnackBar(content: Text("Success!\nDeck saved!")));
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text("Error to find the Deck! ${result['status']}"),
+  //         ),
+  //       );
+  //     }
+  //   } else {
+  //     for (var doc in checkDeckRegistered.docs) {
+  //       if (doc['user_email'] == '') {
+  //         await db.collection('decks').doc(dokiD).update({
+  //           'user_email': user?.email,
+  //         });
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text("You have discovered an abandoned deck")),
+  //         );
+  //       } else {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text("This deck is already registered")),
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 
   late final WebViewController _controller;
 
@@ -234,6 +260,7 @@ class _MasterVaultState extends State<MasterVault> {
           if (url == null || url.length < 36) {
             Future.delayed(Duration.zero, () {
               ScaffoldMessenger.of(
+                // ignore: use_build_context_synchronously
                 context,
               ).showSnackBar(const SnackBar(content: Text("Invalid Url")));
             });
@@ -247,13 +274,16 @@ class _MasterVaultState extends State<MasterVault> {
           if (!validIdRegex.hasMatch(dokId)) {
             Future.delayed(Duration.zero, () {
               ScaffoldMessenger.of(
+                // ignore: use_build_context_synchronously
                 context,
               ).showSnackBar(const SnackBar(content: Text("Invalid Id")));
             });
             return;
           }
 
-          await _saveDeck(dokId);
+          // ignore: use_build_context_synchronously
+          await database.saveDeck(dokId, user!.email!, context);
+          // ignore: use_build_context_synchronously
           Navigator.pushReplacementNamed(context, "/user");
         },
 

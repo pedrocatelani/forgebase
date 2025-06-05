@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
@@ -182,6 +181,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       ),
                       actions: [
                         TextButton(
+                          // ignore: sort_child_properties_last
                           child: Text("Return"),
                           style: FilledButton.styleFrom(
                             padding: EdgeInsets.symmetric(
@@ -213,6 +213,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                         ),
 
                         TextButton(
+                          // ignore: sort_child_properties_last
                           child: Text("Add"),
                           style: FilledButton.styleFrom(
                             padding: EdgeInsets.symmetric(
