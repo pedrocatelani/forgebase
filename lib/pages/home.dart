@@ -59,10 +59,10 @@ class _HomePageState extends State<HomePage> {
     }
 
 
-    void _prevPage(var last) {
+    void _prevPage(var first) {
       setState(() {
           scroll.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-          stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).endBeforeDocument(last).limit(10).snapshots();
+          stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).endBeforeDocument(first).limitToLast(10).snapshots();
           pagesCounter --;
         }
       );
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                   );
 
                   if (pagesCounter > 1) {
-                    prevButton = TextButton(onPressed:() => _prevPage(snapshot.data!.docs.last), child: Text("Previous Page"));
+                    prevButton = TextButton(onPressed:() => _prevPage(snapshot.data!.docs.first), child: Text("Previous Page"));
                   }
 
                   if (snapshot.data!.size == 10) {
