@@ -80,10 +80,17 @@ class _DeckPageState extends State<DeckPage> {
                       ),
                     ],
                   ),
-                  height: 92,
+                  height: 84,
                   child: Column(
+                    spacing: 4,
                     children: [
-                      Text(deckInfo!['name'], style: TextStyle(fontSize: 22)),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          deckInfo!['name'],
+                          style: TextStyle(fontSize: 22),
+                        ),
+                      ),
                       Text(
                         deckInfo!['expansion']
                             .toLowerCase()
@@ -204,12 +211,12 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 InfoCard(
                   cardTitle: 'Expected',
-                  info: deckInfo!['expectedAember'].toString().substring(0, 4),
+                  info: deckInfo!['expectedAember'].toStringAsFixed(2),
                   icon: Icon(Icons.diamond, color: Colors.amber),
                 ),
                 InfoCard(
                   cardTitle: 'Control',
-                  info: deckInfo!['aemberControl'].toString().substring(0, 4),
+                  info: deckInfo!['aemberControl'].toStringAsFixed(2),
                   icon: Icon(Icons.diamond, color: Colors.red),
                 ),
                 InfoCard(
@@ -227,7 +234,7 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 InfoCard(
                   cardTitle: 'Control',
-                  info: deckInfo!['creatureControl'].toString().substring(0, 4),
+                  info: deckInfo!['creatureControl'].toStringAsFixed(2),
                   icon: Icon(Icons.south_west_rounded, color: Colors.red),
                 ),
                 InfoCard(
@@ -237,7 +244,7 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 InfoCard(
                   cardTitle: 'Protection',
-                  info: deckInfo!['creatureProtection'].toString(),
+                  info: deckInfo!['creatureProtection'].toStringAsFixed(2),
                   icon: Icon(Icons.shield, color: Colors.blue),
                 ),
                 Container(height: 16),
@@ -250,27 +257,17 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 InfoCard(
                   cardTitle: 'Efficiency',
-                  info:
-                      deckInfo!['efficiency'].toString().length > 3
-                          ? deckInfo!['recursion'].toString().substring(0, 4)
-                          : deckInfo!['recursion'].toString(),
+                  info: deckInfo!['efficiency'].toStringAsFixed(2),
                   icon: Icon(Icons.speed, color: Colors.blue),
                 ),
                 InfoCard(
                   cardTitle: 'Disruption',
-                  info:
-                      deckInfo!['disruption'].toString().length > 3
-                          ? deckInfo!['recursion'].toString().substring(0, 4)
-                          : deckInfo!['recursion'].toString(),
+                  info: deckInfo!['disruption'].toStringAsFixed(2),
                   icon: Icon(Icons.undo, color: Colors.red),
                 ),
                 InfoCard(
                   cardTitle: 'Recursion',
-                  info:
-                      deckInfo!['recursion'].toString().length > 3
-                          ? deckInfo!['recursion'].toString().substring(0, 4)
-                          : deckInfo!['recursion'].toString(),
-
+                  info: deckInfo!['recursion'].toStringAsFixed(2),
                   icon: Icon(Icons.wifi_protected_setup, color: Colors.blue),
                 ),
                 Container(height: 16),
@@ -283,7 +280,7 @@ class _DeckPageState extends State<DeckPage> {
                 ),
                 InfoCard(
                   cardTitle: 'Other',
-                  info: deckInfo!['other'].toString().substring(0, 4),
+                  info: deckInfo!['other'].toStringAsFixed(2),
                   icon: Icon(
                     Icons.wifi_protected_setup,
                     color: Colors.lightGreenAccent,
