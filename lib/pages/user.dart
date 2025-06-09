@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,7 @@ class UserPage extends StatefulWidget {
   @override
   State<UserPage> createState() => _UserPageState();
 }
+
 
 class _UserPageState extends State<UserPage> {
   final FirebaseColletion database = FirebaseColletion();
@@ -58,6 +58,7 @@ class _UserPageState extends State<UserPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     _SelectedTab _selectedTab = _SelectedTab.user;
@@ -96,21 +97,21 @@ class _UserPageState extends State<UserPage> {
                               shape: BoxShape.circle,
                               color: Colors.grey[300],
                               image:
-                                  _imageBytes != null
-                                      ? DecorationImage(
-                                        image: MemoryImage(_imageBytes!),
-                                        fit: BoxFit.cover,
-                                      )
-                                      : null,
-                            ),
-                            child:
-                                _imageBytes == null
-                                    ? Icon(
-                                      Icons.person,
-                                      size: 50,
-                                      color: Colors.white,
+                                _imageBytes != null
+                                    ? DecorationImage(
+                                      image: MemoryImage(_imageBytes!),
+                                      fit: BoxFit.cover,
                                     )
                                     : null,
+                            ),
+                            child:
+                              _imageBytes == null
+                                  ? Icon(
+                                    Icons.person,
+                                    size: 50,
+                                    color: Colors.white,
+                                  )
+                                  : null,
                           ),
                         ],
                       ),
@@ -124,10 +125,10 @@ class _UserPageState extends State<UserPage> {
                     Center(
                       child: ElevatedButton(
                         onPressed:
-                            () => Navigator.pushReplacementNamed(
-                              context,
-                              '/edituser',
-                            ),
+                          () => Navigator.pushReplacementNamed(
+                            context,
+                            '/edituser',
+                          ),
                         child: Text('Edit Profile'),
                       ),
                     ),
@@ -164,8 +165,7 @@ class _UserPageState extends State<UserPage> {
                       'My Decks:',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-              
-              
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -204,8 +204,7 @@ class _UserPageState extends State<UserPage> {
                         ),
                       ],
                     ),
-              
-              
+
                     StreamBuilder(
                       stream: stream,
                       builder: (context, snapshot) {
@@ -219,6 +218,10 @@ class _UserPageState extends State<UserPage> {
                               fontWeight: FontWeight.bold,
                             )
                           );
+                        }
+
+                        if (snapshot.hasError) {
+                          return Text("Error: ${snapshot.error}");
                         }
                                   
                         List decks = snapshot.data!.docs;
@@ -242,7 +245,8 @@ class _UserPageState extends State<UserPage> {
                                   
                         return Column(children: widgets);
                       }
-                                          ),
+                    ),
+                    SizedBox(height: 100,)
                   ],
                 ),
               ),
