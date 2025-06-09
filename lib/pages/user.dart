@@ -62,174 +62,173 @@ class _UserPageState extends State<UserPage> {
         body: Stack(
           children: [
             CustomBackground(),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                spacing: 16,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey[300],
-                            image:
-                                _imageBytes != null
-                                    ? DecorationImage(
-                                      image: MemoryImage(_imageBytes!),
-                                      fit: BoxFit.cover,
+            Positioned.fill(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  spacing: 16,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey[300],
+                              image:
+                                  _imageBytes != null
+                                      ? DecorationImage(
+                                        image: MemoryImage(_imageBytes!),
+                                        fit: BoxFit.cover,
+                                      )
+                                      : null,
+                            ),
+                            child:
+                                _imageBytes == null
+                                    ? Icon(
+                                      Icons.person,
+                                      size: 50,
+                                      color: Colors.white,
                                     )
                                     : null,
                           ),
-                          child:
-                              _imageBytes == null
-                                  ? Icon(
-                                    Icons.person,
-                                    size: 50,
-                                    color: Colors.white,
-                                  )
-                                  : null,
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        '${user?.displayName}',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed:
+                            () => Navigator.pushReplacementNamed(
+                              context,
+                              '/edituser',
+                            ),
+                        child: Text('Edit Profile'),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              '0',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text('Decks'),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              '0',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text('Aember'),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  Center(
-                    child: Text(
-                      '${user?.displayName}',
-                      style: TextStyle(fontSize: 18),
+                    Text(
+                      'My Decks:',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed:
-                          () => Navigator.pushReplacementNamed(
-                            context,
-                            '/edituser',
-                          ),
-                      child: Text('Edit Profile'),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                           '0',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text('Decks'),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text('Aember'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'My Decks:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Select a sorting method: ",
-                        style: TextStyle(fontSize: 16)
-                      ),
-                      DropdownButton(
-                        value: orderBy,
-                        items: [
-                          DropdownMenuItem(value: 'sas', child: Text('SAS')),
-                          DropdownMenuItem(value: 'name', child: Text('Name')),
-                          DropdownMenuItem(value: 'aerc', child: Text('AERC')),
-                          DropdownMenuItem(value: 'synergy', child: Text('Synergy'))
-                        ],
-                        onChanged: (newOrder) {
-                          setState(() {
-                            orderBy = newOrder!;
-                            stream = stream;
-                          });
-                        }
-                      ),
-
-                      DropdownButton(
-                        value: desc,
-                        items: [
-                          DropdownMenuItem(value: true, child: Icon(Icons.arrow_downward_rounded)),
-                          DropdownMenuItem(value: false, child: Icon(Icons.arrow_upward_rounded)),
-                        ],
-                        onChanged: (newDesc) {
-                          setState(() {
-                            desc = newDesc as bool;
-                            stream = stream;
-                          });
-                        }
-                      ),
-                    ],
-                  ),
-
-
-                  Expanded(
-                    child: 
-                      StreamBuilder(
-                        stream: stream,
-                        builder: (context, snapshot) {
-
-                          if (!snapshot.hasData) {
-                            return Text(
-                              "Loading Decks ......",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                              )
-                            );
+              
+              
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Select a sorting method: ",
+                          style: TextStyle(fontSize: 16)
+                        ),
+                        DropdownButton(
+                          value: orderBy,
+                          items: [
+                            DropdownMenuItem(value: 'sas', child: Text('SAS')),
+                            DropdownMenuItem(value: 'name', child: Text('Name')),
+                            DropdownMenuItem(value: 'aerc', child: Text('AERC')),
+                            DropdownMenuItem(value: 'synergy', child: Text('Synergy'))
+                          ],
+                          onChanged: (newOrder) {
+                            setState(() {
+                              orderBy = newOrder!;
+                              stream = stream;
+                            });
                           }
-
-                          List decks = snapshot.data!.docs;
-
-                          decks.sort((a, b) {
-                            var itemA = a[orderBy];
-                            var itemB = b[orderBy];
-                            
-                            if (desc) {
-                              return itemB.compareTo(itemA);
-                            }
-
-                            return itemA.compareTo(itemB);
-                          });
-
-                          List<Widget> widgets = [];
-
-                          for (var deck in decks){
-                            widgets.add(CardWidget(data: deck.data()));
+                        ),
+              
+                        DropdownButton(
+                          value: desc,
+                          items: [
+                            DropdownMenuItem(value: true, child: Icon(Icons.arrow_downward_rounded)),
+                            DropdownMenuItem(value: false, child: Icon(Icons.arrow_upward_rounded)),
+                          ],
+                          onChanged: (newDesc) {
+                            setState(() {
+                              desc = newDesc as bool;
+                              stream = stream;
+                            });
                           }
-
-                          return ListView(children: widgets);
-                        }
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+              
+              
+                    StreamBuilder(
+                      stream: stream,
+                      builder: (context, snapshot) {
+                                  
+                        if (!snapshot.hasData) {
+                          return Text(
+                            "Loading Decks ......",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                            )
+                          );
+                        }
+                                  
+                        List decks = snapshot.data!.docs;
+                                  
+                        decks.sort((a, b) {
+                          var itemA = a[orderBy];
+                          var itemB = b[orderBy];
+                          
+                          if (desc) {
+                            return itemB.compareTo(itemA);
+                          }
+                                  
+                          return itemA.compareTo(itemB);
+                        });
+                                  
+                        List<Widget> widgets = [];
+                                  
+                        for (var deck in decks){
+                          widgets.add(CardWidget(data: deck.data()));
+                        }
+                                  
+                        return Column(children: widgets);
+                      }
+                                          ),
+                  ],
+                ),
               ),
             ),
           ],
