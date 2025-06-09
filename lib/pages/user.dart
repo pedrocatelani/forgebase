@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +26,30 @@ class _UserPageState extends State<UserPage> {
   String? orderBy = 'sas';
   bool desc = true;
   Stream? stream;
+  String decksQnt = '0';
+  StreamSubscription? decksCounter;
+  Uint8List? _imageBytes;
 
-
+  @override
   void initState() {
     super.initState();
     buildImage();
+    stream = FirebaseFirestore.instance.collection('decks').where('user_email', isEqualTo: user!.email).snapshots();
+    
+    decksCounter = stream!.listen(
+      (snapshot) {
+        decksQnt = snapshot.docs.length.toString();
+      }
+    );
   }
 
-  Uint8List? _imageBytes;
+
+  @override
+  void dispose() {
+    decksCounter?.cancel();
+    super.dispose();
+  }
+
 
   void buildImage() async {
     final image = await database.getUserImage(user!.email!);
@@ -43,8 +61,6 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     _SelectedTab _selectedTab = _SelectedTab.user;
-
-    stream = FirebaseFirestore.instance.collection('decks').where('user_email', isEqualTo: user!.email).snapshots();
 
     void _onTapChange(int index) {
       setState(() {
@@ -121,7 +137,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              '0',
+                              decksQnt,
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
