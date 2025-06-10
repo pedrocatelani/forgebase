@@ -16,7 +16,7 @@ class CardGradient extends StatelessWidget {
         gradient: LinearGradient(
           colors: [color, const Color.fromARGB(0, 255, 255, 255)],
           begin: Alignment.centerLeft,
-          end: Alignment.center,
+          end: Alignment.centerRight,
         ),
       ),
       child: title,

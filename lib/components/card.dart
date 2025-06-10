@@ -28,9 +28,9 @@ class CardWidget extends StatelessWidget {
           ],
         ),
         margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(12),
         child: Column(
-          spacing: 8,
+          spacing: 2,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -95,7 +95,7 @@ class CardWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text('SaS', style: TextStyle(fontSize: 16)),
+                    Text('SaS', style: TextStyle(fontSize: 20)),
                   ],
                 ),
                 Spacer(),
@@ -109,13 +109,17 @@ class CardWidget extends StatelessWidget {
                           Icons.diamond_rounded,
                           color: Color.fromARGB(255, 245, 220, 2),
                         ),
-                        Text('${data['expectedAember'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
+                        Text(
+                          '${data['expectedAember'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}',
+                        ),
                         SizedBox(width: 16),
                         Icon(
                           Icons.diamond_rounded,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
-                        Text('${data['aemberControl'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
+                        Text(
+                          '${data['aemberControl'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}',
+                        ),
                       ],
                     ),
                     Row(
@@ -125,13 +129,17 @@ class CardWidget extends StatelessWidget {
                           Icons.people_alt,
                           color: const Color.fromARGB(255, 36, 112, 255),
                         ),
-                        Text('${data['effectivePower'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
+                        Text(
+                          '${data['effectivePower'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}',
+                        ),
                         SizedBox(width: 16),
                         Icon(
                           Icons.south_west_rounded,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
-                        Text('${data['creatureControl'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
+                        Text(
+                          '${data['creatureControl'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}',
+                        ),
                       ],
                     ),
                     Row(
@@ -141,13 +149,17 @@ class CardWidget extends StatelessWidget {
                           Icons.shield_sharp,
                           color: Color.fromARGB(255, 36, 112, 255),
                         ),
-                        Text('${data['creatureProtection'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
+                        Text(
+                          '${data['creatureProtection'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}',
+                        ),
                         SizedBox(width: 16),
                         Icon(
                           Icons.undo,
                           color: Color.fromARGB(255, 255, 76, 17),
                         ),
-                        Text('${data['disruption'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}'),
+                        Text(
+                          '${data['disruption'].toStringAsFixed(0).padLeft(2, "0").padLeft(3, ' ')}',
+                        ),
                       ],
                     ),
                   ],

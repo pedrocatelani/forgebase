@@ -18,7 +18,6 @@ class UserPage extends StatefulWidget {
   State<UserPage> createState() => _UserPageState();
 }
 
-
 class _UserPageState extends State<UserPage> {
   final FirebaseColletion database = FirebaseColletion();
   final User? user = FirebaseAuth.instance.currentUser;
@@ -34,15 +33,16 @@ class _UserPageState extends State<UserPage> {
   void initState() {
     super.initState();
     buildImage();
-    stream = FirebaseFirestore.instance.collection('decks').where('user_email', isEqualTo: user!.email).snapshots();
-    
-    decksCounter = stream!.listen(
-      (snapshot) {
-        decksQnt = snapshot.docs.length.toString();
-      }
-    );
-  }
+    stream =
+        FirebaseFirestore.instance
+            .collection('decks')
+            .where('user_email', isEqualTo: user!.email)
+            .snapshots();
 
+    decksCounter = stream!.listen((snapshot) {
+      decksQnt = snapshot.docs.length.toString();
+    });
+  }
 
   @override
   void dispose() {
@@ -50,14 +50,12 @@ class _UserPageState extends State<UserPage> {
     super.dispose();
   }
 
-
   void buildImage() async {
     final image = await database.getUserImage(user!.email!);
     setState(() {
       _imageBytes = image;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,21 +95,21 @@ class _UserPageState extends State<UserPage> {
                               shape: BoxShape.circle,
                               color: Colors.grey[300],
                               image:
-                                _imageBytes != null
-                                    ? DecorationImage(
-                                      image: MemoryImage(_imageBytes!),
-                                      fit: BoxFit.cover,
-                                    )
-                                    : null,
+                                  _imageBytes != null
+                                      ? DecorationImage(
+                                        image: MemoryImage(_imageBytes!),
+                                        fit: BoxFit.cover,
+                                      )
+                                      : null,
                             ),
                             child:
-                              _imageBytes == null
-                                  ? Icon(
-                                    Icons.person,
-                                    size: 50,
-                                    color: Colors.white,
-                                  )
-                                  : null,
+                                _imageBytes == null
+                                    ? Icon(
+                                      Icons.person,
+                                      size: 50,
+                                      color: Colors.white,
+                                    )
+                                    : null,
                           ),
                         ],
                       ),
@@ -125,10 +123,10 @@ class _UserPageState extends State<UserPage> {
                     Center(
                       child: ElevatedButton(
                         onPressed:
-                          () => Navigator.pushReplacementNamed(
-                            context,
-                            '/edituser',
-                          ),
+                            () => Navigator.pushReplacementNamed(
+                              context,
+                              '/edituser',
+                            ),
                         child: Text('Edit Profile'),
                       ),
                     ),
@@ -156,14 +154,17 @@ class _UserPageState extends State<UserPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text('Aember'),
+                            Text('Chains'),
                           ],
                         ),
                       ],
                     ),
                     Text(
                       'My Decks:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
 
                     Row(
@@ -171,36 +172,51 @@ class _UserPageState extends State<UserPage> {
                       children: [
                         Text(
                           "Select a sorting method: ",
-                          style: TextStyle(fontSize: 16)
+                          style: TextStyle(fontSize: 16),
                         ),
                         DropdownButton(
                           value: orderBy,
                           items: [
                             DropdownMenuItem(value: 'sas', child: Text('SAS')),
-                            DropdownMenuItem(value: 'name', child: Text('Name')),
-                            DropdownMenuItem(value: 'aerc', child: Text('AERC')),
-                            DropdownMenuItem(value: 'synergy', child: Text('Synergy'))
+                            DropdownMenuItem(
+                              value: 'name',
+                              child: Text('Name'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'aerc',
+                              child: Text('AERC'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'synergy',
+                              child: Text('Synergy'),
+                            ),
                           ],
                           onChanged: (newOrder) {
                             setState(() {
                               orderBy = newOrder!;
                               stream = stream;
                             });
-                          }
+                          },
                         ),
-              
+
                         DropdownButton(
                           value: desc,
                           items: [
-                            DropdownMenuItem(value: true, child: Icon(Icons.arrow_downward_rounded)),
-                            DropdownMenuItem(value: false, child: Icon(Icons.arrow_upward_rounded)),
+                            DropdownMenuItem(
+                              value: true,
+                              child: Icon(Icons.arrow_downward_rounded),
+                            ),
+                            DropdownMenuItem(
+                              value: false,
+                              child: Icon(Icons.arrow_upward_rounded),
+                            ),
                           ],
                           onChanged: (newDesc) {
                             setState(() {
                               desc = newDesc as bool;
                               stream = stream;
                             });
-                          }
+                          },
                         ),
                       ],
                     ),
@@ -208,7 +224,6 @@ class _UserPageState extends State<UserPage> {
                     StreamBuilder(
                       stream: stream,
                       builder: (context, snapshot) {
-                                  
                         if (!snapshot.hasData) {
                           return Text(
                             "Loading Decks ......",
@@ -216,37 +231,37 @@ class _UserPageState extends State<UserPage> {
                               fontSize: 16,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold,
-                            )
+                            ),
                           );
                         }
 
                         if (snapshot.hasError) {
                           return Text("Error: ${snapshot.error}");
                         }
-                                  
+
                         List decks = snapshot.data!.docs;
-                                  
+
                         decks.sort((a, b) {
                           var itemA = a[orderBy];
                           var itemB = b[orderBy];
-                          
+
                           if (desc) {
                             return itemB.compareTo(itemA);
                           }
-                                  
+
                           return itemA.compareTo(itemB);
                         });
-                                  
+
                         List<Widget> widgets = [];
-                                  
-                        for (var deck in decks){
+
+                        for (var deck in decks) {
                           widgets.add(CardWidget(data: deck.data()));
                         }
-                                  
+
                         return Column(children: widgets);
-                      }
+                      },
                     ),
-                    SizedBox(height: 100,)
+                    SizedBox(height: 100),
                   ],
                 ),
               ),
