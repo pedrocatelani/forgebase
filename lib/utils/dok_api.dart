@@ -71,8 +71,33 @@ class DoKApi {
       "keyCheatCount": deck["keyCheatCount"] ?? 0,
       "houses": houses,
       "housesNames": houseNames,
+      "lastSasUpdate": deck["lastSasUpdate"] ?? 0,
     };
     
     return parsed;
+  }
+
+
+  Future<Map<dynamic, dynamic>> importDoKDecks(String apiKey) async {
+    var url = Uri.parse(
+      "https://decksofkeyforge.com/public-api/v1/my-decks?page=0",
+    );
+
+    var response = await http.get(url, headers: {"Api-Key": apiKey});
+
+    if (response.statusCode == 200) {
+      List decks = [];
+
+      for (var deck in json.decode(utf8.decode(response.bodyBytes))) {
+        decks.add(deckParse(deck["deck"]));
+      } 
+
+      return {
+        "status": response.statusCode,
+        "decks": decks,
+      };
+    } else {
+      return {"status": response.statusCode};
+    }
   }
 }

@@ -13,10 +13,12 @@ class FirebaseColletion {
     await _db.collection('users').doc(email).set(data);
   }
 
+
   Future<String> getApiKey(String userEmail) async {
     DocumentSnapshot doc = await _db.collection('users').doc(userEmail).get();
     return doc['api_key'];
   }
+
 
   Future<void> insertDeck(
     String userEmail,
@@ -27,6 +29,7 @@ class FirebaseColletion {
 
     await _db.collection('decks').doc(deckId).set(deckData);
   }
+
 
   Future<void> uploadUserImage(String userEmail, BuildContext context) async {
     final picker = ImagePicker();
@@ -55,6 +58,7 @@ class FirebaseColletion {
     }
   }
 
+
   Future<Uint8List?> getUserImage(String userEmail) async {
     // ignore: unnecessary_null_comparison
     if (userEmail != null) {
@@ -67,6 +71,7 @@ class FirebaseColletion {
     return null;
   }
 
+
   Future<void> unlinkDecksUser(String userEmail) async {
     final decksReference = _db.collection('decks');
     final querySnapshot =
@@ -76,9 +81,11 @@ class FirebaseColletion {
     }
   }
 
+
   Future<void> deleteUserDocument(String userEmail) async {
     _db.collection('users').doc(userEmail).delete();
   }
+
 
   Future<bool> updateApiKey(String userEmail, String apiKey) async {
     String dokiD = 'c340a4e0-eec2-4b80-b333-178b65b6f596';
@@ -91,6 +98,7 @@ class FirebaseColletion {
     }
     return false;
   }
+
 
   Future<void> saveDeck(
     String dokiD,
@@ -136,5 +144,86 @@ class FirebaseColletion {
         }
       }
     }
+  }
+
+
+  Future<int> saveOrUpdateDeck (var deck, userEmail, context, {bool showMessages=false}) async {
+    final checkDeckRegistered = await _db.collection('decks').where('vaulId', isEqualTo: deck["vaulId"]).get();
+    
+    if (checkDeckRegistered.docs.isEmpty) {
+      await insertDeck(userEmail, deck["vaulId"], deck);
+
+      if(showMessages){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("The deck: ${deck['name']} registered!")),
+        );
+      }
+
+      return 0;
+    } 
+
+    Map deckOnDb = checkDeckRegistered.docs[0].data();
+
+    if (deckOnDb["user_email"] == "") {
+      await insertDeck(userEmail, deck["vaulId"], deck);
+      
+      if (showMessages) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("You have discovered an abandoned deck: ${deck['name']}")),
+        );
+      }
+
+      return 0;
+    }
+
+    if (deckOnDb["user_email"] != userEmail) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("The deck: ${deck['name']} is already owned by another user!")),
+      );
+
+      return 1;
+    } 
+
+    if (deckOnDb["lastSasUpdate"] != deck["lastSasUpdate"]) {
+      await insertDeck(userEmail, deck["vaulId"], deck);
+
+      if (showMessages) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("The deck: ${deck['name']} was updated!")),
+        );
+      }
+
+      return 0;
+    }
+
+    if (showMessages) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("The deck: ${deck['name']} is already up to date!")),
+      );
+    }
+
+    return 0;
+  }
+
+
+  Future<int> syncDoK (String userEmail, BuildContext context) async {
+    final apiKey = await getApiKey(userEmail);
+    final decks = await DoKApi().importDoKDecks(apiKey);
+
+    if (decks["status"] == 200) {
+      for (var deck in decks["decks"]) {
+        await saveOrUpdateDeck(deck, userEmail, context);
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Decks synced!")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Something went wrong! \nTry checking your Api Key and internet connection!", )),
+      );
+    }
+
+    return 0;
   }
 }

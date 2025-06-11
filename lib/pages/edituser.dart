@@ -47,8 +47,9 @@ class _EditUserPageState extends State<EditUserPage> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 spacing: 16,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(height: 200),
+                  Container(height: 80),
                   Text('${user?.displayName}', style: TextStyle(fontSize: 20)),
                   TextField(
                     controller: txtUserName,
@@ -119,6 +120,38 @@ class _EditUserPageState extends State<EditUserPage> {
                       minimumSize: Size(double.infinity, 60),
                     ),
                     child: Text('Change Image', style: TextStyle(fontSize: 18)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      showDialog(barrierDismissible: false, context: context, builder: (context) =>
+                        AlertDialog(
+                          title: Text("Syncing Decks......"),
+                          actions: [Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(),
+                            ],
+                          )],
+                        )
+                      );
+
+                      await database.syncDoK(user!.email!, context);
+
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 60),
+                      backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                      shadowColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 8,
+                      children: [
+                        Icon(Icons.sync_rounded),
+                        Text('Sync decks with Decks of KeyForge', style: TextStyle(fontSize: 18)),
+                      ],
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () => authService.logout(context),
