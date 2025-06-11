@@ -25,7 +25,7 @@ class _UserPageState extends State<UserPage> {
   String? orderBy = 'sas';
   bool desc = true;
   Stream? stream;
-  String decksQnt = '0';
+  String? decksQnt;
   StreamSubscription? decksCounter;
   Uint8List? _imageBytes;
 
@@ -136,7 +136,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              decksQnt,
+                              decksQnt ?? "0",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
