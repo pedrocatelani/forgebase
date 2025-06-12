@@ -60,6 +60,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     _SelectedTab _selectedTab = _SelectedTab.user;
+    stream = stream;
 
     void _onTapChange(int index) {
       setState(() {
@@ -194,7 +195,6 @@ class _UserPageState extends State<UserPage> {
                           onChanged: (newOrder) {
                             setState(() {
                               orderBy = newOrder!;
-                              stream = stream;
                             });
                           },
                         ),
@@ -214,7 +214,6 @@ class _UserPageState extends State<UserPage> {
                           onChanged: (newDesc) {
                             setState(() {
                               desc = newDesc as bool;
-                              stream = stream;
                             });
                           },
                         ),

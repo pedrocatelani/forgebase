@@ -149,7 +149,7 @@ class _EditUserPageState extends State<EditUserPage> {
                       spacing: 8,
                       children: [
                         Icon(Icons.sync_rounded),
-                        Text('Sync decks with Decks of KeyForge', style: TextStyle(fontSize: 18)),
+                        Text('Sync decks with DoK', style: TextStyle(fontSize: 18)),
                       ],
                     ),
                   ),
