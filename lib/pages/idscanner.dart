@@ -40,104 +40,102 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Expanded(
-            child: MobileScanner(
-              controller: cameraController,
-              onDetect: (capture) async {
-                final List<Barcode> barcodes = capture.barcodes;
-                for (final barcode in barcodes) {
-                  setState(() {
-                    qrCode = barcode.rawValue;
-                    if (qrCode != null && qrCode!.length >= 17) {
-                      idDeck = qrCode!.substring(qrCode!.length - 17);
-                      idDeck = idDeck!.replaceAll('-', '');
-
-                      cameraController.stop();
-
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Deck has been found!"),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+          MobileScanner(
+            controller: cameraController,
+            onDetect: (capture) async {
+              final List<Barcode> barcodes = capture.barcodes;
+              for (final barcode in barcodes) {
+                setState(() {
+                  qrCode = barcode.rawValue;
+                  if (qrCode != null && qrCode!.length >= 17) {
+                    idDeck = qrCode!.substring(qrCode!.length - 17);
+                    idDeck = idDeck!.replaceAll('-', '');
+          
+                    cameraController.stop();
+          
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Deck has been found!"),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          content: SizedBox(
+                            child: Text(
+                              "Deck id: $idDeck! \nit's a great deck! Would you like to add him to your decks?",
                             ),
-                            content: SizedBox(
-                              child: Text(
-                                "Deck id: $idDeck! \nit's a great deck! Would you like to add him to your decks?",
+                          ),
+          
+                          actions: [
+                            TextButton(
+                              style: FilledButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 25,
+                                  vertical: 8,
+                                ),
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  138,
+                                  16,
+                                  159,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                foregroundColor: Colors.white,
                               ),
+          
+                              child: Text("Return"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+          
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Deck Not Added!"),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+          
+                                cameraController.start();
+                              },
                             ),
-
-                            actions: [
-                              TextButton(
-                                style: FilledButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 25,
-                                    vertical: 8,
-                                  ),
-                                  backgroundColor: const Color.fromARGB(
-                                    255,
-                                    138,
-                                    16,
-                                    159,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  foregroundColor: Colors.white,
+          
+                            TextButton(
+                              style: FilledButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 25,
+                                  vertical: 8,
                                 ),
-
-                                child: Text("Return"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Deck Not Added!"),
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  );
-
-                                  cameraController.start();
-                                },
-                              ),
-
-                              TextButton(
-                                style: FilledButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 25,
-                                    vertical: 8,
-                                  ),
-                                  backgroundColor: const Color.fromARGB(
-                                    255,
-                                    138,
-                                    16,
-                                    159,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  foregroundColor: Colors.white,
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  138,
+                                  16,
+                                  159,
                                 ),
-                                child: Text("Add"),
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    "/mastervault",
-                                    arguments: idDeck.toString(),
-                                  );
-                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                foregroundColor: Colors.white,
                               ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  });
-                }
-              },
-            ),
+                              child: Text("Add"),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  "/mastervault",
+                                  arguments: idDeck.toString(),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                });
+              }
+            },
           ),
           Positioned(
             top: 40,

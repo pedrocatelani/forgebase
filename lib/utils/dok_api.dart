@@ -79,25 +79,41 @@ class DoKApi {
 
 
   Future<Map<dynamic, dynamic>> importDoKDecks(String apiKey) async {
-    var url = Uri.parse(
-      "https://decksofkeyforge.com/public-api/v1/my-decks?page=0",
-    );
+    int count = 0;
+    List decks = [];
+    http.Response response;
+    List responseDecks;
 
-    var response = await http.get(url, headers: {"Api-Key": apiKey});
+    while (true) {
+      var url = Uri.parse(
+        "https://decksofkeyforge.com/public-api/v1/my-decks?page=$count",
+      );
 
-    if (response.statusCode == 200) {
-      List decks = [];
+      response = await http.get(url, headers: {"Api-Key": apiKey});
 
-      for (var deck in json.decode(utf8.decode(response.bodyBytes))) {
-        decks.add(deckParse(deck["deck"]));
+      if (response.statusCode == 200) {
+        responseDecks = json.decode(utf8.decode(response.bodyBytes));
+
+        if (responseDecks.isEmpty) {
+          break;
+        }
+
+        for (var deck in responseDecks) {
+          decks.add(deckParse(deck["deck"]));
+        } 
       } 
+      else {
+        //caso haja erro na solicitação
+        return {"status": response.statusCode};
+      }
 
-      return {
-        "status": response.statusCode,
-        "decks": decks,
-      };
-    } else {
-      return {"status": response.statusCode};
+      count ++;
     }
+
+  return {
+    "status": response.statusCode,
+    "decks": decks,
+  };
+    
   }
 }
