@@ -3,11 +3,9 @@ import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:forgebase/components/card.dart';
 import 'package:iconly/iconly.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:forgebase/components/footer.dart';
+import 'package:path/path.dart';
 
 enum _SelectedTab { user, home, camera }
-Stream? stream;
-int pagesCounter = 1;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,22 +15,78 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ScrollController scroll = ScrollController();
   String orderBy = 'sas';
   bool desc = true;
-
-  @override
-  void dispose() {
-    scroll.dispose();
-    super.dispose();
-  }
-
+  final ScrollController _scrollController = ScrollController();
+  int limit = 20;
+  bool isLoading = false;
+  bool hasMore = true;
+  List documents = [];
+  DocumentSnapshot? lastDoc;
 
   @override
   void initState() {
     super.initState();
-    stream = FirebaseFirestore.instance.collection('decks').orderBy('sas', descending: true).limit(10).snapshots();
-    pagesCounter = 1;
+    _scrollController.addListener(_scrollListener);
+    load(context);
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+  }
+
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !isLoading && hasMore) {
+      load(context);
+    }
+  }
+
+
+  Future<void> load (context) async {
+    if (isLoading || !hasMore) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      Query query = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc);
+      if (documents.isEmpty) {
+        query = query.limit(limit);
+      }
+      else {
+        query = query.startAfterDocument(lastDoc!).limit(limit);
+      }
+
+      QuerySnapshot snapshot = await query.get();
+      if (snapshot.docs.isNotEmpty) {
+        documents.addAll(snapshot.docs);
+        lastDoc = snapshot.docs.last;
+        hasMore = snapshot.docs.length == limit;
+      } 
+      else {
+        hasMore = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("You've reached the end of the line!")),
+        );
+      }
+    }
+    catch(e) {
+      print('error loading data: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("An error has ocurred! ;-;")),
+      );
+    }
+    finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
 
@@ -46,26 +100,6 @@ class _HomePageState extends State<HomePage> {
       });
 
       Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
-    }
-
-    
-    void _nextPage(var last) {
-      setState(() {
-          scroll.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-          stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).startAfterDocument(last).limit(10).snapshots();
-          pagesCounter ++;
-        }
-      );
-    }
-
-
-    void _prevPage(var first) {
-      setState(() {
-          scroll.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-          stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).endBeforeDocument(first).limitToLast(10).snapshots();
-          pagesCounter --;
-        }
-      );
     }
 
 
@@ -93,8 +127,10 @@ class _HomePageState extends State<HomePage> {
                   onChanged: (newOrder) {
                     setState(() {
                       orderBy = newOrder!;
-                      stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).limit(10).snapshots();
-                      pagesCounter = 1;
+                      documents.clear();
+                      lastDoc = null;
+                      hasMore = true;
+                      load(context);
                     });
                   }
                 ),
@@ -108,69 +144,45 @@ class _HomePageState extends State<HomePage> {
                   onChanged: (newDesc) {
                     setState(() {
                       desc = newDesc as bool;
-                      stream = FirebaseFirestore.instance.collection('decks').orderBy(orderBy, descending: desc).limit(10).snapshots();
-                      pagesCounter = 1;
+                      documents.clear();
+                      lastDoc = null;
+                      hasMore = true;
+                      load(context);
                     });
                   }
                 ),
               ],
             ),
-            Flexible(
-              child:
-              StreamBuilder(
-                stream: stream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Text(
-                      "Loading Decks ......",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                      )
-                    );
-                  }
 
-                  List<Widget> widgets = [];
-
-                  for (var deck in snapshot.data!.docs){
-                    widgets.add(CardWidget(data: deck.data()));
-                  }
-
-                  Widget prevButton = TextButton(onPressed:() => {},
-                    child: Text("Previous Page",
-                      style: TextStyle(color: const Color.fromARGB(255, 139, 139, 139)),
-                    )
-                  );
-
-                  Widget nextButton = TextButton(onPressed:() => {},
-                    child: Text("Next Page",
-                      style: TextStyle(color: const Color.fromARGB(255, 139, 139, 139)),
-                    )
-                  );
-
-                  if (pagesCounter > 1) {
-                    prevButton = TextButton(onPressed:() => _prevPage(snapshot.data!.docs.first), child: Text("Previous Page"));
-                  }
-
-                  if (snapshot.data!.size == 10) {
-                    nextButton = TextButton(onPressed:() => _nextPage(snapshot.data!.docs.last), child: Text("Next Page"));
-                  }
-
-                  widgets.add(Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [prevButton, nextButton],
-                  ));
-
-                  return ListView(
-                    controller: scroll,
-                    children: widgets,
-                  );
-                }
-              )
-            ),
-            
-            // FooterWidget(),]
+            Expanded( 
+              child: documents.isEmpty && isLoading ? 
+                Center(child: CircularProgressIndicator())
+                : documents.isEmpty && !isLoading && !hasMore ?
+                  Center(child: Text('No decks were found!?'))
+                  : ListView.builder(
+                      controller: _scrollController,
+                      itemCount: documents.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == documents.length) {
+                          return 
+                            isLoading ? 
+                              Center(child: CircularProgressIndicator()) 
+                              : hasMore? SizedBox.shrink() 
+                              : Center(
+                                child: Text(
+                                  'No more decks!',
+                                  style: TextStyle(
+                                    color: const Color.fromARGB(255, 160, 118, 233),
+                                    fontSize: 16
+                                  ),
+                                )
+                              );
+                        }
+                    
+                        return CardWidget(data: documents[index].data());
+                      }
+                  ),
+            )
           ],
         ),
       ),
