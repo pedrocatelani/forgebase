@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:forgebase/pages/about.dart';
 import 'package:forgebase/pages/deck.dart';
 import 'package:forgebase/pages/edituser.dart';
 import 'package:forgebase/pages/home.dart';
@@ -37,14 +38,15 @@ class ForgeBaseApp extends StatelessWidget {
     return MaterialApp(
       theme: geistoidTheme,
       routes: {
-        "/home": (context) => HomePage(),
-        "/deck": (context) => DeckPage(),
-        "/user": (context) => UserPage(),
+        "/about": (context) => AboutPage(),
         "/camera": (context) => QRScannerScreen(),
-        "/login": (context) => LoginPage(),
-        "/register": (context) => RegisterPage(),
+        "/deck": (context) => DeckPage(),
         "/edituser": (context) => EditUserPage(),
+        "/home": (context) => HomePage(),
+        "/login": (context) => LoginPage(),
         "/mastervault": (context) => MasterVault(),
+        "/register": (context) => RegisterPage(),
+        "/user": (context) => UserPage(),
       },
       debugShowCheckedModeBanner: false,
       initialRoute: _auth.currentUser == null ? "/login" : "/home",

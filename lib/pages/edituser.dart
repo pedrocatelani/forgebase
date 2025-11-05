@@ -123,16 +123,19 @@ class _EditUserPageState extends State<EditUserPage> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      showDialog(barrierDismissible: false, context: context, builder: (context) =>
-                        AlertDialog(
-                          title: Text("Syncing Decks......"),
-                          actions: [Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(),
-                            ],
-                          )],
-                        )
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder:
+                            (context) => AlertDialog(
+                              title: Text("Syncing Decks......"),
+                              actions: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [CircularProgressIndicator()],
+                                ),
+                              ],
+                            ),
                       );
 
                       await database.syncDoK(user!.email!, context);
@@ -149,7 +152,10 @@ class _EditUserPageState extends State<EditUserPage> {
                       spacing: 8,
                       children: [
                         Icon(Icons.sync_rounded),
-                        Text('Sync decks with DoK', style: TextStyle(fontSize: 18)),
+                        Text(
+                          'Sync decks with DoK',
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ],
                     ),
                   ),
@@ -221,6 +227,22 @@ class _EditUserPageState extends State<EditUserPage> {
                       children: [
                         Icon(Icons.delete_forever_outlined),
                         Text('Delete Account', style: TextStyle(fontSize: 18)),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pushNamed(context, "/about"),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 60),
+                      backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                      shadowColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 8,
+                      children: [
+                        Icon(Icons.question_mark),
+                        Text('About', style: TextStyle(fontSize: 18)),
                       ],
                     ),
                   ),
