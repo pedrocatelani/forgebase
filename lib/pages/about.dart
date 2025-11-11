@@ -152,6 +152,7 @@ class AboutPage extends StatelessWidget {
                               "https://challonge.com/pt_BR/connect.html",
                             ),
                       ),
+                      Container(height: 32),
                     ],
                   ),
                 ),
