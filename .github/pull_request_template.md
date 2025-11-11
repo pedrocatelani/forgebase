@@ -7,3 +7,12 @@
 > - [ ] Correções
 > - [ ] Funcionalidades adicionadas
 > - [ ] Refatoramentos
+
+## Mudanças feitas neste PR:
+### Principal área de alteração: 
+
+->
+
+## Como testar esse PR?
+
+->
