@@ -9,6 +9,12 @@ class FirebaseColletion {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final dokApi = DoKApi();
 
+  void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(SnackBar(content: Text(message)));
+  }
+
   Future<void> insertUser(String email, var data) async {
     await _db.collection('users').doc(email).set(data);
   }
@@ -100,7 +106,7 @@ class FirebaseColletion {
   }
 
 
-  Future<void> saveDeck(
+  Future<bool> saveDeck(
     String dokiD,
     String userEmail,
     BuildContext context,
@@ -118,15 +124,11 @@ class FirebaseColletion {
           dokiD,
           Map<String, dynamic>.from(result['deck']),
         );
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Success!\nDeck saved!")));
+        _showSnackBar(context, "Success!\nDeck saved!");
+        return true;
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Error to find the Deck! ${result['status']}"),
-          ),
-        );
+        _showSnackBar(context, "Error to find the Deck! ${result['status']}");
+        return false;
       }
     } else {
       for (var doc in checkDeckRegistered.docs) {
@@ -134,16 +136,15 @@ class FirebaseColletion {
           await _db.collection('decks').doc(dokiD).update({
             'user_email': userEmail,
           });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("You have discovered an abandoned deck")),
-          );
+          _showSnackBar(context, "You have discovered an abandoned deck");
+          return true;
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("This deck is already registered")),
-          );
+          _showSnackBar(context, "This deck is already registered");
+          return false;
         }
       }
     }
+    return false;
   }
 
 
