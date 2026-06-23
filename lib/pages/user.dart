@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/card.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
-import 'package:iconly/iconly.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum _SelectedTab { user, home, camera }
@@ -278,20 +277,20 @@ class _UserPageState extends State<UserPage> {
             enableFloatingNavBar: true,
             items: [
               CrystalNavigationBarItem(
-                icon: IconlyBold.user_2,
-                unselectedIcon: IconlyLight.user,
+                icon: Icons.person,
+                unselectedIcon: Icons.person_outline,
                 selectedColor: Color.fromARGB(255, 138, 80, 238),
                 unselectedColor: Color.fromARGB(255, 138, 80, 238),
               ),
               CrystalNavigationBarItem(
-                icon: IconlyBold.home,
-                unselectedIcon: IconlyLight.home,
+                icon: Icons.home,
+                unselectedIcon: Icons.home_outlined,
                 selectedColor: Color.fromARGB(255, 138, 80, 238),
                 unselectedColor: Color.fromARGB(255, 138, 80, 238),
               ),
               CrystalNavigationBarItem(
-                icon: IconlyBold.category,
-                unselectedIcon: IconlyLight.category,
+                icon: Icons.qr_code_scanner,
+                unselectedIcon: Icons.qr_code_scanner_outlined,
                 selectedColor: Color.fromARGB(255, 138, 80, 238),
                 unselectedColor: Color.fromARGB(255, 138, 80, 238),
               ),

@@ -1,6 +1,6 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 enum _SelectedTab { user, home, camera }
@@ -19,8 +19,21 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     cameraController.stop();
     cameraController.start();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    idController.dispose();
+    super.dispose();
   }
 
   void _onTapChange(int index) {
@@ -261,20 +274,20 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           enableFloatingNavBar: true,
           items: [
             CrystalNavigationBarItem(
-              icon: IconlyBold.user_2,
-              unselectedIcon: IconlyLight.user,
+              icon: Icons.person,
+              unselectedIcon: Icons.person_outline,
               selectedColor: Color.fromARGB(255, 138, 80, 238),
               unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
             CrystalNavigationBarItem(
-              icon: IconlyBold.home,
-              unselectedIcon: IconlyLight.home,
+              icon: Icons.home,
+              unselectedIcon: Icons.home_outlined,
               selectedColor: Color.fromARGB(255, 138, 80, 238),
               unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
             CrystalNavigationBarItem(
-              icon: IconlyBold.category,
-              unselectedIcon: IconlyLight.category,
+              icon: Icons.qr_code_scanner,
+              unselectedIcon: Icons.qr_code_scanner_outlined,
               selectedColor: Color.fromARGB(255, 138, 80, 238),
               unselectedColor: Color.fromARGB(255, 138, 80, 238),
             ),
