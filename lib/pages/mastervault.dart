@@ -15,6 +15,13 @@ class MasterVault extends StatefulWidget {
 class _MasterVaultState extends State<MasterVault> {
   User? user = FirebaseAuth.instance.currentUser;
   final FirebaseColletion database = FirebaseColletion();
+  bool _isSavingDeck = false;
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(SnackBar(content: Text(message)));
+  }
 
   void _close(String deckId) {
     Clipboard.setData(ClipboardData(text: deckId)).then((_) {
@@ -208,15 +215,25 @@ class _MasterVaultState extends State<MasterVault> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 164, 19, 255),
         onPressed: () async {
+          if (_isSavingDeck) {
+            return;
+          }
+
+          setState(() {
+            _isSavingDeck = true;
+          });
+
           String? url = await _controller.currentUrl();
 
+          if (!mounted) {
+            return;
+          }
+
           if (url == null || url.length < 36) {
-            Future.delayed(Duration.zero, () {
-              ScaffoldMessenger.of(
-                // ignore: use_build_context_synchronously
-                context,
-              ).showSnackBar(const SnackBar(content: Text("Invalid Url")));
+            setState(() {
+              _isSavingDeck = false;
             });
+            _showSnackBar("Invalid Url");
             return;
           }
 
@@ -225,22 +242,49 @@ class _MasterVaultState extends State<MasterVault> {
           final validIdRegex = RegExp(r'^[a-zA-Z0-9-]{36}$');
 
           if (!validIdRegex.hasMatch(dokId)) {
-            Future.delayed(Duration.zero, () {
-              ScaffoldMessenger.of(
-                // ignore: use_build_context_synchronously
-                context,
-              ).showSnackBar(const SnackBar(content: Text("Invalid Id")));
+            setState(() {
+              _isSavingDeck = false;
             });
+            _showSnackBar("Invalid Id");
             return;
           }
 
-          // ignore: use_build_context_synchronously
-          await database.saveDeck(dokId, user!.email!, context);
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacementNamed(context, "/user");
+          try {
+            final deckSaved = await database.saveDeck(dokId,user!.email!, context);
+
+            if (!mounted) {
+              return;
+            }
+
+            if (deckSaved) {
+              Navigator.pushReplacementNamed(context, "/user");
+            }
+          } catch (_) {
+            if (!mounted) {
+              return;
+            }
+
+            _showSnackBar("Failed to save deck. Please try again.");
+          } finally {
+            if (mounted) {
+              setState(() {
+                _isSavingDeck = false;
+              });
+            }
+          }
         },
 
-        child: const Icon(Icons.save),
+        child:
+            _isSavingDeck
+                ? const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                )
+                : const Icon(Icons.save),
       ),
     );
   }
