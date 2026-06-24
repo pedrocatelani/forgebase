@@ -4,6 +4,7 @@ import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/cardgradient.dart';
 import 'package:forgebase/components/infocard.dart';
 import 'package:forgebase/utils/_get_info.dart';
+import 'package:forgebase/utils/translate.dart';
 
 enum _SelectedTab { user, home, camera }
 
@@ -157,15 +158,15 @@ class _DeckPageState extends State<DeckPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Base AERC',
+                          translate('DECK.BASE_AERC'),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          'Synergy',
+                          translate('DECK.SYNERGY'),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          'Anti Synergy',
+                          translate('DECK.ANTI_SYNERGY'),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -196,7 +197,7 @@ class _DeckPageState extends State<DeckPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text('Percentile'),
+                        Text(translate('DECK.PERCENTILE')),
                       ],
                     ),
                   ],
@@ -205,22 +206,22 @@ class _DeckPageState extends State<DeckPage> {
                 CardGradient(
                   color: const Color.fromARGB(255, 207, 204, 22),
                   title: Text(
-                    'Aember',
+                    translate('DECK.AEMBER'),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Expected',
+                  cardTitle: translate('DECK.EXPECTED'),
                   info: deckInfo!['expectedAember'].toStringAsFixed(2),
                   icon: Icon(Icons.diamond, color: Colors.amber),
                 ),
                 InfoCard(
-                  cardTitle: 'Control',
+                  cardTitle: translate('DECK.CONTROL'),
                   info: deckInfo!['aemberControl'].toStringAsFixed(2),
                   icon: Icon(Icons.diamond, color: Colors.red),
                 ),
                 InfoCard(
-                  cardTitle: 'Bonus',
+                  cardTitle: translate('DECK.BONUS'),
                   info: deckInfo!['bonusAember'].toString(),
                   icon: Icon(Icons.plus_one, color: Colors.amber),
                 ),
@@ -228,22 +229,22 @@ class _DeckPageState extends State<DeckPage> {
                 CardGradient(
                   color: const Color.fromARGB(255, 255, 20, 20),
                   title: Text(
-                    'Creature',
+                    translate('DECK.CREATURE'),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Control',
+                  cardTitle: translate('DECK.CONTROL'),
                   info: deckInfo!['creatureControl'].toStringAsFixed(2),
                   icon: Icon(Icons.south_west_rounded, color: Colors.red),
                 ),
                 InfoCard(
-                  cardTitle: 'Effective Power',
+                  cardTitle: translate('DECK.EFFECTIVE_POWER'),
                   info: deckInfo!['effectivePower'].toString(),
                   icon: Icon(Icons.people, color: Colors.amber),
                 ),
                 InfoCard(
-                  cardTitle: 'Protection',
+                  cardTitle: translate('DECK.PROTECTION'),
                   info: deckInfo!['creatureProtection'].toStringAsFixed(2),
                   icon: Icon(Icons.shield, color: Colors.blue),
                 ),
@@ -251,22 +252,22 @@ class _DeckPageState extends State<DeckPage> {
                 CardGradient(
                   color: const Color.fromARGB(255, 22, 155, 207),
                   title: Text(
-                    'Speed',
+                    translate('DECK.SPEED'),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Efficiency',
+                  cardTitle: translate('DECK.EFFICIENCY'),
                   info: deckInfo!['efficiency'].toStringAsFixed(2),
                   icon: Icon(Icons.speed, color: Colors.blue),
                 ),
                 InfoCard(
-                  cardTitle: 'Disruption',
+                  cardTitle: translate('DECK.DISRUPTION'),
                   info: deckInfo!['disruption'].toStringAsFixed(2),
                   icon: Icon(Icons.undo, color: Colors.red),
                 ),
                 InfoCard(
-                  cardTitle: 'Recursion',
+                  cardTitle: translate('DECK.RECURSION'),
                   info: deckInfo!['recursion'].toStringAsFixed(2),
                   icon: Icon(Icons.wifi_protected_setup, color: Colors.blue),
                 ),
@@ -274,12 +275,12 @@ class _DeckPageState extends State<DeckPage> {
                 CardGradient(
                   color: const Color.fromARGB(255, 68, 192, 19),
                   title: Text(
-                    'Extras',
+                    translate('DECK.EXTRAS'),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Other',
+                  cardTitle: translate('DECK.OTHER'),
                   info: deckInfo!['other'].toStringAsFixed(2),
                   icon: Icon(
                     Icons.wifi_protected_setup,
@@ -290,12 +291,12 @@ class _DeckPageState extends State<DeckPage> {
                 CardGradient(
                   color: const Color.fromARGB(255, 255, 25, 167),
                   title: Text(
-                    'Card Count',
+                    translate('DECK.CARD_COUNT'),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Creature',
+                  cardTitle: translate('DECK.CREATURE'),
                   info: deckInfo!['creatureCount'].toString(),
                   icon: Icon(
                     Icons.people_outline,
@@ -303,7 +304,7 @@ class _DeckPageState extends State<DeckPage> {
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Action',
+                  cardTitle: translate('DECK.ACTION'),
                   info: deckInfo!['actionCount'].toString(),
                   icon: Icon(
                     Icons.double_arrow_outlined,
@@ -311,7 +312,7 @@ class _DeckPageState extends State<DeckPage> {
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Artifact',
+                  cardTitle: translate('DECK.ARTIFACT'),
                   info: deckInfo!['artifactCount'].toString(),
                   icon: Icon(
                     Icons.account_balance,
@@ -319,7 +320,7 @@ class _DeckPageState extends State<DeckPage> {
                   ),
                 ),
                 InfoCard(
-                  cardTitle: 'Upgrade',
+                  cardTitle: translate('DECK.UPGRADE'),
                   info: deckInfo!['upgradeCount'].toString(),
                   icon: Icon(
                     Icons.pin_end_sharp,

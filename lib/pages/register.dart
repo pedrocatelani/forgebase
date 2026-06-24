@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/password_field.dart';
 import 'package:forgebase/utils/_auth_services.dart';
+import 'package:forgebase/utils/translate.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -35,15 +36,15 @@ class _RegisterPageState extends State<RegisterPage> {
     'assets/instructions/instruction18.jpg',
   ];
 
-  final List<String> instructionTexts = [
-    'Step 1: After clicking the link, tap the three-bar icon.',
-    'Step 2: Then tap to log in. If you don\'t have an account, go to Sign Up.',
-    'Step 3: Once logged in, navigate to the "About" section.',
-    'Step 4: Then tap on "APIs".',
-    'Step 5: Scroll down the page.',
-    'Step 6: Then tap on "Generate API Key".',
-    'Step 7: Press and hold your API key.',
-    'Step 8: Then tap "Copy" and return to the app.',
+  final List<String> instructionTextKeys = [
+    'register.instructions.steps.1',
+    'register.instructions.steps.2',
+    'register.instructions.steps.3',
+    'register.instructions.steps.4',
+    'register.instructions.steps.5',
+    'register.instructions.steps.6',
+    'register.instructions.steps.7',
+    'register.instructions.steps.8',
   ];
 
   var txtName = TextEditingController();
@@ -76,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextField(
                       controller: txtName,
                       decoration: InputDecoration(
-                        hintText: "Username",
+                        hintText: translate('AUTH.USERNAME'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
@@ -85,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextField(
                       controller: txtEmail,
                       decoration: InputDecoration(
-                        hintText: "Email",
+                        hintText: translate('AUTH.EMAIL'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
@@ -94,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     PasswordField(
                       controller: txtPassword,
                       decoration: InputDecoration(
-                        hintText: "Password",
+                        hintText: translate('AUTH.PASSWORD'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
@@ -103,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     PasswordField(
                       controller: txtConfirmPassword,
                       decoration: InputDecoration(
-                        hintText: "Confirm password",
+                        hintText: translate('AUTH.CONFIRM_PASSWORD'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
@@ -116,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: PasswordField(
                             controller: txtAPIKey,
                             decoration: InputDecoration(
-                              hintText: "API Key",
+                              hintText: translate('AUTH.API_KEY'),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(22),
                               ),
@@ -153,7 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             txtAPIKey.text.trim(),
                             context,
                           ),
-                      child: Text("Register"),
+                      child: Text(translate('AUTH.REGISTER')),
                     ),
                   ],
                 ),
@@ -176,8 +177,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          "How to Get the Api Key?",
+                        Text(
+                          translate('REGISTER.HOW_TO_GET_API_KEY'),
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -185,8 +186,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text(
-                          'Instructions:',
+                        Text(
+                          translate('COMMON.INSTRUCTIONS'),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -217,8 +218,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     const SizedBox(height: 15),
                                     Flexible(
                                       child: Text(
-                                        instructionTexts[index],
-                                        style: const TextStyle(
+                                        translate(instructionTextKeys[index]),
+                                        style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black87,
@@ -281,8 +282,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 elevation: 2,
                               ),
-                              child: const Text(
-                                'Ok',
+                              child: Text(
+                                translate('COMMON.OK'),
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,

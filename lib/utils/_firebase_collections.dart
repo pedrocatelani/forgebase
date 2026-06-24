@@ -1,8 +1,10 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/utils/dok_api.dart';
-import 'dart:convert';
-import 'dart:typed_data';
+import 'package:forgebase/utils/translate.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FirebaseColletion {
@@ -19,12 +21,10 @@ class FirebaseColletion {
     await _db.collection('users').doc(email).set(data);
   }
 
-
   Future<String> getApiKey(String userEmail) async {
     DocumentSnapshot doc = await _db.collection('users').doc(userEmail).get();
     return doc['api_key'];
   }
-
 
   Future<void> insertDeck(
     String userEmail,
@@ -35,7 +35,6 @@ class FirebaseColletion {
 
     await _db.collection('decks').doc(deckId).set(deckData);
   }
-
 
   Future<void> uploadUserImage(String userEmail, BuildContext context) async {
     final picker = ImagePicker();
@@ -55,15 +54,10 @@ class FirebaseColletion {
           });
         }
       } else {
-        final snackBar = SnackBar(
-          content: Text("Image too large (larger than 1MB)"),
-        );
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        _showSnackBar(context, translate('FIREBASE.IMAGE_TOO_LARGE'));
       }
     }
   }
-
 
   Future<Uint8List?> getUserImage(String userEmail) async {
     // ignore: unnecessary_null_comparison
@@ -77,7 +71,6 @@ class FirebaseColletion {
     return null;
   }
 
-
   Future<void> unlinkDecksUser(String userEmail) async {
     final decksReference = _db.collection('decks');
     final querySnapshot =
@@ -87,11 +80,9 @@ class FirebaseColletion {
     }
   }
 
-
   Future<void> deleteUserDocument(String userEmail) async {
     _db.collection('users').doc(userEmail).delete();
   }
-
 
   Future<bool> updateApiKey(String userEmail, String apiKey) async {
     String dokiD = 'c340a4e0-eec2-4b80-b333-178b65b6f596';
@@ -104,7 +95,6 @@ class FirebaseColletion {
     }
     return false;
   }
-
 
   Future<bool> saveDeck(
     String dokiD,
@@ -124,10 +114,16 @@ class FirebaseColletion {
           dokiD,
           Map<String, dynamic>.from(result['deck']),
         );
-        _showSnackBar(context, "Success!\nDeck saved!");
+        _showSnackBar(context, translate('FIREBASE.DECK_SAVED'));
         return true;
       } else {
-        _showSnackBar(context, "Error to find the Deck! ${result['status']}");
+        _showSnackBar(
+          context,
+          translate(
+            'FIREBASE.DECK_FIND_ERROR',
+            namedArgs: {'status': result['status'].toString()},
+          ),
+        );
         return false;
       }
     } else {
@@ -136,10 +132,10 @@ class FirebaseColletion {
           await _db.collection('decks').doc(dokiD).update({
             'user_email': userEmail,
           });
-          _showSnackBar(context, "You have discovered an abandoned deck");
+          _showSnackBar(context, translate('FIREBASE.ABANDONED_DECK_FOUND'));
           return true;
         } else {
-          _showSnackBar(context, "This deck is already registered");
+          _showSnackBar(context, translate('FIREBASE.DECK_ALREADY_REGISTERED'));
           return false;
         }
       }
@@ -147,30 +143,52 @@ class FirebaseColletion {
     return false;
   }
 
+  Future<int> saveOrUpdateDeck(
+    var deck,
+    userEmail,
+    context, {
+    bool showMessages = false,
+  }) async {
+    final checkDeckRegistered =
+        await _db
+            .collection('decks')
+            .where('vaulId', isEqualTo: deck["vaulId"])
+            .get();
 
-  Future<int> saveOrUpdateDeck (var deck, userEmail, context, {bool showMessages=false}) async {
-    final checkDeckRegistered = await _db.collection('decks').where('vaulId', isEqualTo: deck["vaulId"]).get();
-    
     if (checkDeckRegistered.docs.isEmpty) {
       await insertDeck(userEmail, deck["vaulId"], deck);
 
-      if(showMessages){
+      if (showMessages) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("The deck: ${deck['name']} registered!")),
+          SnackBar(
+            content: Text(
+              translate(
+                'FIREBASE.DECK_REGISTERED_NAMED',
+                namedArgs: {'name': deck['name'].toString()},
+              ),
+            ),
+          ),
         );
       }
 
       return 0;
-    } 
+    }
 
     Map deckOnDb = checkDeckRegistered.docs[0].data();
 
     if (deckOnDb["user_email"] == "") {
       await insertDeck(userEmail, deck["vaulId"], deck);
-      
+
       if (showMessages) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("You have discovered an abandoned deck: ${deck['name']}")),
+          SnackBar(
+            content: Text(
+              translate(
+                'FIREBASE.ABANDONED_DECK_FOUND_NAMED',
+                namedArgs: {'name': deck['name'].toString()},
+              ),
+            ),
+          ),
         );
       }
 
@@ -179,18 +197,32 @@ class FirebaseColletion {
 
     if (deckOnDb["user_email"] != userEmail) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("The deck: ${deck['name']} is already owned by another user!")),
+        SnackBar(
+          content: Text(
+            translate(
+              'FIREBASE.DECK_OWNED_BY_ANOTHER_USER',
+              namedArgs: {'name': deck['name'].toString()},
+            ),
+          ),
+        ),
       );
 
       return 1;
-    } 
+    }
 
     if (deckOnDb["lastSasUpdate"] != deck["lastSasUpdate"]) {
       await insertDeck(userEmail, deck["vaulId"], deck);
 
       if (showMessages) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("The deck: ${deck['name']} was updated!")),
+          SnackBar(
+            content: Text(
+              translate(
+                'FIREBASE.DECK_UPDATED_NAMED',
+                namedArgs: {'name': deck['name'].toString()},
+              ),
+            ),
+          ),
         );
       }
 
@@ -199,15 +231,21 @@ class FirebaseColletion {
 
     if (showMessages) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("The deck: ${deck['name']} is already up to date!")),
+        SnackBar(
+          content: Text(
+            translate(
+              'FIREBASE.DECK_ALREADY_UP_TO_DATE',
+              namedArgs: {'name': deck['name'].toString()},
+            ),
+          ),
+        ),
       );
     }
 
     return 0;
   }
 
-
-  Future<int> syncDoK (String userEmail, BuildContext context) async {
+  Future<int> syncDoK(String userEmail, BuildContext context) async {
     final apiKey = await getApiKey(userEmail);
     final decks = await DoKApi().importDoKDecks(apiKey);
 
@@ -217,11 +255,11 @@ class FirebaseColletion {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Decks synced!")),
+        SnackBar(content: Text(translate('FIREBASE.DECKS_SYNCED'))),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Something went wrong! \nTry checking your Api Key and internet connection!", )),
+        SnackBar(content: Text(translate('FIREBASE.SYNC_ERROR'))),
       );
     }
 

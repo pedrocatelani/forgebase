@@ -1,0 +1,152 @@
+﻿{
+  "COMMON": {
+    "ADD": "Añadir",
+    "BACK": "Atrás",
+    "CLOSE": "Cerrar",
+    "DELETE": "Eliminar",
+    "INSTRUCTIONS": "Instrucciones:",
+    "OK": "Aceptar",
+    "RETURN": "Volver",
+    "SAVE": "Guardar",
+    "SEND": "Enviar"
+  },
+  "AUTH": {
+    "API_KEY": "Clave API",
+    "API_KEY_INVALID": "Clave API inválida",
+    "CONFIRM_PASSWORD": "Confirmar contraseña",
+    "CURRENT_API_KEY_SAME": "La clave API actual es igual a la anterior",
+    "CURRENT_NAME_SAME": "El nombre actual es igual al anterior",
+    "EMAIL": "Correo electrónico",
+    "EMAIL_OR_PASSWORD_INVALID": "Correo electrónico o contraseña inválidos",
+    "ENTER_USER_EMAIL": "Ingrese el correo del usuario",
+    "FORGOT_PASSWORD": "¿Olvidó su contraseña?",
+    "LOGIN": "Iniciar sesión",
+    "LOGIN_WITH": "Iniciar sesión con",
+    "NO_ACCOUNT": "¿No tiene una cuenta?",
+    "PASSWORD": "Contraseña",
+    "PASSWORD_INVALID": "Contraseña inválida",
+    "PASSWORDS_ARE_DIFFERENT": "Las contraseñas no coinciden",
+    "REGISTER": "Registrarse",
+    "REGISTER_ERROR": "Error al registrarse",
+    "SIGN_UP": "Crear cuenta",
+    "UPDATED_API_KEY": "Clave API actualizada",
+    "UPDATED_NAME": "Nombre actualizado",
+    "USER_EMAIL": "Correo electrónico",
+    "USERNAME": "Nombre de usuario"
+  },
+  "REGISTER": {
+    "HOW_TO_GET_API_KEY": "¿Cómo obtener la clave API?",
+    "INSTRUCTIONS": {
+      "STEPS": {
+        "1": "Paso 1: Después de hacer clic en el enlace, toque el ícono de tres barras.",
+        "2": "Paso 2: Toque para iniciar sesión. Si no tiene una cuenta, vaya a Crear cuenta.",
+        "3": "Paso 3: Después de iniciar sesión, acceda a la sección \"About\".",
+        "4": "Paso 4: Toque en \"APIs\".",
+        "5": "Paso 5: Desplace la página hacia abajo.",
+        "6": "Paso 6: Toque en \"Generate API Key\".",
+        "7": "Paso 7: Mantenga presionada su clave API.",
+        "8": "Paso 8: Toque en \"Copy\" y regrese a la aplicación."
+      }
+    }
+  },
+  "HOME": {
+    "END_OF_LIST": "¡Ha llegado al final de la lista!",
+    "GLOBAL_DECKS": "Mazos globales",
+    "LOAD_ERROR": "¡Ocurrió un error! ;-;",
+    "NO_DECKS_FOUND": "¿¡No se encontró ningún mazo!?",
+    "NO_MORE_DECKS": "¡No hay más mazos!",
+    "SELECT_SORTING_METHOD": "Seleccione un método de ordenación: "
+  },
+  "USER": {
+    "CHAINS": "Cadenas",
+    "DECKS": "Mazos",
+    "EDIT_PROFILE": "Editar perfil",
+    "ERROR": "Error: {error}",
+    "LOADING_DECKS": "Cargando mazos ......",
+    "MY_DECKS": "Mis mazos:"
+  },
+  "EDIT_USER": {
+    "CHANGE_IMAGE": "Cambiar imagen",
+    "CHANGE_PASSWORD": "Cambiar contraseña",
+    "CONFIRM_DELETE_ACCOUNT": "¿Está seguro de que desea eliminar su cuenta?",
+    "DELETE_ACCOUNT": "Eliminar cuenta",
+    "LOGOUT": "Cerrar sesión",
+    "SYNC_DECKS_WITH_DOK": "Sincronizar mazos con DoK",
+    "SYNCING_DECKS": "Sincronizando mazos......",
+    "LANGUAGE": "Idioma"
+  },
+  "SCANNER": {
+    "DECK_FOUND": "¡Mazo encontrado!",
+    "DECK_FOUND_MESSAGE": "ID del mazo: {id}!\n¡Es un mazo genial! ¿Le gustaría añadirlo a sus mazos?",
+    "DECK_NOT_ADDED": "¡Mazo no añadido!",
+    "ID": "ID",
+    "WRITE_ID_HINT": "Ingrese el ID",
+    "WRITE_ID_TITLE": "¡Ingrese el ID!"
+  },
+  "DECK": {
+    "ACTION": "Acción",
+    "AEMBER": "Æmber",
+    "ANTI_SYNERGY": "Antisinergia",
+    "ARTIFACT": "Artefacto",
+    "BASE_AERC": "AERC base",
+    "BONUS": "Bonificación",
+    "CARD_COUNT": "Cantidad de cartas",
+    "CONTROL": "Control",
+    "CREATURE": "Criatura",
+    "DISRUPTION": "Disrupción",
+    "EFFECTIVE_POWER": "Poder efectivo",
+    "EFFICIENCY": "Eficiencia",
+    "EXPECTED": "Esperado",
+    "EXTRAS": "Extras",
+    "NAME": "Nombre",
+    "OTHER": "Otros",
+    "PERCENTILE": "Percentil",
+    "PROTECTION": "Protección",
+    "RECURSION": "Recursión",
+    "SPEED": "Velocidad",
+    "SYNERGY": "Sinergia",
+    "UPGRADE": "Mejora"
+  },
+  "MASTER_VAULT": {
+    "ID_COPIED": "¡ID copiado!",
+    "INVALID_ID": "ID inválido",
+    "INVALID_URL": "URL inválida",
+    "SAVE_ERROR": "No se pudo guardar el mazo. Inténtelo de nuevo.",
+    "OK_COPY_CONTINUE": "Aceptar, copiar el ID y continuar",
+    "TITLE": "Master Vault",
+    "YOUR_DECK_ID": "ID de su mazo:",
+    "INSTRUCTIONS": {
+      "STEPS": {
+        "1": "Paso 1: Lea todas las instrucciones y haga clic en \"Aceptar, copiar y continuar\".",
+        "2": "Paso 2: Haga clic en el menú de three barras como se muestra.",
+        "3": "Paso 3: Inicie sesión en Master Vault.",
+        "4": "Paso 4: Después de iniciar sesión, haga clic en el área destacada.",
+        "5": "Paso 5: Desplace hacia abajo y pegue su ID.",
+        "6": "Paso 6: Confirme el ID y haga clic en \"Add Deck\".",
+        "7": "Paso 7: Haga clic en \"Go to Deck\" para agregarlo al Master Vault.",
+        "8": "Paso 8: En la página del mazo, haga clic en el ícono para guardar.",
+        "9": "Paso 9: Espere unos instantes hasta que se complete.",
+        "10": "Paso 10: Será redirigido a la página del usuario con su mazo."
+      }
+    }
+  },
+  "FIREBASE": {
+    "ABANDONED_DECK_FOUND": "Descubriste un mazo abandonado",
+    "ABANDONED_DECK_FOUND_NAMED": "Descubriste un mazo abandonado: {name}",
+    "DECK_ALREADY_REGISTERED": "Este mazo ya está registrado",
+    "DECK_ALREADY_UP_TO_DATE": "¡El mazo {name} ya está actualizado!",
+    "DECK_FIND_ERROR": "¡Error al encontrar el mazo! {status}",
+    "DECK_OWNED_BY_ANOTHER_USER": "¡El mazo {name} ya pertenece a otro usuario!",
+    "DECK_REGISTERED_NAMED": "¡El mazo {name} ha sido registrado!",
+    "DECK_SAVED": "¡Éxito!\n¡Mazo guardado!",
+    "DECK_UPDATED_NAMED": "¡El mazo {name} ha sido actualizado!",
+    "DECKS_SYNCED": "¡Mazos sincronizados!",
+    "IMAGE_TOO_LARGE": "Imagen demasiado grande (mayor a 1MB)",
+    "SYNC_ERROR": "¡Algo salió mal!\n¡Verifique su clave API y conexión a internet!"
+  },
+  "LANGUAGES": {
+    "PT": "Portugués",
+    "EN": "Inglés",
+    "ES": "Español"
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:forgebase/components/card.dart';
+import 'package:forgebase/utils/translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum _SelectedTab { user, home, camera }
@@ -70,14 +71,14 @@ class _HomePageState extends State<HomePage> {
       else {
         hasMore = false;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("You've reached the end of the line!")),
+          SnackBar(content: Text(translate('HOME.END_OF_LIST'))),
         );
       }
     }
     catch(e) {
       print('error loading data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("An error has ocurred! ;-;")),
+        SnackBar(content: Text(translate('HOME.LOAD_ERROR'))),
       );
     }
     finally {
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
 
 
     return Scaffold(
-      appBar: AppBar(title: Text("Global Decks")),
+      appBar: AppBar(title: Text(translate('HOME.GLOBAL_DECKS'))),
       body: Container(
         margin: EdgeInsets.all(8),
         child: Column(
@@ -111,16 +112,22 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Select a sorting method: ",
+                  translate('HOME.SELECT_SORTING_METHOD'),
                   style: TextStyle(fontSize: 16)
                 ),
                 DropdownButton(
                   value: orderBy,
                   items: [
                     DropdownMenuItem(value: 'sas', child: Text('SAS')),
-                    DropdownMenuItem(value: 'name', child: Text('Name')),
+                    DropdownMenuItem(
+                      value: 'name',
+                      child: Text(translate('DECK.NAME')),
+                    ),
                     DropdownMenuItem(value: 'aerc', child: Text('AERC')),
-                    DropdownMenuItem(value: 'synergy', child: Text('Synergy'))
+                    DropdownMenuItem(
+                      value: 'synergy',
+                      child: Text(translate('DECK.SYNERGY')),
+                    )
                   ],
                   onChanged: (newOrder) {
                     setState(() {
@@ -156,7 +163,7 @@ class _HomePageState extends State<HomePage> {
               child: documents.isEmpty && isLoading ? 
                 Center(child: CircularProgressIndicator())
                 : documents.isEmpty && !isLoading && !hasMore ?
-                  Center(child: Text('No decks were found!?'))
+                  Center(child: Text(translate('HOME.NO_DECKS_FOUND')))
                   : ListView.builder(
                       controller: _scrollController,
                       itemCount: documents.length + 1,
@@ -168,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                               : hasMore? SizedBox.shrink() 
                               : Center(
                                 child: Text(
-                                  'No more decks!',
+                                  translate('HOME.NO_MORE_DECKS'),
                                   style: TextStyle(
                                     color: const Color.fromARGB(255, 160, 118, 233),
                                     fontSize: 16
