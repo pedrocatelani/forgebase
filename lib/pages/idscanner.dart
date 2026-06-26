@@ -1,6 +1,7 @@
 import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:forgebase/utils/translate.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 enum _SelectedTab { user, home, camera }
@@ -71,13 +72,15 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text("Deck has been found!"),
+                          title: Text(translate('SCANNER.DECK_FOUND')),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                           content: SizedBox(
                             child: Text(
-                              "Deck id: $idDeck! \nit's a great deck! Would you like to add him to your decks?",
+                              translate('SCANNER.DECK_FOUND_MESSAGE',
+                                namedArgs: {'id': idDeck ?? ''},
+                              ),
                             ),
                           ),
           
@@ -100,13 +103,15 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                                 foregroundColor: Colors.white,
                               ),
           
-                              child: Text("Return"),
+                              child: Text(translate('COMMON.RETURN')),
                               onPressed: () {
                                 Navigator.of(context).pop();
           
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("Deck Not Added!"),
+                                    content: Text(
+                                      translate('SCANNER.DECK_NOT_ADDED'),
+                                    ),
                                     duration: Duration(seconds: 2),
                                   ),
                                 );
@@ -132,7 +137,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                                 ),
                                 foregroundColor: Colors.white,
                               ),
-                              child: Text("Add"),
+                              child: Text(translate('COMMON.ADD')),
                               onPressed: () {
                                 Navigator.pushNamed(
                                   context,
@@ -172,7 +177,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                     final screenHeight = MediaQuery.of(context).size.height;
 
                     return AlertDialog(
-                      title: Text("Write the ID!"),
+                      title: Text(translate('SCANNER.WRITE_ID_TITLE')),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -183,7 +188,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                         child: TextField(
                           controller: idController,
                           decoration: InputDecoration(
-                            hintText: "Write the Id",
+                            hintText: translate('SCANNER.WRITE_ID_HINT'),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
                             ),
@@ -193,7 +198,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       actions: [
                         TextButton(
                           // ignore: sort_child_properties_last
-                          child: Text("Return"),
+                          child: Text(translate('COMMON.RETURN')),
                           style: FilledButton.styleFrom(
                             padding: EdgeInsets.symmetric(
                               horizontal: 16,
@@ -215,7 +220,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("Deck not added!"),
+                                content: Text(
+                                  translate('SCANNER.DECK_NOT_ADDED'),
+                                ),
                                 duration: Duration(seconds: 2),
                               ),
                             );
@@ -225,7 +232,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
                         TextButton(
                           // ignore: sort_child_properties_last
-                          child: Text("Add"),
+                          child: Text(translate('COMMON.ADD')),
                           style: FilledButton.styleFrom(
                             padding: EdgeInsets.symmetric(
                               horizontal: 25,
@@ -256,7 +263,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 );
               },
               icon: Icon(Icons.edit),
-              label: Text("ID"),
+              label: Text(translate('SCANNER.ID')),
             ),
           ),
         ],

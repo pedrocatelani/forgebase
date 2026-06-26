@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
+import 'package:forgebase/utils/translate.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MasterVault extends StatefulWidget {
@@ -25,10 +26,7 @@ class _MasterVaultState extends State<MasterVault> {
 
   void _close(String deckId) {
     Clipboard.setData(ClipboardData(text: deckId)).then((_) {
-      ScaffoldMessenger.of(
-        // ignore: use_build_context_synchronously
-        context,
-      ).showSnackBar(const SnackBar(content: Text("ID was copied!")));
+      _showSnackBar(translate('MASTER_VAULT.ID_COPIED'));
     });
     setState(() {
       _showInstructions = false;
@@ -59,24 +57,24 @@ class _MasterVaultState extends State<MasterVault> {
     'assets/instructions/instruction9.jpg',
     'assets/instructions/instruction10.jpg',
   ];
-  final List<String> instructionTexts = [
-    'Step 1: Read all instructions, then click "Ok, copy and continue".',
-    'Step 2: Click the menu (three bars) as shown.',
-    'Step 3: Log in to Master Vault.',
-    'Step 4: After login, click the highlighted area.',
-    'Step 5: Scroll down and paste your ID.',
-    'Step 6: Confirm the ID, then click "Add Deck".',
-    'Step 7: Click "Go to Deck" to add it to Master Vault.',
-    'Step 8: On the deck page, click the icon to save.',
-    'Step 9: Wait a few moments for it to complete.',
-    'Step 10: You’ll be redirected to the user page with your deck.',
+  final List<String> instructionTextKeys = [
+    'master_vault.instructions.steps.1',
+    'master_vault.instructions.steps.2',
+    'master_vault.instructions.steps.3',
+    'master_vault.instructions.steps.4',
+    'master_vault.instructions.steps.5',
+    'master_vault.instructions.steps.6',
+    'master_vault.instructions.steps.7',
+    'master_vault.instructions.steps.8',
+    'master_vault.instructions.steps.9',
+    'master_vault.instructions.steps.10',
   ];
 
   @override
   Widget build(BuildContext context) {
     final idDeck = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
-      appBar: AppBar(title: const Text('Master Vault')),
+      appBar: AppBar(title: Text(translate('MASTER_VAULT.TITLE'))),
       body: Stack(
         children: [
           WebViewWidget(controller: _controller),
@@ -93,14 +91,13 @@ class _MasterVaultState extends State<MasterVault> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
                   ),
-
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        "Your deck ID:",
-                        style: TextStyle(
+                      Text(
+                        translate('MASTER_VAULT.YOUR_DECK_ID'),
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 0, 0, 0),
@@ -116,16 +113,15 @@ class _MasterVaultState extends State<MasterVault> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'Instructions:',
-                        style: TextStyle(
+                      Text(
+                        translate('COMMON.INSTRUCTIONS'),
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 15),
-
                       SizedBox(
                         height: 280,
                         child: CarouselSlider.builder(
@@ -147,10 +143,9 @@ class _MasterVaultState extends State<MasterVault> {
                                     ),
                                   ),
                                   const SizedBox(height: 15),
-
                                   Flexible(
                                     child: Text(
-                                      instructionTexts[index],
+                                      translate(instructionTextKeys[index]),
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -177,7 +172,6 @@ class _MasterVaultState extends State<MasterVault> {
                         ),
                       ),
                       const Spacer(),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: ElevatedButton(
@@ -196,9 +190,9 @@ class _MasterVaultState extends State<MasterVault> {
                             ),
                             elevation: 2,
                           ),
-                          child: const Text(
-                            'Ok, copy the ID and continue',
-                            style: TextStyle(
+                          child: Text(
+                            translate('MASTER_VAULT.OK_COPY_CONTINUE'),
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -233,7 +227,7 @@ class _MasterVaultState extends State<MasterVault> {
             setState(() {
               _isSavingDeck = false;
             });
-            _showSnackBar("Invalid Url");
+            _showSnackBar(translate('MASTER_VAULT.INVALID_URL'));
             return;
           }
 
@@ -245,12 +239,16 @@ class _MasterVaultState extends State<MasterVault> {
             setState(() {
               _isSavingDeck = false;
             });
-            _showSnackBar("Invalid Id");
+            _showSnackBar(translate('MASTER_VAULT.INVALID_ID'));
             return;
           }
 
           try {
-            final deckSaved = await database.saveDeck(dokId,user!.email!, context);
+            final deckSaved = await database.saveDeck(
+              dokId,
+              user!.email!,
+              context,
+            );
 
             if (!mounted) {
               return;
@@ -264,7 +262,7 @@ class _MasterVaultState extends State<MasterVault> {
               return;
             }
 
-            _showSnackBar("Failed to save deck. Please try again.");
+            _showSnackBar(translate('MASTER_VAULT.SAVE_ERROR'));
           } finally {
             if (mounted) {
               setState(() {
@@ -273,7 +271,6 @@ class _MasterVaultState extends State<MasterVault> {
             }
           }
         },
-
         child:
             _isSavingDeck
                 ? const SizedBox(

@@ -1,7 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
 import 'package:forgebase/utils/dok_api.dart';
+import 'package:forgebase/utils/language.dart';
+import 'package:forgebase/utils/translate.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,12 +24,17 @@ class AuthService {
 
       // ignore: unnecessary_null_comparison
       if (credential != null) {
+        final language = await _database.getUserLanguage(email);
+        // ignore: use_build_context_synchronously
+        await context.setLocale(localeFromLanguageCode(language));
         // ignore: use_build_context_synchronously
         Navigator.pushReplacementNamed(context, '/home');
       }
       // ignore: unused_catch_clause
     } on FirebaseAuthException catch (ex) {
-      final snackBar = SnackBar(content: Text("Email or password invalid"));
+      final snackBar = SnackBar(
+        content: Text(translate('AUTH.EMAIL_OR_PASSWORD_INVALID')),
+      );
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -39,6 +47,7 @@ class AuthService {
     String confirmPassword,
     // ignore: non_constant_identifier_names
     String apiKey,
+    String language,
     BuildContext context,
   ) async {
     try {
@@ -51,25 +60,34 @@ class AuthService {
               .createUserWithEmailAndPassword(email: email, password: password);
           await credential.user!.updateDisplayName(name);
 
-          var data = {'user': email, 'api_key': apiKey, 'user_image': ''};
+          var data = {
+            'user': email,
+            'api_key': apiKey,
+            'user_image': '',
+            'language': normalizeLanguageCode(language),
+          };
 
           await _database.insertUser(email, data);
 
           // ignore: use_build_context_synchronously
           Navigator.pushReplacementNamed(context, "/home");
         } else {
-          final snackBar = SnackBar(content: Text("APIKey invaled"));
+          final snackBar = SnackBar(
+            content: Text(translate('AUTH.API_KEY_INVALID')),
+          );
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } else {
-        final snackBar = SnackBar(content: Text("The passwords are different"));
+        final snackBar = SnackBar(
+          content: Text(translate('AUTH.PASSWORDS_ARE_DIFFERENT')),
+        );
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       // ignore: unused_catch_clause
     } on FirebaseAuthException catch (ex) {
-      final snackBar = SnackBar(content: Text("Error in register"));
+      final snackBar = SnackBar(content: Text(translate('AUTH.REGISTER_ERROR')));
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -102,7 +120,9 @@ class AuthService {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/login');
     } catch (e) {
-      final snackBar = SnackBar(content: Text("Password invalid"));
+      final snackBar = SnackBar(
+        content: Text(translate('AUTH.PASSWORD_INVALID')),
+      );
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -116,12 +136,12 @@ class AuthService {
   ) async {
     if (userName != _auth.currentUser?.displayName) {
       await _auth.currentUser?.updateDisplayName(userName);
-      final snackBar = SnackBar(content: Text("Updated name"));
+      final snackBar = SnackBar(content: Text(translate('AUTH.UPDATED_NAME')));
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       final snackBar = SnackBar(
-        content: Text("Current name same as previous one"),
+        content: Text(translate('AUTH.CURRENT_NAME_SAME')),
       );
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -136,21 +156,26 @@ class AuthService {
       );
 
       if (isApiKeyValid) {
-        final snackBar = SnackBar(content: Text("Updated Api Key"));
+        final snackBar = SnackBar(
+          content: Text(translate('AUTH.UPDATED_API_KEY')),
+        );
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
-        final snackBar = SnackBar(content: Text("Api Key invalid"));
+        final snackBar = SnackBar(
+          content: Text(translate('AUTH.API_KEY_INVALID')),
+        );
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } else {
       final snackBar = SnackBar(
-        content: Text("Current APIKey same as previous one"),
+        content: Text(translate('AUTH.CURRENT_API_KEY_SAME')),
       );
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+
     // ignore: use_build_context_synchronously
     Navigator.pushReplacementNamed(context, '/user');
   }
