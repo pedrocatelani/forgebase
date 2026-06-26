@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/password_field.dart';
 import 'package:forgebase/utils/_auth_services.dart';
+import 'package:forgebase/utils/translate.dart';
 
 // ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
@@ -36,7 +37,7 @@ class LoginPage extends StatelessWidget {
                     TextField(
                       controller: txtEmail,
                       decoration: InputDecoration(
-                        hintText: "Email",
+                        hintText: translate('AUTH.EMAIL'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
@@ -47,7 +48,7 @@ class LoginPage extends StatelessWidget {
                         PasswordField(
                           controller: txtPassword,
                           decoration: InputDecoration(
-                            hintText: "Password",
+                            hintText: translate('AUTH.PASSWORD'),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(22),
                             ),
@@ -61,12 +62,16 @@ class LoginPage extends StatelessWidget {
                                   context: context,
                                   builder:
                                       (context) => AlertDialog(
-                                        title: Text('Enter your user email'),
+                                        title: Text(
+                                          translate('AUTH.ENTER_USER_EMAIL'),
+                                        ),
                                         actions: [
                                           TextField(
                                             controller: txtForgotPassword,
                                             decoration: InputDecoration(
-                                              label: Text('User email'),
+                                              label: Text(
+                                                translate('AUTH.USER_EMAIL'),
+                                              ),
                                               border: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(22),
@@ -78,24 +83,28 @@ class LoginPage extends StatelessWidget {
                                               TextButton(
                                                 onPressed:
                                                     () => authService
-                                                        .changePasswordByEmail(
+                                                .changePasswordByEmail(
                                                           txtForgotPassword.text
                                                               .trim(),
                                                         ),
-                                                child: Text('Send'),
+                                                child: Text(
+                                                  translate('COMMON.SEND'),
+                                                ),
                                               ),
                                               TextButton(
                                                 onPressed:
                                                     () =>
                                                         Navigator.pop(context),
-                                                child: Text('Close'),
+                                                child: Text(
+                                                  translate('COMMON.CLOSE'),
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ],
                                       ),
                                 ),
-                            child: Text("Forgot password?"),
+                            child: Text(translate('AUTH.FORGOT_PASSWORD')),
                           ),
                         ),
                       ],
@@ -110,11 +119,14 @@ class LoginPage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 60),
                       ),
-                      child: Text("Log In", style: TextStyle(fontSize: 20)),
+                      child: Text(
+                        translate('AUTH.LOGIN'),
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                     Column(
                       children: [
-                        Text("Log in with"),
+                        Text(translate('AUTH.LOGIN_WITH')),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -133,11 +145,11 @@ class LoginPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account?"),
+                        Text(translate('AUTH.NO_ACCOUNT')),
                         TextButton(
                           onPressed:
                               () => Navigator.pushNamed(context, "/register"),
-                          child: Text("Sign up"),
+                          child: Text(translate('AUTH.SIGN_UP')),
                         ),
                       ],
                     ),

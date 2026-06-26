@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
+import 'package:forgebase/components/password_field.dart';
 import 'package:forgebase/utils/_auth_services.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
-import 'package:forgebase/components/password_field.dart';
+import 'package:forgebase/utils/language.dart';
+import 'package:forgebase/utils/translate.dart';
 
 class EditUserPage extends StatefulWidget {
   const EditUserPage({super.key});
@@ -18,6 +21,9 @@ class _EditUserPageState extends State<EditUserPage> {
   final database = FirebaseColletion();
 
   var txtApiKey = TextEditingController();
+  String selectedLanguage = defaultLanguageCode;
+  bool _hasUserSelectedLanguage = false;
+  bool _isSavingLanguage = false;
 
   @override
   void initState() {
@@ -25,10 +31,55 @@ class _EditUserPageState extends State<EditUserPage> {
 
     if (user != null) {
       database.getApiKey(user!.email!).then((value) {
+        if (!mounted) return;
         setState(() {
           txtApiKey.text = value;
         });
       });
+      database.getUserLanguage(user!.email!).then((value) {
+        if (!mounted) return;
+        if (_hasUserSelectedLanguage) return;
+        setState(() {
+          selectedLanguage = value;
+        });
+        context.setLocale(localeFromLanguageCode(value));
+      });
+    }
+  }
+
+  Future<void> _changeLanguage(String code) async {
+    if (user?.email == null || _isSavingLanguage) return;
+
+    final previousLanguage = selectedLanguage;
+    final nextLanguage = normalizeLanguageCode(code);
+    if (nextLanguage == previousLanguage) return;
+
+    _hasUserSelectedLanguage = true;
+
+    setState(() {
+      selectedLanguage = nextLanguage;
+      _isSavingLanguage = true;
+    });
+
+    try {
+      await database.updateUserLanguage(user!.email!, nextLanguage);
+      if (!mounted) return;
+      await context.setLocale(localeFromLanguageCode(nextLanguage));
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        selectedLanguage = previousLanguage;
+      });
+      await context.setLocale(localeFromLanguageCode(previousLanguage));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(translate('AUTH.REGISTER_ERROR'))),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSavingLanguage = false;
+        });
+      }
     }
   }
 
@@ -54,7 +105,7 @@ class _EditUserPageState extends State<EditUserPage> {
                   TextField(
                     controller: txtUserName,
                     decoration: InputDecoration(
-                      label: Text('Username'),
+                      label: Text(translate('AUTH.USERNAME')),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
@@ -63,9 +114,48 @@ class _EditUserPageState extends State<EditUserPage> {
                   PasswordField(
                     controller: txtApiKey,
                     decoration: InputDecoration(
-                      label: Text('API Key'),
+                      label: Text(translate('AUTH.API_KEY')),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                  ),
+                  InputDecorator(
+                    decoration: InputDecoration(
+                      label: Text(translate('EDIT_USER.LANGUAGE')),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedLanguage,
+                        onChanged:
+                            _isSavingLanguage
+                                ? null
+                                : (String? code) async {
+                                  if (code == null) return;
+                                  await _changeLanguage(code);
+                                },
+                        items: [
+                          DropdownMenuItem(
+                            value: 'pt-BR',
+                            child: Text(translate('LANGUAGES.PT')),
+                          ),
+                          DropdownMenuItem(
+                            value: 'en',
+                            child: Text(translate('LANGUAGES.EN')),
+                          ),
+                          DropdownMenuItem(
+                            value: 'es',
+                            child: Text(translate('LANGUAGES.ES')),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -75,12 +165,12 @@ class _EditUserPageState extends State<EditUserPage> {
                           context: context,
                           builder:
                               (context) => AlertDialog(
-                                title: Text('Enter your user email'),
+                                title: Text(translate('AUTH.ENTER_USER_EMAIL')),
                                 actions: [
                                   TextField(
                                     controller: txtUserEmail,
                                     decoration: InputDecoration(
-                                      label: Text('User email'),
+                                      label: Text(translate('AUTH.USER_EMAIL')),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(22),
                                       ),
@@ -94,11 +184,11 @@ class _EditUserPageState extends State<EditUserPage> {
                                                 .changePasswordByEmail(
                                                   txtUserEmail.text,
                                                 ),
-                                        child: Text('Send'),
+                                        child: Text(translate('COMMON.SEND')),
                                       ),
                                       TextButton(
                                         onPressed: () => Navigator.pop(context),
-                                        child: Text('Close'),
+                                        child: Text(translate('COMMON.CLOSE')),
                                       ),
                                     ],
                                   ),
@@ -109,7 +199,7 @@ class _EditUserPageState extends State<EditUserPage> {
                       minimumSize: Size(double.infinity, 60),
                     ),
                     child: Text(
-                      'Change Password',
+                      translate('EDIT_USER.CHANGE_PASSWORD'),
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
@@ -119,7 +209,10 @@ class _EditUserPageState extends State<EditUserPage> {
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
                     ),
-                    child: Text('Change Image', style: TextStyle(fontSize: 18)),
+                    child: Text(
+                      translate('EDIT_USER.CHANGE_IMAGE'),
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () async {
@@ -128,7 +221,7 @@ class _EditUserPageState extends State<EditUserPage> {
                         context: context,
                         builder:
                             (context) => AlertDialog(
-                              title: Text("Syncing Decks......"),
+                              title: Text(translate('EDIT_USER.SYNCING_DECKS')),
                               actions: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -138,9 +231,9 @@ class _EditUserPageState extends State<EditUserPage> {
                             ),
                       );
 
+                      final nav = Navigator.of(context);
                       await database.syncDoK(user!.email!, context);
-
-                      Navigator.pop(context);
+                      nav.pop();
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 60),
@@ -153,7 +246,7 @@ class _EditUserPageState extends State<EditUserPage> {
                       children: [
                         Icon(Icons.sync_rounded),
                         Text(
-                          'Sync decks with DoK',
+                          translate('EDIT_USER.SYNC_DECKS_WITH_DOK'),
                           style: TextStyle(fontSize: 18),
                         ),
                       ],
@@ -171,7 +264,10 @@ class _EditUserPageState extends State<EditUserPage> {
                       spacing: 8,
                       children: [
                         Icon(Icons.logout),
-                        Text('Logout', style: TextStyle(fontSize: 18)),
+                        Text(
+                          translate('EDIT_USER.LOGOUT'),
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ],
                     ),
                   ),
@@ -182,13 +278,13 @@ class _EditUserPageState extends State<EditUserPage> {
                           builder:
                               (context) => AlertDialog(
                                 title: Text(
-                                  'Are you sure you want to delete your account?',
+                                  translate('EDIT_USER.CONFIRM_DELETE_ACCOUNT'),
                                 ),
                                 actions: [
                                   PasswordField(
                                     controller: txtUserPassword,
                                     decoration: InputDecoration(
-                                      label: Text('Password'),
+                                      label: Text(translate('AUTH.PASSWORD')),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(22),
                                       ),
@@ -205,11 +301,11 @@ class _EditUserPageState extends State<EditUserPage> {
                                                 context,
                                               ),
                                             },
-                                        child: Text('Delete'),
+                                        child: Text(translate('COMMON.DELETE')),
                                       ),
                                       TextButton(
                                         onPressed: () => Navigator.pop(context),
-                                        child: Text('Close'),
+                                        child: Text(translate('COMMON.CLOSE')),
                                       ),
                                     ],
                                   ),
@@ -226,23 +322,10 @@ class _EditUserPageState extends State<EditUserPage> {
                       spacing: 8,
                       children: [
                         Icon(Icons.delete_forever_outlined),
-                        Text('Delete Account', style: TextStyle(fontSize: 18)),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => Navigator.pushNamed(context, "/about"),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 60),
-                      backgroundColor: Color.fromARGB(0, 255, 255, 255),
-                      shadowColor: Color.fromARGB(0, 255, 255, 255),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 8,
-                      children: [
-                        Icon(Icons.question_mark),
-                        Text('About', style: TextStyle(fontSize: 18)),
+                        Text(
+                          translate('EDIT_USER.DELETE_ACCOUNT'),
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ],
                     ),
                   ),
@@ -258,7 +341,7 @@ class _EditUserPageState extends State<EditUserPage> {
                               txtApiKey.text,
                               context,
                             ),
-                        child: Text('Save'),
+                        child: Text(translate('COMMON.SAVE')),
                       ),
                       ElevatedButton(
                         onPressed:
@@ -266,7 +349,7 @@ class _EditUserPageState extends State<EditUserPage> {
                               context,
                               '/user',
                             ),
-                        child: Text('Back'),
+                        child: Text(translate('COMMON.BACK')),
                       ),
                     ],
                   ),

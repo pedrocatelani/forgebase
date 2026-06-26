@@ -1,0 +1,152 @@
+{
+  "COMMON": {
+    "ADD": "Add",
+    "BACK": "Back",
+    "CLOSE": "Close",
+    "DELETE": "Delete",
+    "INSTRUCTIONS": "Instructions:",
+    "OK": "Ok",
+    "RETURN": "Return",
+    "SAVE": "Save",
+    "SEND": "Send"
+  },
+  "AUTH": {
+    "API_KEY": "API Key",
+    "API_KEY_INVALID": "Invalid API Key",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "CURRENT_API_KEY_SAME": "The current API key is the same as the previous one",
+    "CURRENT_NAME_SAME": "The current name is the same as the previous one",
+    "EMAIL": "Email",
+    "EMAIL_OR_PASSWORD_INVALID": "Invalid email or password",
+    "ENTER_USER_EMAIL": "Enter user email",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "LOGIN": "Login",
+    "LOGIN_WITH": "Login with",
+    "NO_ACCOUNT": "Don't have an account?",
+    "PASSWORD": "Password",
+    "PASSWORD_INVALID": "Invalid password",
+    "PASSWORDS_ARE_DIFFERENT": "Passwords do not match",
+    "REGISTER": "Register",
+    "REGISTER_ERROR": "Error registering",
+    "SIGN_UP": "Sign Up",
+    "UPDATED_API_KEY": "API Key updated",
+    "UPDATED_NAME": "Name updated",
+    "USER_EMAIL": "User Email",
+    "USERNAME": "Username"
+  },
+  "REGISTER": {
+    "HOW_TO_GET_API_KEY": "How to get the API Key?",
+    "INSTRUCTIONS": {
+      "STEPS": {
+        "1": "Step 1: After clicking the link, tap the menu icon (three bars).",
+        "2": "Step 2: Tap to sign in. If you don't have an account, go to Create Account.",
+        "3": "Step 3: After signing in, go to the \"About\" section.",
+        "4": "Step 4: Tap on \"APIs\".",
+        "5": "Step 5: Scroll down the page.",
+        "6": "Step 6: Tap on \"Generate API Key\".",
+        "7": "Step 7: Press and hold your API Key.",
+        "8": "Step 8: Tap \"Copy\" and return to the app."
+      }
+    }
+  },
+  "HOME": {
+    "END_OF_LIST": "You have reached the end of the list!",
+    "GLOBAL_DECKS": "Global Decks",
+    "LOAD_ERROR": "An error occurred! ;-;",
+    "NO_DECKS_FOUND": "No decks were found!?",
+    "NO_MORE_DECKS": "No more decks!",
+    "SELECT_SORTING_METHOD": "Select a sorting method: "
+  },
+  "USER": {
+    "CHAINS": "Chains",
+    "DECKS": "Decks",
+    "EDIT_PROFILE": "Edit Profile",
+    "ERROR": "Error: {error}",
+    "LOADING_DECKS": "Loading decks ......",
+    "MY_DECKS": "My decks:"
+  },
+  "EDIT_USER": {
+    "CHANGE_IMAGE": "Change Image",
+    "CHANGE_PASSWORD": "Change Password",
+    "CONFIRM_DELETE_ACCOUNT": "Are you sure you want to delete your account?",
+    "DELETE_ACCOUNT": "Delete Account",
+    "LOGOUT": "Logout",
+    "SYNC_DECKS_WITH_DOK": "Sync decks with DoK",
+    "SYNCING_DECKS": "Syncing decks......",
+    "LANGUAGE": "Language"
+  },
+  "SCANNER": {
+    "DECK_FOUND": "Deck found!",
+    "DECK_FOUND_MESSAGE": "Deck ID: {id}!\nIt's a great deck! Would you like to add it to your decks?",
+    "DECK_NOT_ADDED": "Deck not added!",
+    "ID": "ID",
+    "WRITE_ID_HINT": "Enter ID",
+    "WRITE_ID_TITLE": "Enter ID!"
+  },
+  "DECK": {
+    "ACTION": "Action",
+    "AEMBER": "Æmber",
+    "ANTI_SYNERGY": "Anti-synergy",
+    "ARTIFACT": "Artifact",
+    "BASE_AERC": "Base AERC",
+    "BONUS": "Bonus",
+    "CARD_COUNT": "Card Count",
+    "CONTROL": "Control",
+    "CREATURE": "Creature",
+    "DISRUPTION": "Disruption",
+    "EFFECTIVE_POWER": "Effective Power",
+    "EFFICIENCY": "Efficiency",
+    "EXPECTED": "Expected",
+    "EXTRAS": "Extras",
+    "NAME": "Name",
+    "OTHER": "Other",
+    "PERCENTILE": "Percentile",
+    "PROTECTION": "Protection",
+    "RECURSION": "Recursion",
+    "SPEED": "Speed",
+    "SYNERGY": "Synergy",
+    "UPGRADE": "Upgrade"
+  },
+  "MASTER_VAULT": {
+    "ID_COPIED": "ID copied!",
+    "INVALID_ID": "Invalid ID",
+    "INVALID_URL": "Invalid URL",
+    "SAVE_ERROR": "Failed to save deck. Please try again.",
+    "OK_COPY_CONTINUE": "Ok, copy ID and continue",
+    "TITLE": "Master Vault",
+    "YOUR_DECK_ID": "Your deck ID:",
+    "INSTRUCTIONS": {
+      "STEPS": {
+        "1": "Step 1: Read all instructions and click \"Ok, copy and continue\".",
+        "2": "Step 2: Click the three-bar menu as shown.",
+        "3": "Step 3: Enter the Master Vault.",
+        "4": "Step 4: After logging in, click on the highlighted area.",
+        "5": "Step 5: Scroll down and paste your ID.",
+        "6": "Step 6: Confirm the ID and click \"Add Deck\".",
+        "7": "Step 7: Click \"Go to Deck\" to add it to the Master Vault.",
+        "8": "Step 8: On the deck page, click the save icon.",
+        "9": "Step 9: Wait a few moments until it completes.",
+        "10": "Step 10: You will be redirected to the user page with your deck."
+      }
+    }
+  },
+  "FIREBASE": {
+    "ABANDONED_DECK_FOUND": "You discovered an abandoned deck",
+    "ABANDONED_DECK_FOUND_NAMED": "You discovered an abandoned deck: {name}",
+    "DECK_ALREADY_REGISTERED": "This deck is already registered",
+    "DECK_ALREADY_UP_TO_DATE": "The deck {name} is already up to date!",
+    "DECK_FIND_ERROR": "Error finding deck! {status}",
+    "DECK_OWNED_BY_ANOTHER_USER": "The deck {name} already belongs to another user!",
+    "DECK_REGISTERED_NAMED": "The deck {name} has been registered!",
+    "DECK_SAVED": "Success!\nDeck saved!",
+    "DECK_UPDATED_NAMED": "The deck {name} has been updated!",
+    "DECKS_SYNCED": "Decks synchronized!",
+    "IMAGE_TOO_LARGE": "Image too large (larger than 1MB)",
+    "SYNC_ERROR": "Something went wrong!\nVerify your API Key and internet connection!"
+  },
+  "LANGUAGES": {
+    "PT": "Português",
+    "EN": "English",
+    "ES": "Español"
+  }
+}

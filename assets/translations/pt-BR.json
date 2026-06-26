@@ -1,0 +1,152 @@
+﻿{
+  "COMMON": {
+    "ADD": "Adicionar",
+    "BACK": "Voltar",
+    "CLOSE": "Fechar",
+    "DELETE": "Excluir",
+    "INSTRUCTIONS": "Instruções:",
+    "OK": "Ok",
+    "RETURN": "Voltar",
+    "SAVE": "Salvar",
+    "SEND": "Enviar"
+  },
+  "AUTH": {
+    "API_KEY": "Chave API",
+    "API_KEY_INVALID": "Chave API inválida",
+    "CONFIRM_PASSWORD": "Confirmar senha",
+    "CURRENT_API_KEY_SAME": "Chave API igual à anterior",
+    "CURRENT_NAME_SAME": "Nome igual ao anterior",
+    "EMAIL": "E-mail",
+    "EMAIL_OR_PASSWORD_INVALID": "E-mail/senha inválidos",
+    "ENTER_USER_EMAIL": "Digite o e-mail",
+    "FORGOT_PASSWORD": "Esqueceu a senha?",
+    "LOGIN": "Entrar",
+    "LOGIN_WITH": "Entrar com",
+    "NO_ACCOUNT": "Não tem uma conta?",
+    "PASSWORD": "Senha",
+    "PASSWORD_INVALID": "Senha inválida",
+    "PASSWORDS_ARE_DIFFERENT": "As senhas são diferentes",
+    "REGISTER": "Cadastrar",
+    "REGISTER_ERROR": "Erro ao cadastrar",
+    "SIGN_UP": "Criar conta",
+    "UPDATED_API_KEY": "Chave API atualizada",
+    "UPDATED_NAME": "Nome atualizado",
+    "USER_EMAIL": "E-mail do usuário",
+    "USERNAME": "Usuário"
+  },
+  "REGISTER": {
+    "HOW_TO_GET_API_KEY": "Como obter a chave?",
+    "INSTRUCTIONS": {
+      "STEPS": {
+        "1": "Passo 1: Abra o link e toque no menu (três barras).",
+        "2": "Passo 2: Entre ou vá em 'Criar conta'.",
+        "3": "Passo 3: Após entrar, acesse 'About'.",
+        "4": "Passo 4: Toque em 'APIs'.",
+        "5": "Passo 5: Role a página para baixo.",
+        "6": "Passo 6: Toque em 'Generate API Key'.",
+        "7": "Passo 7: Pressione e segure a chave da API.",
+        "8": "Passo 8: Toque em 'Copy' e volte ao app."
+      }
+    }
+  },
+  "HOME": {
+    "END_OF_LIST": "Você chegou ao fim da lista!",
+    "GLOBAL_DECKS": "Decks globais",
+    "LOAD_ERROR": "Erro ao carregar! ;-;",
+    "NO_DECKS_FOUND": "Nenhum deck encontrado",
+    "NO_MORE_DECKS": "Fim dos decks!",
+    "SELECT_SORTING_METHOD": "Ordenar por: "
+  },
+  "USER": {
+    "CHAINS": "Correntes",
+    "DECKS": "Decks",
+    "EDIT_PROFILE": "Editar perfil",
+    "ERROR": "Erro: {error}",
+    "LOADING_DECKS": "Carregando decks...",
+    "MY_DECKS": "Meus decks"
+  },
+  "EDIT_USER": {
+    "CHANGE_IMAGE": "Alterar imagem",
+    "CHANGE_PASSWORD": "Alterar senha",
+    "CONFIRM_DELETE_ACCOUNT": "Tem certeza de que deseja excluir sua conta?",
+    "DELETE_ACCOUNT": "Excluir conta",
+    "LOGOUT": "Sair",
+    "SYNC_DECKS_WITH_DOK": "Sincronizar com DoK",
+    "SYNCING_DECKS": "Sincronizando...",
+    "LANGUAGE": "Idioma"
+  },
+  "SCANNER": {
+    "DECK_FOUND": "Deck encontrado!",
+    "DECK_FOUND_MESSAGE": "Deck: {id}!\nDeseja adicioná-lo aos seus decks?",
+    "DECK_NOT_ADDED": "Deck não adicionado!",
+    "ID": "ID",
+    "WRITE_ID_HINT": "Digite o ID",
+    "WRITE_ID_TITLE": "Insira o ID!"
+  },
+  "DECK": {
+    "ACTION": "Ação",
+    "AEMBER": "Æmber",
+    "ANTI_SYNERGY": "Antissinergia",
+    "ARTIFACT": "Artefato",
+    "BASE_AERC": "AERC base",
+    "BONUS": "Bônus",
+    "CARD_COUNT": "Total de cartas",
+    "CONTROL": "Controle",
+    "CREATURE": "Criatura",
+    "DISRUPTION": "Disrupção",
+    "EFFECTIVE_POWER": "Poder",
+    "EFFICIENCY": "Eficiência",
+    "EXPECTED": "Esperado",
+    "EXTRAS": "Extras",
+    "NAME": "Nome",
+    "OTHER": "Outros",
+    "PERCENTILE": "Percentil",
+    "PROTECTION": "Proteção",
+    "RECURSION": "Recursão",
+    "SPEED": "Velocidade",
+    "SYNERGY": "Sinergia",
+    "UPGRADE": "Melhoria"
+  },
+  "MASTER_VAULT": {
+    "ID_COPIED": "ID copiado!",
+    "INVALID_ID": "ID inválido",
+    "INVALID_URL": "URL inválida",
+    "SAVE_ERROR": "Erro ao salvar deck. Tente de novo.",
+    "OK_COPY_CONTINUE": "Copiar ID e continuar",
+    "TITLE": "Master Vault",
+    "YOUR_DECK_ID": "ID do deck:",
+    "INSTRUCTIONS": {
+      "STEPS": {
+        "1": "1: Leia e toque em 'Copiar e continuar'.",
+        "2": "2: Toque no menu de três barras.",
+        "3": "3: Entre no Master Vault.",
+        "4": "4: Toque na área destacada.",
+        "5": "5: Role para baixo e cole o ID.",
+        "6": "6: Confirme e toque em 'Add Deck'.",
+        "7": "7: Toque em 'Go to Deck'.",
+        "8": "8: Na página do deck, toque em salvar.",
+        "9": "9: Aguarde alguns instantes.",
+        "10": "10: Pronto! Você voltará para sua página."
+      }
+    }
+  },
+  "FIREBASE": {
+    "ABANDONED_DECK_FOUND": "Deck abandonado encontrado",
+    "ABANDONED_DECK_FOUND_NAMED": "Deck abandonado: {name}",
+    "DECK_ALREADY_REGISTERED": "Deck já cadastrado",
+    "DECK_ALREADY_UP_TO_DATE": "{name} já está atualizado!",
+    "DECK_FIND_ERROR": "Erro no deck! {status}",
+    "DECK_OWNED_BY_ANOTHER_USER": "Deck {name} já tem dono!",
+    "DECK_REGISTERED_NAMED": "Deck {name} cadastrado!",
+    "DECK_SAVED": "Deck salvo!",
+    "DECK_UPDATED_NAMED": "Deck {name} atualizado!",
+    "DECKS_SYNCED": "Decks sincronizados!",
+    "IMAGE_TOO_LARGE": "Imagem muito grande (maior que 1MB)",
+    "SYNC_ERROR": "Erro! Verifique a API e a internet."
+  },
+  "LANGUAGES": {
+    "PT": "Português",
+    "EN": "English",
+    "ES": "Español"
+  }
+}

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/card.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
+import 'package:forgebase/utils/translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum _SelectedTab { user, home, camera }
@@ -127,7 +128,7 @@ class _UserPageState extends State<UserPage> {
                               context,
                               '/edituser',
                             ),
-                        child: Text('Edit Profile'),
+                        child: Text(translate('USER.EDIT_PROFILE')),
                       ),
                     ),
                     Row(
@@ -142,7 +143,7 @@ class _UserPageState extends State<UserPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text('Decks'),
+                            Text(translate('USER.DECKS')),
                           ],
                         ),
                         Column(
@@ -154,13 +155,13 @@ class _UserPageState extends State<UserPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text('Chains'),
+                            Text(translate('USER.CHAINS')),
                           ],
                         ),
                       ],
                     ),
                     Text(
-                      'My Decks:',
+                      translate('USER.MY_DECKS'),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -171,7 +172,7 @@ class _UserPageState extends State<UserPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Select a sorting method: ",
+                          translate('HOME.SELECT_SORTING_METHOD'),
                           style: TextStyle(fontSize: 16),
                         ),
                         DropdownButton(
@@ -180,7 +181,7 @@ class _UserPageState extends State<UserPage> {
                             DropdownMenuItem(value: 'sas', child: Text('SAS')),
                             DropdownMenuItem(
                               value: 'name',
-                              child: Text('Name'),
+                              child: Text(translate('DECK.NAME')),
                             ),
                             DropdownMenuItem(
                               value: 'aerc',
@@ -188,7 +189,7 @@ class _UserPageState extends State<UserPage> {
                             ),
                             DropdownMenuItem(
                               value: 'synergy',
-                              child: Text('Synergy'),
+                              child: Text(translate('DECK.SYNERGY')),
                             ),
                           ],
                           onChanged: (newOrder) {
@@ -224,7 +225,7 @@ class _UserPageState extends State<UserPage> {
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Text(
-                            "Loading Decks ......",
+                            translate('USER.LOADING_DECKS'),
                             style: TextStyle(
                               fontSize: 16,
                               fontStyle: FontStyle.italic,
@@ -234,7 +235,11 @@ class _UserPageState extends State<UserPage> {
                         }
 
                         if (snapshot.hasError) {
-                          return Text("Error: ${snapshot.error}");
+                          return Text(
+                            translate('USER.ERROR',
+                              namedArgs: {'error': snapshot.error.toString()},
+                            ),
+                          );
                         }
 
                         List decks = snapshot.data!.docs;
