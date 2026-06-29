@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:forgebase/components/card.dart';
+import 'package:forgebase/components/crystal_nav_bar.dart';
 import 'package:forgebase/utils/translate.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -158,11 +158,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _SelectedTab selectedTab = _SelectedTab.home;
+    _SelectedTab _selectedTab = _SelectedTab.home;
 
-    void onTapChange(int index) {
+    void _onTapChange(int index) {
       setState(() {
-        selectedTab = _SelectedTab.values[index];
+        _selectedTab = _SelectedTab.values[index];
       });
 
       Navigator.pushNamed(context, '/${_SelectedTab.values[index].name}');
@@ -284,35 +284,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       extendBody: true,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: CrystalNavigationBar(
-          onTap: onTapChange,
-          currentIndex: _SelectedTab.values.indexOf(selectedTab),
-          indicatorColor: Color.fromARGB(255, 138, 80, 238),
-          backgroundColor: const Color.fromARGB(255, 73, 72, 72),
-          enableFloatingNavBar: true,
-          items: [
-            CrystalNavigationBarItem(
-              icon: Icons.person,
-              unselectedIcon: Icons.person_outline,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.home,
-              unselectedIcon: Icons.home_outlined,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.qr_code_scanner,
-              unselectedIcon: Icons.qr_code_scanner_outlined,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-          ],
-        ),
+      bottomNavigationBar: ForgebaseCrystalNavigationBar(
+        currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+        onTap: _onTapChange,
       ),
     );
   }

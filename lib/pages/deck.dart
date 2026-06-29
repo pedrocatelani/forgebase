@@ -1,7 +1,7 @@
-import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/cardgradient.dart';
+import 'package:forgebase/components/crystal_nav_bar.dart';
 import 'package:forgebase/components/infocard.dart';
 import 'package:forgebase/utils/_get_info.dart';
 import 'package:forgebase/utils/translate.dart';
@@ -40,7 +40,6 @@ class _DeckPageState extends State<DeckPage> {
 
   @override
   Widget build(BuildContext context) {
-
     _SelectedTab _selectedTab = _SelectedTab.user;
 
     void _onTapChange(int index) {
@@ -334,35 +333,9 @@ class _DeckPageState extends State<DeckPage> {
         ],
       ),
       extendBody: true,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: CrystalNavigationBar(
-          onTap: _onTapChange,
-          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          indicatorColor: Color.fromARGB(255, 138, 80, 238),
-          backgroundColor: const Color.fromARGB(255, 73, 72, 72),
-          enableFloatingNavBar: true,
-          items: [
-            CrystalNavigationBarItem(
-              icon: Icons.person,
-              unselectedIcon: Icons.person_outline,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.home,
-              unselectedIcon: Icons.home_outlined,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.qr_code_scanner,
-              unselectedIcon: Icons.qr_code_scanner_outlined,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-          ],
-        ),
+      bottomNavigationBar: ForgebaseCrystalNavigationBar(
+        currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+        onTap: _onTapChange,
       ),
     );
   }

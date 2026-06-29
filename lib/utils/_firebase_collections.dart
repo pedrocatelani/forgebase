@@ -29,7 +29,7 @@ class FirebaseColletion {
 
   Future<String> getUserLanguage(String userEmail) async {
     final doc = await _db.collection('users').doc(userEmail).get();
-    final data = doc.data() as Map<String, dynamic>?;
+    final data = doc.data();
     return normalizeLanguageCode(data?['language']?.toString());
   }
 
