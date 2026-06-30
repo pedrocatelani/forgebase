@@ -50,11 +50,14 @@
     }
   },
   "HOME": {
+    "CLEAR_SEARCH": "Clear search",
     "END_OF_LIST": "You have reached the end of the list!",
     "GLOBAL_DECKS": "Global Decks",
     "LOAD_ERROR": "An error occurred! ;-;",
     "NO_DECKS_FOUND": "No decks were found!?",
     "NO_MORE_DECKS": "No more decks!",
+    "SEARCH_DECKS": "Search decks",
+    "SEARCH_DECKS_HINT": "Enter deck name",
     "SELECT_SORTING_METHOD": "Select a sorting method: "
   },
   "USER": {

@@ -50,11 +50,14 @@
     }
   },
   "HOME": {
+    "CLEAR_SEARCH": "Limpar busca",
     "END_OF_LIST": "Você chegou ao fim da lista!",
     "GLOBAL_DECKS": "Decks globais",
     "LOAD_ERROR": "Erro ao carregar! ;-;",
     "NO_DECKS_FOUND": "Nenhum deck encontrado",
     "NO_MORE_DECKS": "Fim dos decks!",
+    "SEARCH_DECKS": "Buscar decks",
+    "SEARCH_DECKS_HINT": "Digite o nome do deck",
     "SELECT_SORTING_METHOD": "Ordenar por: "
   },
   "USER": {
