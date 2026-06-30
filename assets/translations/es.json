@@ -50,11 +50,14 @@
     }
   },
   "HOME": {
+    "CLEAR_SEARCH": "Limpiar búsqueda",
     "END_OF_LIST": "¡Fin de la lista!",
     "GLOBAL_DECKS": "Mazos globales",
     "LOAD_ERROR": "¡Error al cargar! ;-;",
     "NO_DECKS_FOUND": "No se encontraron mazos",
     "NO_MORE_DECKS": "¡Fin de los mazos!",
+    "SEARCH_DECKS": "Buscar mazos",
+    "SEARCH_DECKS_HINT": "Ingrese el nombre del mazo",
     "SELECT_SORTING_METHOD": "Ordenar por: "
   },
   "USER": {

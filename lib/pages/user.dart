@@ -8,6 +8,7 @@ import 'package:forgebase/components/card.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
 import 'package:forgebase/utils/translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:forgebase/components/search_dialog.dart';
 
 enum _SelectedTab { user, home, camera }
 
@@ -29,9 +30,16 @@ class _UserPageState extends State<UserPage> {
   StreamSubscription? decksCounter;
   Uint8List? _imageBytes;
 
+  late final SearchHelper searchHelper;
+
   @override
   void initState() {
     super.initState();
+    searchHelper = SearchHelper(
+      onSearchChanged: () {
+        setState(() {});
+      },
+    );
     buildImage();
     stream =
         FirebaseFirestore.instance
@@ -46,9 +54,12 @@ class _UserPageState extends State<UserPage> {
 
   @override
   void dispose() {
+    searchHelper.dispose();
     decksCounter?.cancel();
     super.dispose();
   }
+
+
 
   void buildImage() async {
     final image = await database.getUserImage(user!.email!);
@@ -160,13 +171,31 @@ class _UserPageState extends State<UserPage> {
                         ),
                       ],
                     ),
-                    Text(
-                      translate('USER.MY_DECKS'),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          translate('USER.MY_DECKS'),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                          tooltip: translate('HOME.SEARCH_DECKS'),
+                          icon: Icon(Icons.search),
+                          onPressed: () => searchHelper.openSearch(context),
+                        ),
+                      ],
                     ),
+                    if (searchHelper.searchTerm.isNotEmpty)
+                      Center(
+                        child: Chip(
+                          label: Text(searchHelper.searchTerm),
+                          deleteIcon: Icon(Icons.close),
+                          onDeleted: searchHelper.clearSearch,
+                        ),
+                      ),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -244,9 +273,26 @@ class _UserPageState extends State<UserPage> {
 
                         List decks = snapshot.data!.docs;
 
+                        if (searchHelper.searchTerm.isNotEmpty) {
+                          final termLowerCase = searchHelper.searchTerm.toLowerCase();
+                          decks = decks.where((deck) {
+                            final name = deck.data()['name'].toString().toLowerCase();
+                            return name.contains(termLowerCase);
+                          }).toList();
+                        }
+
+                        if (decks.isEmpty) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(translate('HOME.NO_DECKS_FOUND')),
+                            ),
+                          );
+                        }
+
                         decks.sort((a, b) {
-                          var itemA = a[orderBy];
-                          var itemB = b[orderBy];
+                          var itemA = a.data()[orderBy];
+                          var itemB = b.data()[orderBy];
 
                           if (desc) {
                             return itemB.compareTo(itemA);
