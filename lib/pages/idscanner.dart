@@ -4,7 +4,7 @@ import 'package:forgebase/components/crystal_nav_bar.dart';
 import 'package:forgebase/utils/translate.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-enum _SelectedTab { user, home, camera }
+enum _SelectedTab { home, user, settings }
 
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({super.key});
@@ -14,7 +14,7 @@ class QRScannerScreen extends StatefulWidget {
 }
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
-  _SelectedTab _selectedTab = _SelectedTab.camera;
+  _SelectedTab _selectedTab = _SelectedTab.settings;
   final TextEditingController idController = TextEditingController();
 
   @override

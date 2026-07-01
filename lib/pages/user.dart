@@ -10,7 +10,7 @@ import 'package:forgebase/utils/translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:forgebase/components/search_dialog.dart';
 
-enum _SelectedTab { user, home, camera }
+enum _SelectedTab { home, user, settings }
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});

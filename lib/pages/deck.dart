@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/cardgradient.dart';
 import 'package:forgebase/components/crystal_nav_bar.dart';
 import 'package:forgebase/components/infocard.dart';
 import 'package:forgebase/utils/_get_info.dart';
 import 'package:forgebase/utils/translate.dart';
 
-enum _SelectedTab { user, home, camera }
+enum _SelectedTab { home, user, settings }
 
 class DeckPage extends StatefulWidget {
   const DeckPage({super.key});
@@ -60,7 +59,6 @@ class _DeckPageState extends State<DeckPage> {
     return Scaffold(
       body: Stack(
         children: [
-          CustomBackground(),
           Padding(
             padding: EdgeInsets.all(16),
             child: ListView(

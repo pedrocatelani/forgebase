@@ -23,20 +23,20 @@ class ForgebaseCrystalNavigationBar extends StatelessWidget {
         enableFloatingNavBar: true,
         items: [
           CrystalNavigationBarItem(
-            icon: Icons.person,
-            unselectedIcon: Icons.person_outline,
-            selectedColor: const Color.fromARGB(255, 138, 80, 238),
-            unselectedColor: const Color.fromARGB(255, 138, 80, 238),
-          ),
-          CrystalNavigationBarItem(
             icon: Icons.home,
             unselectedIcon: Icons.home_outlined,
             selectedColor: const Color.fromARGB(255, 138, 80, 238),
             unselectedColor: const Color.fromARGB(255, 138, 80, 238),
           ),
           CrystalNavigationBarItem(
-            icon: Icons.qr_code_scanner,
-            unselectedIcon: Icons.qr_code_scanner_outlined,
+            icon: Icons.person,
+            unselectedIcon: Icons.person_outline,
+            selectedColor: const Color.fromARGB(255, 138, 80, 238),
+            unselectedColor: const Color.fromARGB(255, 138, 80, 238),
+          ),
+          CrystalNavigationBarItem(
+            icon: Icons.settings,
+            unselectedIcon: Icons.settings_outlined,
             selectedColor: const Color.fromARGB(255, 138, 80, 238),
             unselectedColor: const Color.fromARGB(255, 138, 80, 238),
           ),
