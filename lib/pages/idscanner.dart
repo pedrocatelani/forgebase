@@ -1,10 +1,10 @@
-import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:forgebase/components/crystal_nav_bar.dart';
 import 'package:forgebase/utils/translate.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-enum _SelectedTab { user, home, camera }
+enum _SelectedTab { home, user, settings }
 
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({super.key});
@@ -14,7 +14,7 @@ class QRScannerScreen extends StatefulWidget {
 }
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
-  _SelectedTab _selectedTab = _SelectedTab.camera;
+  _SelectedTab _selectedTab = _SelectedTab.settings;
   final TextEditingController idController = TextEditingController();
 
   @override
@@ -64,9 +64,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                   if (qrCode != null && qrCode!.length >= 17) {
                     idDeck = qrCode!.substring(qrCode!.length - 17);
                     idDeck = idDeck!.replaceAll('-', '');
-          
+
                     cameraController.stop();
-          
+
                     showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -78,12 +78,13 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                           ),
                           content: SizedBox(
                             child: Text(
-                              translate('SCANNER.DECK_FOUND_MESSAGE',
+                              translate(
+                                'SCANNER.DECK_FOUND_MESSAGE',
                                 namedArgs: {'id': idDeck ?? ''},
                               ),
                             ),
                           ),
-          
+
                           actions: [
                             TextButton(
                               style: FilledButton.styleFrom(
@@ -102,11 +103,11 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                                 ),
                                 foregroundColor: Colors.white,
                               ),
-          
+
                               child: Text(translate('COMMON.RETURN')),
                               onPressed: () {
                                 Navigator.of(context).pop();
-          
+
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -115,11 +116,11 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                                     duration: Duration(seconds: 2),
                                   ),
                                 );
-          
+
                                 cameraController.start();
                               },
                             ),
-          
+
                             TextButton(
                               style: FilledButton.styleFrom(
                                 padding: EdgeInsets.symmetric(
@@ -271,35 +272,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
       //Crystal Navigations
       extendBody: true,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: CrystalNavigationBar(
-          onTap: _onTapChange,
-          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          indicatorColor: Color.fromARGB(255, 138, 80, 238),
-          backgroundColor: const Color.fromARGB(255, 73, 72, 72),
-          enableFloatingNavBar: true,
-          items: [
-            CrystalNavigationBarItem(
-              icon: Icons.person,
-              unselectedIcon: Icons.person_outline,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.home,
-              unselectedIcon: Icons.home_outlined,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-            CrystalNavigationBarItem(
-              icon: Icons.qr_code_scanner,
-              unselectedIcon: Icons.qr_code_scanner_outlined,
-              selectedColor: Color.fromARGB(255, 138, 80, 238),
-              unselectedColor: Color.fromARGB(255, 138, 80, 238),
-            ),
-          ],
-        ),
+      bottomNavigationBar: ForgebaseCrystalNavigationBar(
+        currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+        onTap: _onTapChange,
       ),
     );
   }
