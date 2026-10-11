@@ -79,6 +79,7 @@
     "LANGUAGE": "Language"
   },
   "SCANNER": {
+    "ADD_DECK": "Add deck",
     "DECK_FOUND": "Deck found!",
     "DECK_FOUND_MESSAGE": "Deck ID: {id}!\nIt's a great deck! Would you like to add it to your decks?",
     "DECK_NOT_ADDED": "Deck not added!",

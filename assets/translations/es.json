@@ -79,6 +79,7 @@
     "LANGUAGE": "Idioma"
   },
   "SCANNER": {
+    "ADD_DECK": "Añadir mazo",
     "DECK_FOUND": "¡Mazo encontrado!",
     "DECK_FOUND_MESSAGE": "Mazo: {id}!\n¿Desea añadirlo a sus mazos?",
     "DECK_NOT_ADDED": "¡Mazo no añadido!",
