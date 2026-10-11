@@ -1,16 +1,17 @@
 import 'dart:async';
-import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:forgebase/components/background.dart';
 import 'package:forgebase/components/card.dart';
+import 'package:forgebase/components/crystal_nav_bar.dart';
+import 'package:forgebase/components/forgebase_action_icon_button.dart';
 import 'package:forgebase/utils/_firebase_collections.dart';
 import 'package:forgebase/utils/translate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:forgebase/components/search_dialog.dart';
 
-enum _SelectedTab { user, home, camera }
+enum _SelectedTab { home, user, settings }
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -58,8 +59,6 @@ class _UserPageState extends State<UserPage> {
     decksCounter?.cancel();
     super.dispose();
   }
-
-
 
   void buildImage() async {
     final image = await database.getUserImage(user!.email!);
@@ -181,10 +180,21 @@ class _UserPageState extends State<UserPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        IconButton(
-                          tooltip: translate('HOME.SEARCH_DECKS'),
-                          icon: Icon(Icons.search),
-                          onPressed: () => searchHelper.openSearch(context),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ForgebaseActionIconButton(
+                              icon: Icons.qr_code_scanner,
+                              tooltip: translate('SCANNER.ADD_DECK'),
+                              onPressed:
+                                  () => Navigator.pushNamed(context, '/camera'),
+                            ),
+                            IconButton(
+                              tooltip: translate('HOME.SEARCH_DECKS'),
+                              icon: Icon(Icons.search),
+                              onPressed: () => searchHelper.openSearch(context),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -265,7 +275,8 @@ class _UserPageState extends State<UserPage> {
 
                         if (snapshot.hasError) {
                           return Text(
-                            translate('USER.ERROR',
+                            translate(
+                              'USER.ERROR',
                               namedArgs: {'error': snapshot.error.toString()},
                             ),
                           );
@@ -274,11 +285,17 @@ class _UserPageState extends State<UserPage> {
                         List decks = snapshot.data!.docs;
 
                         if (searchHelper.searchTerm.isNotEmpty) {
-                          final termLowerCase = searchHelper.searchTerm.toLowerCase();
-                          decks = decks.where((deck) {
-                            final name = deck.data()['name'].toString().toLowerCase();
-                            return name.contains(termLowerCase);
-                          }).toList();
+                          final termLowerCase =
+                              searchHelper.searchTerm.toLowerCase();
+                          decks =
+                              decks.where((deck) {
+                                final name =
+                                    deck
+                                        .data()['name']
+                                        .toString()
+                                        .toLowerCase();
+                                return name.contains(termLowerCase);
+                              }).toList();
                         }
 
                         if (decks.isEmpty) {
@@ -318,35 +335,9 @@ class _UserPageState extends State<UserPage> {
           ],
         ),
         extendBody: true,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: CrystalNavigationBar(
-            onTap: _onTapChange,
-            currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-            indicatorColor: Color.fromARGB(255, 138, 80, 238),
-            backgroundColor: const Color.fromARGB(255, 73, 72, 72),
-            enableFloatingNavBar: true,
-            items: [
-              CrystalNavigationBarItem(
-                icon: Icons.person,
-                unselectedIcon: Icons.person_outline,
-                selectedColor: Color.fromARGB(255, 138, 80, 238),
-                unselectedColor: Color.fromARGB(255, 138, 80, 238),
-              ),
-              CrystalNavigationBarItem(
-                icon: Icons.home,
-                unselectedIcon: Icons.home_outlined,
-                selectedColor: Color.fromARGB(255, 138, 80, 238),
-                unselectedColor: Color.fromARGB(255, 138, 80, 238),
-              ),
-              CrystalNavigationBarItem(
-                icon: Icons.qr_code_scanner,
-                unselectedIcon: Icons.qr_code_scanner_outlined,
-                selectedColor: Color.fromARGB(255, 138, 80, 238),
-                unselectedColor: Color.fromARGB(255, 138, 80, 238),
-              ),
-            ],
-          ),
+        bottomNavigationBar: ForgebaseCrystalNavigationBar(
+          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+          onTap: _onTapChange,
         ),
       ),
     );

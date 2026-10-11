@@ -22,8 +22,6 @@ class _EditUserPageState extends State<EditUserPage> {
 
   var txtApiKey = TextEditingController();
   String selectedLanguage = defaultLanguageCode;
-  bool _hasUserSelectedLanguage = false;
-  bool _isSavingLanguage = false;
 
   @override
   void initState() {
@@ -38,48 +36,11 @@ class _EditUserPageState extends State<EditUserPage> {
       });
       database.getUserLanguage(user!.email!).then((value) {
         if (!mounted) return;
-        if (_hasUserSelectedLanguage) return;
         setState(() {
           selectedLanguage = value;
         });
         context.setLocale(localeFromLanguageCode(value));
       });
-    }
-  }
-
-  Future<void> _changeLanguage(String code) async {
-    if (user?.email == null || _isSavingLanguage) return;
-
-    final previousLanguage = selectedLanguage;
-    final nextLanguage = normalizeLanguageCode(code);
-    if (nextLanguage == previousLanguage) return;
-
-    _hasUserSelectedLanguage = true;
-
-    setState(() {
-      selectedLanguage = nextLanguage;
-      _isSavingLanguage = true;
-    });
-
-    try {
-      await database.updateUserLanguage(user!.email!, nextLanguage);
-      if (!mounted) return;
-      await context.setLocale(localeFromLanguageCode(nextLanguage));
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        selectedLanguage = previousLanguage;
-      });
-      await context.setLocale(localeFromLanguageCode(previousLanguage));
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(translate('AUTH.REGISTER_ERROR'))),
-      );
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isSavingLanguage = false;
-        });
-      }
     }
   }
 
@@ -117,45 +78,6 @@ class _EditUserPageState extends State<EditUserPage> {
                       label: Text(translate('AUTH.API_KEY')),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(22),
-                      ),
-                    ),
-                  ),
-                  InputDecorator(
-                    decoration: InputDecoration(
-                      label: Text(translate('EDIT_USER.LANGUAGE')),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 4,
-                      ),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: selectedLanguage,
-                        onChanged:
-                            _isSavingLanguage
-                                ? null
-                                : (String? code) async {
-                                  if (code == null) return;
-                                  await _changeLanguage(code);
-                                },
-                        items: [
-                          DropdownMenuItem(
-                            value: 'pt-BR',
-                            child: Text(translate('LANGUAGES.PT')),
-                          ),
-                          DropdownMenuItem(
-                            value: 'en',
-                            child: Text(translate('LANGUAGES.EN')),
-                          ),
-                          DropdownMenuItem(
-                            value: 'es',
-                            child: Text(translate('LANGUAGES.ES')),
-                          ),
-                        ],
                       ),
                     ),
                   ),
@@ -353,6 +275,7 @@ class _EditUserPageState extends State<EditUserPage> {
                       ),
                     ],
                   ),
+                  Container(height: 150),
                 ],
               ),
             ),
